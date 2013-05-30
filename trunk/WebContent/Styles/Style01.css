@@ -1,0 +1,245 @@
+@CHARSET "UTF-8";
+
+.page{
+	margin: 0px auto;
+	width: 70%;
+}
+
+.top, .middle, .textcopyright, #cbTur, #cbUretici {
+	
+	font-family : Comic Sans MS;
+}
+
+body
+{
+	background-color: #FF4422;
+}
+
+#banner{
+	height: 150px;
+	width: 70%;
+	background: url('../Images/Banner2.png');
+	background-size: cover;
+	url: "./index.jsp"
+	
+	-moz-border-radius: 1em 4em 1em 4em;
+	border-radius: 1em 4em 1em 4em;
+	border:2px solid #a1a1a1;
+}
+
+#mainmenu {
+	width:100%;
+	border:1 px solid gray;
+	min-height: 50px;
+	-moz-border-radius: 3em 3em 3em 3em;
+	border-radius: 3em 3em 3em 3em;
+	background: rgba(220,220,220,0.6); 
+	/* Gölge */  
+    -webkit-box-shadow: 1px 3px 3px rgba(0,0,0,0.5);
+    -moz-box-shadow: 1px 3px 3px rgba(0,0,0,0.5);
+    box-shadow: 1px 3px 3px rgba(0,0,0,0.5); 
+}
+
+div.middle
+{
+    display: block;
+}
+
+#sidemenu {
+	width:18%;
+	border:1 px solid gray;
+	min-height: 500px;
+	-moz-border-radius: 1em 1em 1em 3em;
+	border-radius: 1em 1em 1em 3em;
+	background: rgba(220,220,220,0.6);
+	/* Gölge */  
+    -webkit-box-shadow: 2px 4px 4px rgba(0,0,0,0.5);
+    -moz-box-shadow: 2px 4px 4px rgba(0,0,0,0.5);
+    box-shadow: 2px 4px 4px rgba(0,0,0,0.5);
+	float: left;
+	/*margin: 0px 0px;*/
+}
+
+#contentplaceholder
+{
+	background-color= #FFFFFFF;
+	border:1 px solid gray;
+	-moz-border-radius: 1em 3em 3em 3em;
+	border-radius: 1em 3em 3em 1em;
+	background: rgba(220,220,220,0.6);
+	
+	/* Gölge */  
+    -webkit-box-shadow: 2px 4px 4px rgba(0,0,0,0.5);
+    -moz-box-shadow: 2px 4px 4px rgba(0,0,0,0.5);
+    box-shadow: 2px 4px 4px rgba(0,0,0,0.5);
+    
+	min-height: 500px;
+	width: 80%;
+	float: left;
+	position: relative;
+	margin: 0px 5px;
+}
+
+#sidemenu:hover {
+	background: rgba(220,220,220,0.8);
+}
+
+#basket{
+	height: 80px;
+	width: 80px;
+}
+
+#footer
+{
+		-moz-border-radius: 3em 3em 3em 3em;
+		border-radius: 3em 3em 3em 3em;
+		background: rgba(220,220,220,0.6);
+	
+		/* Gölge */  
+	    -webkit-box-shadow: 2px 4px 4px rgba(0,0,0,0.5);
+	    -moz-box-shadow: 2px 4px 4px rgba(0,0,0,0.5);
+	    box-shadow: 2px 4px 4px rgba(0,0,0,0.5);
+		width: 100%;
+		height: 50px;
+		margin: 10px 0px;
+		text-align: center;
+		float:left;
+		/* yeni */
+		position: relative;
+}
+
+.textcopyright
+{
+	margin-top: 10px 0px;
+}
+
+/* ANA MENÜ CSS */
+
+
+#menu-css li {  
+    display: inline;  
+    list-style: none;  
+}  
+  
+#menu-css li a {  
+  	
+  	
+  	
+    /* Border Radius */  
+    -webkit-border-radius: 10px;  
+    -moz-border-radius: 10px;  
+    border-radius: 10px;  
+    
+    /* Border Shadow */  
+    -webkit-box-shadow: 1px 2px 2px rgba(0,0,0,0.6);
+    -moz-box-shadow: 1px 2px 2px rgba(0,0,0,0.6);
+    box-shadow: 1px 2px 2px rgba(0,0,0,0.6);
+  
+    /* Animation (Webkit, Gecko & Mozilla) */  
+    -webkit-transition-duration: 0.20s;
+    -webkit-transition-timing-function: ease-out;
+    -moz-transition-duration: 0.20s;
+    -moz-transition-timing-function: ease-out;  
+  
+    font-size: 15px;
+    color: #ffffff; 
+    background: rgba(0,0,0,0.3);  
+    display: inline-block;  
+    padding: 7px 15px;  
+    outline: none;  
+    text-decoration: none;  
+}  
+  
+    #menu-css li a:hover {  
+        background: rgba(255,0,60,0.7);  
+        padding: 7px 28px;
+    }  
+  
+    #menu-css li a:active {  
+    	
+        background: rgba(0,0,0,0.1);  
+        -webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.4);  
+        -moz-box-shadow: 1px 1px 1px rgba(0,0,0,0.4);  
+        box-shadow: 1px 1px 1px rgba(0,0,0,0.4);  
+    } 
+    
+    
+    /* YAN MENÜ İÇİN */
+    
+#yanmenu-css li {  
+    display: inline;  
+    list-style: none;  
+}  
+  
+#yanmenu-css li a {  
+  
+    /* Border Radius */  
+    -webkit-border-radius: 10px;  
+    -moz-border-radius: 10px;  
+    border-radius: 10px;  
+    
+    /* Border Shadow */  
+    -webkit-box-shadow: 1px 2px 2px rgba(0,0,0,0.6);
+    -moz-box-shadow: 1px 2px 2px rgba(0,0,0,0.6);
+    box-shadow: 1px 2px 2px rgba(0,0,0,0.6);
+  
+    /* Animation (Webkit, Gecko & Mozilla) */  
+    -webkit-transition-duration: 0.20s;
+    -webkit-transition-timing-function: ease-out;
+    -moz-transition-duration: 0.20s;
+    -moz-transition-timing-function: ease-out;  
+  
+    font-size: 12px;
+    color: #ffffff; 
+    background: rgba(0,0,0,0.3);  
+    display: inline-block;  
+    padding: 7px 15px;  
+    outline: none;  
+    text-decoration: none;  
+}  
+  
+    #yanmenu-css li a:hover {  
+        background: rgba(255,0,60,0.7);  
+        padding: 7px 28px;
+       /* font-size: 15px;*/
+    }  
+  
+    #yanmenu-css li a:active {  
+    	/*font-size: 20px;*/
+        background: rgba(0,0,0,0.1);  
+        -webkit-box-shadow: 1px 1px 1px rgba(0,0,0,0.4);  
+        -moz-box-shadow: 1px 1px 1px rgba(0,0,0,0.4);  
+        box-shadow: 1px 1px 1px rgba(0,0,0,0.4);  
+    } 
+    
+    
+    #hatayeriSignup, #sepetmesaji, #hatayeriCihazEkle
+    {
+    color: white;
+    background-color: red;
+    
+    }
+
+#btnKulEkle, #btnKulGuncelle, #btnGiris, #btnSiparisVer, #btnCihazEkle
+{
+	width: 150px;
+	height: 30px;
+}
+
+#cbTur, #cbUretici
+{
+	width: 145px;
+}
+
+.tabloBaslik
+{
+background-color: #ff2233;
+border:2px solid #a1a1a1;
+}
+
+table tr td
+{
+	border:1px solid #ffddee;
+	min-width: 110px;
+	align: center;
+}
