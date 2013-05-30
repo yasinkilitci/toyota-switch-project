@@ -2,6 +2,7 @@ package org.spring.test;
 
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class DrawingApp {
@@ -15,6 +16,7 @@ public class DrawingApp {
 		BeanFactory factory = context;
 		Triangle triangle = (Triangle)factory.getBean("triangle");
 		triangle.draw();
+		((AbstractApplicationContext) context).close();
 	}
 
 }
