@@ -3,7 +3,26 @@
 
 
 <beans>
-		<bean id="triangle" class="org.spring.test.Triangle"/>
-
-
+		<bean id="triangle" class="org.spring.test.Triangle">
+			<property name="pointA" ref="zeroPoint"/>
+			<property name="pointB" ref="point2"/>
+			<property name="pointC" ref="point3"/>
+		</bean>
+		
+		<bean id="zeroPoint" class="org.spring.test.Point">
+		 	<property name="x" value="0" />
+		 	<property name="y" value="0" />
+		</bean>
+		
+		<bean id="point2" class="org.spring.test.Point">
+		 	<property name="x" value="-20" />
+		 	<property name="y" value="0" />
+		</bean>
+		
+		<bean id="point3" class="org.spring.test.Point">
+		 	<property name="x" value="20" />
+		 	<property name="y" value="0" />
+		</bean>
+		
+		
 </beans>
