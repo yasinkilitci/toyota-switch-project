@@ -45,8 +45,8 @@ $j("#btnCihazEkle").click(
 				$j("#cihaztur").val("");
 				$j("#cihazuretici").val("");
 			},
-			error: function(data){
-				$j("#hatayeriCihazEkle").html("Islem Basarisiz!").slideDown(500);
+			error: function(request, textStatus, errorThrown){
+				$j("#hatayeriCihazEkle").html("Hata: " + request.responseText).slideDown(500);
 			}
 			
 			});
