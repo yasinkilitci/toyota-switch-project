@@ -1,7 +1,5 @@
 package org.spring.test;
 
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -12,10 +10,10 @@ public class DrawingApp {
 	 */
 	public static void main(String[] args) {
 		
-		ApplicationContext context= new ClassPathXmlApplicationContext("/main/resources/spring.cfg.xml");
-		BeanFactory factory = context;
-		Triangle triangle = (Triangle)factory.getBean("triangle");
-		triangle.draw();
+		AbstractApplicationContext context= new ClassPathXmlApplicationContext("/main/resources/spring.cfg.xml");
+		Shape shape = (Shape)context.getBean("circle");
+		context.registerShutdownHook();
+		shape.draw();
 		((AbstractApplicationContext) context).close();
 	}
 
