@@ -2,27 +2,33 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
 
 
-<beans>
-		<bean id="triangle" class="org.spring.test.Triangle">
-			<property name="pointA" ref="zeroPoint"/>
-			<property name="pointB" ref="point2"/>
-			<property name="pointC" ref="point3"/>
+<beans default-init-method="myInitializer" default-destroy-method="myDisposer" >
+		<bean id="triangle" class="org.spring.test.Triangle" autowire="byName"/>
+		
+		<bean id="pointA" class="org.spring.test.Point">
+		 	<property name="x" value="${PointA.PointX}" />
+		 	<property name="y" value="${PointA.PointY}" />
 		</bean>
 		
-		<bean id="zeroPoint" class="org.spring.test.Point">
-		 	<property name="x" value="0" />
-		 	<property name="y" value="0" />
+		<bean id="pointB" class="org.spring.test.Point">
+		 	<property name="x" value="${PointB.PointX}" />
+		 	<property name="y" value="${PointB.PointY}" />
+		</bean>
+				
+		<bean id="pointC" class="org.spring.test.Point">
+	 		<property name="x" value="${PointC.PointX}" />
+	 		<property name="y" value="${PointC.PointY}" />
 		</bean>
 		
-		<bean id="point2" class="org.spring.test.Point">
-		 	<property name="x" value="-20" />
-		 	<property name="y" value="0" />
+		
+		<bean id="circle" class="org.spring.test.Circle">
+			<property name="center" ref="pointA"/>
 		</bean>
 		
-		<bean id="point3" class="org.spring.test.Point">
-		 	<property name="x" value="20" />
-		 	<property name="y" value="0" />
+		<bean class="org.spring.test.DisplayNamePostProcessor"/>
+		<bean class="org.spring.test.BeanFactoryPP"/>
+		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+			<property name="locations" value="/main/resources/spring.pointsvalues.properties"/>
 		</bean>
-		
 		
 </beans>
