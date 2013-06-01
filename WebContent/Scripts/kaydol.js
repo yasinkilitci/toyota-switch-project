@@ -52,9 +52,9 @@ $j( function(){
 						$j("#contentplaceholder").load("a_uyegiris.jsp");
 						alert("Kayit Tamamlandi Lutfen Giris Yapiniz!");
 					},
-					error: function(xhr, textStatus, errorThrown){
+					error: function(xhrequest, textStatus, errorThrown){
 					
-					$j("#hatayeriSignup").html("Error: " + errorThrown + "\n" + "Status: " + textStatus).slideDown(500);
+					$j("#hatayeriSignup").html("Hata: " + xhrequest.responseText).slideDown(500);
 					},
 					timeOut: 8000
 					

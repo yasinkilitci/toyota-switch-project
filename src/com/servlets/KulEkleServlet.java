@@ -24,6 +24,8 @@ public class KulEkleServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		try
+		{
 		/* Öncelikle Kullanýcý adýný objeye taþýyalým. 
 		 * Null deðilse bir 'kaydolma', null ise bir 'güncelleme' isteðidir.*/
 		Object o_kuladi = request.getParameter("kuladi");
@@ -67,6 +69,15 @@ public class KulEkleServlet extends HttpServlet {
 					int kulid = Integer.valueOf(o_kulid.toString());
 					new KulDAO().KulGuncelle(kulid, adsoyad, adres, tel, sifre);
 				}
+				
+		}
+		catch(NumberFormatException n)
+		{
+			n.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("Telefon Bicimi Dogru Degil!");
+			return;
+		}
 		
 		}
 	

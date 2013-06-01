@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans-2.0.dtd">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
+	xmlns:context="http://www.springframework.org/schema/context">
 
-
-<beans default-init-method="myInitializer" default-destroy-method="myDisposer" >
 		<bean id="triangle" class="org.spring.test.Triangle" autowire="byName"/>
 		
 		<bean id="pointA" class="org.spring.test.Point">
+			<qualifier value="circleRelated"/>
 		 	<property name="x" value="${PointA.PointX}" />
 		 	<property name="y" value="${PointA.PointY}" />
 		</bean>
@@ -21,8 +24,8 @@
 		</bean>
 		
 		
-		<bean id="circle" class="org.spring.test.Circle">
-			<property name="center" ref="pointA"/>
+		<bean id="circle" class="org.spring.test.Circle" scope="singleton">
+			
 		</bean>
 		
 		<bean class="org.spring.test.DisplayNamePostProcessor"/>
@@ -30,5 +33,8 @@
 		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 			<property name="locations" value="/main/resources/spring.pointsvalues.properties"/>
 		</bean>
+		
+		<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
+		<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
 		
 </beans>
