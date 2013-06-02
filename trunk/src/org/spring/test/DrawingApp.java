@@ -14,6 +14,7 @@ public class DrawingApp {
 		Shape shape = (Shape)context.getBean("circle");
 		context.registerShutdownHook();
 		shape.draw();
+		System.out.println(context.getMessage("tebrik",null,"Basardiniz!",null));
 		((AbstractApplicationContext) context).close();
 	}
 
