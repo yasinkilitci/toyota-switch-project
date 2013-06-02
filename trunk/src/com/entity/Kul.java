@@ -25,7 +25,7 @@ public class Kul {
 	private int yetki;
 	@Column
 	private String sifre;
-	@Transient
+	@Column
 	private String eposta;
 
 	public Kul(int id, String kuladi, String adsoyad, String adres, int tel, int yetki, String sifre)

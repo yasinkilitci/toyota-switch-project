@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.exception.ConstraintViolationException;
+
 import com.da.KulDAO;
 import com.da.KulDAO_h;
 import com.entity.Kul;
@@ -17,7 +19,7 @@ public class KulEkleServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConstraintViolationException {
 		doPost(request, response);
 	}
 
@@ -37,32 +39,16 @@ public class KulEkleServlet extends HttpServlet {
 		String adres = request.getParameter("adres");
 		int tel = Integer.valueOf(request.getParameter("tel"));
 		String sifre = request.getParameter("sifre");
+		String eposta = request.getParameter("eposta");
 		
 				/* Kullanýcý kaydolma isteði yerine getiriliyor */
 				if(o_kuladi!=null)
 				{
 				
-					/* Kullanýcý adý yalnýzca null olmadýðý zaman atansýn */
+					/* Kullanýcý adý yalnýzca bu bir kayýt isteði ise atansýn */
 					String kuladi = o_kuladi.toString();
 					
-					/* ESKÝ TÝP DAO
-					/*Kul kul = new KulDAO().KulEkle(kuladi,adsoyad,adres,tel,sifre);*/
-					Kul kul = new Kul(); 
-					/*kul = new KulDAO().KulEkle(kuladi, adsoyad, adres, tel, sifre);**/
-					kul = new KulDAO_h().KulEkle(kuladi, adsoyad, adres, tel, sifre);
-					
-						if (kul!=null )
-						{
-							/* kullanýcý null deðilse iþlem baþarýyla bitmiþ demektir. Return ile dönülür.*/
-							return;
-						}
-						else 
-						{
-							String mesaj = "Kayit basarisiz";
-							
-							request.setAttribute("mesaj", mesaj);
-							request.getRequestDispatcher("a_kulekle.jsp").forward(request, response);
-						}
+					new KulDAO_h().KulEkle(kuladi, adsoyad, adres, tel, eposta, sifre);
 					}
 				else if(o_kulid!=null)/* Güncelleme isteði yerine getiriliyor */
 				{
@@ -76,6 +62,13 @@ public class KulEkleServlet extends HttpServlet {
 			n.printStackTrace();
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.getWriter().write("Telefon Bicimi Dogru Degil!");
+			return;
+		}
+		catch(ConstraintViolationException cve)
+		{
+			cve.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("Ayný Kuladi veya Eposta zaten var!");
 			return;
 		}
 		
