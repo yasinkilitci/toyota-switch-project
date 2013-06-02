@@ -21,6 +21,7 @@ $j( function(){
 				var d = $j("#tel").val();
 				var e = $j("#sifre").val();
 				var f = $j("#sifre2").val();
+				var g = $j("#eposta").val();
 				
 				
 				if((e!=f)){
@@ -29,7 +30,7 @@ $j( function(){
 				}
 				
 				
-				if((a=="")||(b=="")||(c=="")||(d=="")||(e=="")||(f=="")){
+				if((a=="")||(b=="")||(c=="")||(d=="")||(e=="")||(f=="")||(g=="")){
 					$j("#hatayeriSignup").html("Bos Deger Girmeyiniz!").slideDown(500);
 					return;
 				}
@@ -40,7 +41,8 @@ $j( function(){
 					adsoyad: b,
 					adres: c,
 					tel: d ,
-					sifre: e
+					sifre: e,
+					eposta: g
 				};
 				
 				$j.ajax({
@@ -75,6 +77,7 @@ $j( function(){
 							var d = $j("#tel").val();
 							var e = $j("#sifre").val();
 							var f = $j("#sifre2").val();
+							var g = $j("#eposta").val();
 							
 							
 							if((e!=f)){
@@ -83,7 +86,7 @@ $j( function(){
 							}
 							
 							
-							if((a=="")||(b=="")||(c=="")||(d=="")||(e=="")||(f=="")){
+							if((a=="")||(b=="")||(c=="")||(d=="")||(e=="")||(f=="")||(g=="")){
 								$j("#hatayeriSignup").html("Bos Deger Girmeyiniz!").slideDown(500);
 								return;
 							}
@@ -94,7 +97,8 @@ $j( function(){
 								adsoyad: b,
 								adres: c,
 								tel: d,
-								sifre: e
+								sifre: e,
+								eposta: g
 							};
 							
 							$j.ajax({

@@ -23,6 +23,7 @@
 		<tr><td>Adý Soyadý</td><td><input type="text" id="adsoyad" name="adsoyad"></td></tr>
 		<tr><td>Adres</td><td><textarea rows="3" cols="16" id="adres" name="adres"></textarea></td>   </tr>
 		<tr><td>Telefon</td><td><input type="text" id="tel" name="tel"></td>   </tr>
+		<tr><td>E-Posta</td><td><input type="text" id="eposta" name="eposta"></td>   </tr>
 		
 	<% if(o_session_id==null){ %>
 	<tr><td colspan="2"><input type="button" value="Ekle" id="btnKulEkle"></td>   </tr>
