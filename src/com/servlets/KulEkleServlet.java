@@ -11,18 +11,12 @@ import org.hibernate.exception.ConstraintViolationException;
 
 import com.da.KulDAO;
 import com.da.KulDAO_h;
-import com.entity.Kul;
+import com.hashing.PasswordCodec;
 
 
 @WebServlet("/kulekle")
 public class KulEkleServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConstraintViolationException {
-		doPost(request, response);
-	}
-
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -48,10 +42,37 @@ public class KulEkleServlet extends HttpServlet {
 					/* Kullanýcý adý yalnýzca bu bir kayýt isteði ise atansýn */
 					String kuladi = o_kuladi.toString();
 					
+						try
+						{
+							/* Base64 þifreleyici sýnýfý oluþturuldu ve encrypt ile þifrelendi */
+							PasswordCodec b64 = new PasswordCodec();
+							sifre = b64.encrypt(sifre);
+						}
+						catch(Exception e)
+						{
+							e.printStackTrace();
+							response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+							response.getWriter().write("Sifreleyici Hatasi!");
+							return;
+						}
+					
 					new KulDAO_h().KulEkle(kuladi, adsoyad, adres, tel, eposta, sifre);
 					}
 				else if(o_kulid!=null)/* Güncelleme isteði yerine getiriliyor */
 				{
+					try
+					{
+						/* Base64 þifreleyici sýnýfý oluþturuldu ve encrypt ile þifrelendi */
+						PasswordCodec codec = new PasswordCodec();
+						sifre = codec.encrypt(sifre);
+					}
+					catch(Exception e)
+					{
+						e.printStackTrace();
+						response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+						response.getWriter().write("Sifreleyici Hatasi!");
+						return;
+					}
 					int kulid = Integer.valueOf(o_kulid.toString());
 					new KulDAO().KulGuncelle(kulid, adsoyad, adres, tel, sifre);
 				}

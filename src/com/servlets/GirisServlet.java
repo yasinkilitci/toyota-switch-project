@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.da.KulDAO;
 import com.entity.Kul;
+import com.hashing.PasswordCodec;
 
 
 @WebServlet("/giris")
@@ -26,7 +27,23 @@ public class GirisServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		Kul girisDeneyenKullanici = new KulDAO().LoginYap(request.getParameter("kullaniciadi"), request.getParameter("sifre"));
+		/* Önce þifre teslim alýnýp þifrelenir ve öyle kontrol edilmek üzere DAO'ya gönderilir.*/
+		String sifre = request.getParameter("sifre");
+		try
+		{
+			/* Base64 þifreleyici sýnýfý oluþturuldu ve encrypt ile þifrelendi */
+			PasswordCodec codec = new PasswordCodec();
+			sifre = codec.encrypt(sifre);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("Sifreleyici Hatasi!");
+			return;
+		}
+		
+		Kul girisDeneyenKullanici = new KulDAO().LoginYap(request.getParameter("kullaniciadi"), sifre);
 		/* DAO NULL döndürdüyse demek ki böyle bir kullanýcý yok! */
 		if (girisDeneyenKullanici==null){
 			String mesaj = "Kullanýcý adý veya Þifre hatalý";
