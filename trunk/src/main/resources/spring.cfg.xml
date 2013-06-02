@@ -28,8 +28,6 @@
 	 		<property name="y" value="${PointC.PointY}" />
 		</bean>
 		
-		<bean class="org.spring.test.DisplayNamePostProcessor"/>
-		<bean class="org.spring.test.BeanFactoryPP"/>
 		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 			<property name="locations" value="/main/resources/spring.pointsvalues.properties"/>
 		</bean>
@@ -43,9 +41,29 @@
                 <value>classpath:main/resources/spring_mymessages</value>
             </list>
         </property>
-    </bean>
+    	</bean>
+    	
+		<!-- Hibernate Konfigürasyonu -->
 		
-		<context:component-scan base-package="org.spring.test"/>
+		<bean id="KulDAO_h" class="com.da.KulDAO_h">
+			<!-- <property name="dataSource" ref="dataSource"></property> -->
+		</bean>
+		
+		<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+				 <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+ 				 <property name="url" value="jdbc:mysql://localhost:3306/networkdb"/>
+ 				 <property name="username" value="root" />
+        		<property name="password" value="" />
+		</bean>
+		
+		<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+				<property name="dataSource" ref="dataSource"/>
+				<property name="packagesToScan" value="com.entity"/>
+				<property name="configLocation" value="classpath:/main/resources/hibernate.cfg.xml" />
+		</bean>
+    	
+    	<context:component-scan base-package="com.da"/>
+		<!-- <context:component-scan base-package="org.spring.test"/> -->
 		
 		
 </beans>

@@ -4,12 +4,17 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.exception.ConstraintViolationException;
-import org.hibernate.util.HibernateUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.entity.Kul;
 
+@Repository
 public class KulDAO_h {
 
+	@Autowired(required=true)
+	private SessionFactory sessionFactory;
+	
 	public void KulEkle(String kuladi, String adsoyad, String adres, int tel, String eposta, String sifre){
 		
 		Kul kul = new Kul();
@@ -23,12 +28,16 @@ public class KulDAO_h {
 		 kul.setSifre(sifre);
 			 try
 			 {
-				 SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-				 Session session = sessionFactory.openSession();
+				 if(sessionFactory==null)
+				 {
+					 return;
+				 }
+				 Session session = getSessionFactory().openSession();
 				 session.beginTransaction();
 				 session.save(kul);
 				 session.getTransaction().commit();
 				 session.close();
+				 
 			 }
 			 catch(ConstraintViolationException cve)
 			 {
@@ -42,4 +51,12 @@ public class KulDAO_h {
 			
 			return;
 		}
+
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
 }
