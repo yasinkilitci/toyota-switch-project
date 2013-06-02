@@ -5,18 +5,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.da.KulDAO_h;
 
-public class DrawingApp {
+public class SpringHibernateApp {
 
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
 		AbstractApplicationContext context= new ClassPathXmlApplicationContext("/main/resources/spring.cfg.xml");
-		Shape shape = (Shape)context.getBean("circle");
-		context.registerShutdownHook();
-		shape.draw();
-		System.out.println(context.getMessage("tebrik",null,"Basardiniz!",null));
+		KulDAO_h kuldao = (KulDAO_h)context.getBean("KulDAO_h"); 
+		kuldao.KulEkle("mankafa", "ilker", "...", 344, "mankafa@hotmail.com", "12345");
 		((AbstractApplicationContext) context).close();
 	}
 

@@ -8,6 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 
 import com.da.KulDAO;
 import com.da.KulDAO_h;
@@ -15,13 +20,16 @@ import com.hashing.PasswordCodec;
 
 
 @WebServlet("/kulekle")
+@Controller
 public class KulEkleServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		
 		try
 		{
+			
 		/* Öncelikle Kullanýcý adýný objeye taþýyalým. 
 		 * Null deðilse bir 'kaydolma', null ise bir 'güncelleme' isteðidir.*/
 		Object o_kuladi = request.getParameter("kuladi");
@@ -56,7 +64,11 @@ public class KulEkleServlet extends HttpServlet {
 							return;
 						}
 					
-					new KulDAO_h().KulEkle(kuladi, adsoyad, adres, tel, eposta, sifre);
+						new KulDAO_h().KulEkle(kuladi, adsoyad, adres, tel, eposta, sifre);
+						AbstractApplicationContext context= new ClassPathXmlApplicationContext("/main/resources/spring.cfg.xml");
+						KulDAO_h kuldao = (KulDAO_h)context.getBean("KulDAO_h");
+						kuldao.KulEkle(kuladi, adsoyad, adres, tel, eposta, sifre);
+						
 					}
 				else if(o_kulid!=null)/* Güncelleme isteði yerine getiriliyor */
 				{
@@ -75,6 +87,7 @@ public class KulEkleServlet extends HttpServlet {
 					}
 					int kulid = Integer.valueOf(o_kulid.toString());
 					new KulDAO().KulGuncelle(kulid, adsoyad, adres, tel, sifre);
+					
 				}
 				
 		}
