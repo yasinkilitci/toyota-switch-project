@@ -5,15 +5,20 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
 	xmlns:context="http://www.springframework.org/schema/context">
 
-		<bean id="triangle" class="org.spring.test.Triangle" autowire="byName"/>
+		<bean id="triangle" class="org.spring.test.Triangle">
+			<property name="pointA" ref="center"/>
+			<property name="pointB" ref="pointB"/>
+			<property name="pointC" ref="pointC"/>
+		</bean>
 		
-		<bean id="pointA" class="org.spring.test.Point">
-			<qualifier value="circleRelated"/>
+		<bean id="center" class="org.spring.test.Point">
+			<qualifier value="triangleRelated"/>
 		 	<property name="x" value="${PointA.PointX}" />
 		 	<property name="y" value="${PointA.PointY}" />
 		</bean>
 		
 		<bean id="pointB" class="org.spring.test.Point">
+			<qualifier value="circleRelated"/>
 		 	<property name="x" value="${PointB.PointX}" />
 		 	<property name="y" value="${PointB.PointY}" />
 		</bean>
@@ -23,18 +28,15 @@
 	 		<property name="y" value="${PointC.PointY}" />
 		</bean>
 		
-		
-		<bean id="circle" class="org.spring.test.Circle" scope="singleton">
-			
-		</bean>
-		
 		<bean class="org.spring.test.DisplayNamePostProcessor"/>
 		<bean class="org.spring.test.BeanFactoryPP"/>
 		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 			<property name="locations" value="/main/resources/spring.pointsvalues.properties"/>
 		</bean>
 		
-		<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor"/>
-		<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor"/>
+		<context:annotation-config/>
+		
+		<context:component-scan base-package="org.spring.test"/>
+		
 		
 </beans>
