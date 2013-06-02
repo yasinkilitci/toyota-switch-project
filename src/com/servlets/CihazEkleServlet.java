@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.HibernateException;
+import org.hibernate.exception.ConstraintViolationException;
 
 import com.da.CihazDAO;
 import com.da.CihazDAO_h;
@@ -21,7 +22,7 @@ import com.exceptions.MyException;
 public class CihazEkleServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConstraintViolationException {
 		
 		/* Try bloðunda oluþabilecek hatalar ayrý ayrý catch bloklarýnda ele alýndý 
 		 * MyException - Fiyat istediðimiz aralýkta deðilse
@@ -45,6 +46,13 @@ public class CihazEkleServlet extends HttpServlet {
 			response.getWriter().write("Fiyat Bicimi Dogru Degil!");
 			return;
 		}
+		catch(ConstraintViolationException c)
+		{
+			c.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().write("Ayni Isimde Baska Bir Aygit Var!");
+			return;
+		}
 		catch(HibernateException h)
 		{
 			h.printStackTrace();
@@ -59,5 +67,6 @@ public class CihazEkleServlet extends HttpServlet {
 			response.getWriter().write("Fiyat Istenilen Aralikta Degil!");
 			return;
 		}
+		
 	}
 }

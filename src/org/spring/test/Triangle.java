@@ -1,5 +1,8 @@
 package org.spring.test;
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Required;
+
 public class Triangle implements Shape {
 	
 	private Point pointA;
@@ -13,7 +16,8 @@ public class Triangle implements Shape {
 	}
 
 
-
+	@Required
+	@Qualifier("triangleRelated")
 	public void setPointA(Point pointA) {
 		this.pointA = pointA;
 	}
@@ -53,13 +57,13 @@ public class Triangle implements Shape {
 		
 	}
 
-public void myInitializer(){
-	System.out.println("Bean hazýrlandý!");
-}
-
-public void myDisposer(){
-	System.out.println("Yok Edildi!");
-}
+	public void myInitializer(){
+		System.out.println("Bean hazýrlandý!");
+	}
+	
+	public void myDisposer(){
+		System.out.println("Yok Edildi!");
+	}
 	
 /*
 	@Override
