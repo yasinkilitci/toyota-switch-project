@@ -1,6 +1,12 @@
 package com.da;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.exception.ConstraintViolationException;
@@ -9,9 +15,13 @@ import org.springframework.stereotype.Repository;
 
 import com.entity.Kul;
 
+/* Sýnýfýn bir DAO olduðunu spring'e bildiriyoruz */
 @Repository
 public class KulDAO_h {
 
+	/* Autowired annotation'ý ile spring'deki bean'e baðladýk. Setter ve Getter olmalý
+	 * Çünkü setter injection yapýyoruz
+	 */
 	@Autowired(required=true)
 	private SessionFactory sessionFactory;
 	
@@ -28,10 +38,9 @@ public class KulDAO_h {
 		 kul.setSifre(sifre);
 			 try
 			 {
-				 if(sessionFactory==null)
-				 {
+				 /* Spring harici sýnýf oluþturulduðunda program çökmesin */
+				if(sessionFactory==null)
 					 return;
-				 }
 				 Session session = getSessionFactory().openSession();
 				 session.beginTransaction();
 				 session.save(kul);
@@ -51,6 +60,33 @@ public class KulDAO_h {
 			
 			return;
 		}
+	
+public void KulGuncelle(int kulid, String adsoyad, String adres, int tel, String sifre){
+		
+		String hql = "UPDATE user SET adsoyad=:adsoyad,adres=:adres,tel=:tel,sifre=:sifre WHERE id=:id";
+		try 
+		{
+			/* Spring harici sýnýf oluþturulduðunda program çökmesin */
+			if(sessionFactory==null)
+				 return;
+			 Session session = getSessionFactory().openSession();
+			 Query query = session.createQuery(hql);
+			 query.setString("adsoyad", adsoyad);
+			 query.setString("adres", adres);
+			 query.setString("sifre", sifre);
+			 query.setInteger("tel", tel);
+			 query.setInteger("id", kulid);
+			 int rowcount = query.executeUpdate();
+			 System.out.println(rowcount + " Satir Etkilendi!");
+			 session.beginTransaction();
+			 session.getTransaction().commit();
+			 session.close();
+			
+		} catch (HibernateException h) {
+			// TODO Hata olduðunda Yapýlacaklar
+			h.printStackTrace();
+		}
+	}
 
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
