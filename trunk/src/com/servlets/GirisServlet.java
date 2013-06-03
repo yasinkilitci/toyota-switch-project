@@ -31,7 +31,7 @@ public class GirisServlet extends HttpServlet {
 		String sifre = request.getParameter("sifre");
 		try
 		{
-			/* Base64 þifreleyici sýnýfý oluþturuldu ve encrypt ile þifrelendi */
+			/* SHA-256 þifreleyici sýnýfý oluþturuldu ve encrypt ile þifrelendi */
 			PasswordCodec codec = new PasswordCodec();
 			sifre = codec.encrypt(sifre);
 		}

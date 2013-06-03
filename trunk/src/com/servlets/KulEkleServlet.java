@@ -8,13 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.exception.ConstraintViolationException;
-import org.springframework.beans.factory.BeanFactory;
+import org.spring.util.SpringFactoryProvider;
 import org.springframework.context.support.AbstractApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 
-import com.da.KulDAO;
 import com.da.KulDAO_h;
 import com.hashing.PasswordCodec;
 
@@ -29,8 +26,14 @@ public class KulEkleServlet extends HttpServlet {
 		
 		try
 		{
+			/* ************** SPRING ****************** */
+			/* Spring altyapýsý hazýrlanýyor */
+			AbstractApplicationContext context= SpringFactoryProvider.getApplicationContext();
+			/* Spring kullanarak oluþturulan DAO ile veri ekleniyor */
+			KulDAO_h kuldao = (KulDAO_h)context.getBean("KulDAO_h");
+			/* ************** SPRING ****************** */
 			
-		/* Öncelikle Kullanýcý adýný objeye taþýyalým. 
+			/* Öncelikle Kullanýcý adýný objeye taþýyalým. 
 		 * Null deðilse bir 'kaydolma', null ise bir 'güncelleme' isteðidir.*/
 		Object o_kuladi = request.getParameter("kuladi");
 		/* KulID geldiyse bu bir güncelleme isteðidir.*/
@@ -52,9 +55,11 @@ public class KulEkleServlet extends HttpServlet {
 					
 						try
 						{
-							/* Base64 þifreleyici sýnýfý oluþturuldu ve encrypt ile þifrelendi */
-							PasswordCodec b64 = new PasswordCodec();
-							sifre = b64.encrypt(sifre);
+							/* ************** SHA-256 ENCRYPTION ****************** */
+							/* SHA-256 þifreleyici sýnýfý oluþturuldu ve encrypt ile þifrelendi */
+							PasswordCodec s256 = new PasswordCodec();
+							sifre = s256.encrypt(sifre);
+							/* ************** SHA-256 ENCRYPTION ****************** */
 						}
 						catch(Exception e)
 						{
@@ -64,19 +69,21 @@ public class KulEkleServlet extends HttpServlet {
 							return;
 						}
 					
-						new KulDAO_h().KulEkle(kuladi, adsoyad, adres, tel, eposta, sifre);
-						AbstractApplicationContext context= new ClassPathXmlApplicationContext("/main/resources/spring.cfg.xml");
-						KulDAO_h kuldao = (KulDAO_h)context.getBean("KulDAO_h");
+						/* ************** HIBERNATE - SPRING ****************** */
+						/* Spring kullanarak dao oluþturuluyor ve veri ekleniyor */
 						kuldao.KulEkle(kuladi, adsoyad, adres, tel, eposta, sifre);
+						/* ************** HIBERNATE - SPRING ****************** */
 						
 					}
 				else if(o_kulid!=null)/* Güncelleme isteði yerine getiriliyor */
 				{
 					try
 					{
-						/* Base64 þifreleyici sýnýfý oluþturuldu ve encrypt ile þifrelendi */
-						PasswordCodec codec = new PasswordCodec();
-						sifre = codec.encrypt(sifre);
+						/* ************** SHA-256 ENCRYPTION ****************** */
+						/* SHA-256 þifreleyici sýnýfý oluþturuldu ve encrypt ile þifrelendi */
+						PasswordCodec s256 = new PasswordCodec();
+						sifre = s256.encrypt(sifre);
+						/* ************** SHA-256 ENCRYPTION ****************** */
 					}
 					catch(Exception e)
 					{
@@ -86,8 +93,10 @@ public class KulEkleServlet extends HttpServlet {
 						return;
 					}
 					int kulid = Integer.valueOf(o_kulid.toString());
-					new KulDAO().KulGuncelle(kulid, adsoyad, adres, tel, sifre);
-					
+					/* ************** HIBERNATE - SPRING ****************** */
+					/* Spring kullanarak oluþturulan DAO ile kullanýcý güncelleniyor */
+					kuldao.KulGuncelle(kulid, adsoyad, adres, tel, sifre);
+					/* ************** HIBERNATE - SPRING ****************** */
 				}
 				
 		}
