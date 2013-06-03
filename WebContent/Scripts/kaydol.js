@@ -1,12 +1,4 @@
 var $j = jQuery.noConflict();
-
-
-/* EN BAÞTA ÇALIÞAN FONKSÝYON */
-$j( function(){
-
-	/*	alert("Kullanici Ekle Geldi!");*/
-
-});
 		
 	/* KULLANICI EKLEME KISIMLARI */
 
@@ -108,11 +100,11 @@ $j( function(){
 								data: kulEkleForm,
 								success: function(data){
 									$j("#contentplaceholder").load("a_anaicreik.jsp");
-									alert("Güncelleme Baþarýyla Tamamlandý!");
+									alert("Guncelleme Basariyla Tamamlandi!");
 								},
 								error: function(xhr, textStatus, errorThrown){
 								
-								$j("#hatayeriSignup").html("Error: " + errorThrown + "\n" + "Status: " + textStatus).slideDown(500);
+									$j("#hatayeriSignup").html("Hata: " + xhrequest.responseText).slideDown(500);
 								},
 								timeOut: 8000
 								

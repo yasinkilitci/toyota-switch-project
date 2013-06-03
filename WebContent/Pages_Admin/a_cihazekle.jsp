@@ -6,11 +6,17 @@
  		<%@page import="com.entity.uretici"%>
  		<%@page import="com.entity.Tur"%>
 		<%@page import="java.util.ArrayList"%>
+		
+		<%@page import="org.spring.util.SpringFactoryProvider"%>
+		<%@page import="org.springframework.context.support.AbstractApplicationContext"%>
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/cihazekle.js"></script>
 
-<% ArrayList<uretici> listeUretici = new UreticiDAO().butunureticileriGetir();
-   ArrayList<Tur> listeTur = new TurDAO().butunTurleriGetir();
+<% 		ArrayList<uretici> listeUretici = new UreticiDAO().butunureticileriGetir();
+		 /***** SPRING ******/
+		AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
+		ArrayList<Tur> listeTur = ((TurDAO)context.getBean("TurDAO")).butunTurleriGetir();
+		/***** SPRING ******/
 %>
 	<table>
 		<tr><td>Cihaz ADI</td><td><input type="text" id="cihazad"  name="cihazad"></td>   </tr>

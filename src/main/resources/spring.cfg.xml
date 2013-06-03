@@ -5,49 +5,13 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd"
 	xmlns:context="http://www.springframework.org/schema/context">
 
-		<bean id="triangle" class="org.spring.test.Triangle">
-			<property name="pointA" ref="center"/>
-			<property name="pointB" ref="pointB"/>
-			<property name="pointC" ref="pointC"/>
-		</bean>
 		
-		<bean id="center" class="org.spring.test.Point">
-			<qualifier value="triangleRelated"/>
-		 	<property name="x" value="${PointA.PointX}" />
-		 	<property name="y" value="${PointA.PointY}" />
-		</bean>
+		<!-- DAO'lar için Bean Tanımlamaları -->
 		
-		<bean id="pointB" class="org.spring.test.Point">
-			<qualifier value="circleRelated"/>
-		 	<property name="x" value="${PointB.PointX}" />
-		 	<property name="y" value="${PointB.PointY}" />
-		</bean>
-				
-		<bean id="pointC" class="org.spring.test.Point">
-	 		<property name="x" value="${PointC.PointX}" />
-	 		<property name="y" value="${PointC.PointY}" />
-		</bean>
+		<bean id="KulDAO" class="com.da.KulDAO"/>
+		<bean id="TurDAO" class="com.da.TurDAO"/>
 		
-		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-			<property name="locations" value="/main/resources/spring.pointsvalues.properties"/>
-		</bean>
-		
-		<context:annotation-config/>
-		
-		
-		<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
-        <property name="basenames">
-            <list>
-                <value>classpath:main/resources/spring_mymessages</value>
-            </list>
-        </property>
-    	</bean>
-    	
 		<!-- Hibernate Konfigürasyonu -->
-		
-		<bean id="KulDAO_h" class="com.da.KulDAO_h">
-			<!-- <property name="dataSource" ref="dataSource"></property> -->
-		</bean>
 		
 		<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 				 <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
@@ -62,8 +26,10 @@
 				<property name="configLocation" value="classpath:/main/resources/hibernate.cfg.xml" />
 		</bean>
     	
+    	<!-- Spring Annotation'ları için Taranacak Paketler -->
     	<context:component-scan base-package="com.da"/>
-		<!-- <context:component-scan base-package="org.spring.test"/> -->
+		
+		<context:annotation-config/>
 		
 		
 </beans>

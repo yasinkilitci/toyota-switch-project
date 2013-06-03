@@ -1,168 +1,144 @@
-
+/****** HIBERNATE'LENDÝ!! ******/
 package com.da;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.entity.Kul;
 
+/* Sýnýfýn bir DAO olduðunu spring'e bildiriyoruz */
+@Repository
 public class KulDAO {
 
-	public Kul KulEkle(String kuladi, String adsoyad, String adres, int tel, String sifre){
-		
-		Kul f = new Kul();
-		Connection conn = ConnectionManager.getConnection();
-		String query = "INSERT INTO user values(?,?,?,?,?,?,?)";
-		try {
-			PreparedStatement psmt = conn.prepareStatement(query);
-			psmt.setNull(1,java.sql.Types.NULL);
-			psmt.setString(2, kuladi);
-			psmt.setString(3, adsoyad);
-			psmt.setString(4, adres);
-			psmt.setInt(5, tel);
-			psmt.setInt(6, 0 /* yetki */);
-			psmt.setString(7, sifre);
-			psmt.executeUpdate(); // execute insert statement
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-		}
-		return f;
-		
-	}
+	/* Autowired annotation'ý ile spring'deki bean'e baðladýk. Setter ve Getter olmalý
+	 * Çünkü setter injection yapýyoruz
+	 */
+	@Autowired(required=true)
+	private SessionFactory sessionFactory;
 	
-
-
-public void KulGuncelle(int kulid, String adsoyad, String adres, int tel, String sifre){
+	public void KulEkle(String kuladi, String adsoyad, String adres, int tel, String eposta, String sifre){
 		
-		Connection conn = ConnectionManager.getConnection();
-		String query = "UPDATE `user` SET `adsoyad`=?,`adres`=?,`tel`=?,`sifre`=? WHERE `id`=?";
-		try {
-			PreparedStatement psmt = conn.prepareStatement(query);
-			psmt.setString(1,adsoyad);
-			psmt.setString(2,adres);
-			psmt.setInt(3, tel);
-			psmt.setString(4,sifre);
-			psmt.setInt(5, kulid);
-			psmt.executeUpdate(); 
-		} catch (SQLException e) {
+		Kul kul = new Kul();
+		 
+		 kul.setKuladi(kuladi);
+		 kul.setAdsoyad(adsoyad);
+		 kul.setAdres(adres);
+		 kul.setTel(tel);
+		 kul.setEposta(eposta);
+		 kul.setYetki(0);
+		 kul.setSifre(sifre);
+			 try
+			 {
+				 /* Spring harici sýnýf oluþturulduðunda program çökmesin */
+				if(sessionFactory==null)
+					 return;
+				 Session session = getSessionFactory().openSession();
+				 session.beginTransaction();
+				 session.save(kul);
+				 session.getTransaction().commit();
+				 session.close();
+				 
+			 }
+			 catch(ConstraintViolationException cve)
+			 {
+				 throw cve;
+			 }
+			 catch(HibernateException h)
+			 {
+				 h.printStackTrace();
+				 return;
+			 }
+			
+			return;
+		}
+	
+	public void KulGuncelle(int kulid, String adsoyad, String adres, int tel, String sifre){
+		
+		String hql = "UPDATE user SET adsoyad=:adsoyad,adres=:adres,tel=:tel,sifre=:sifre WHERE id=:id";
+		try 
+		{
+			/* Spring harici sýnýf oluþturulduðunda program çökmesin */
+			if(sessionFactory==null)
+				 return;
+			 Session session = getSessionFactory().openSession();
+			 Query query = session.createQuery(hql);
+			 query.setString("adsoyad", adsoyad);
+			 query.setString("adres", adres);
+			 query.setString("sifre", sifre);
+			 query.setInteger("tel", tel);
+			 query.setInteger("id", kulid);
+			 int rowcount = query.executeUpdate();
+			 System.out.println(rowcount + " Satir Etkilendi!");
+			 session.beginTransaction();
+			 session.getTransaction().commit();
+			 session.close();
+			
+		} catch (HibernateException h) {
 			// TODO Hata olduðunda Yapýlacaklar
-			e.printStackTrace();
-			
+			h.printStackTrace();
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
+	public ArrayList<Kul> tumKullanicilariGetir()
+	{
+		String hql = "from user WHERE yetki=0";
+		ArrayList<Kul> users = new ArrayList<Kul>();
+		try
+		{
+			Session session = getSessionFactory().openSession();
+			Query query = session.createQuery(hql);
+			users = (ArrayList<Kul>)query.list();
+			session.close();
+		}
+		catch(HibernateException h)
+		{
+			h.printStackTrace();
+			return null;
+		}
+		
+		return users;
+	}
 	
-	public Kul LoginYap(String kullanici, String sifre)
+	@SuppressWarnings("unchecked")
+	public Kul LoginYap(String kuladi, String sifre)
 	{
 		
-		String sorgu = "SELECT * FROM user WHERE kuladi=? and sifre=?";
-		ResultSet sorguSonuc = null;
-		Kul loginyapankullanici = null;
+		String hql = "FROM user WHERE kuladi=? and sifre=?";
 		try {
-			Connection conn = ConnectionManager.getConnection();
-			PreparedStatement psmt = conn.prepareStatement(sorgu);
-			psmt.setString(1, kullanici);
-			psmt.setString(2, sifre);
-			sorguSonuc = psmt.executeQuery();
+			Session session = getSessionFactory().openSession();
+			Query query = session.createQuery(hql);
+			query.setString(0, kuladi);
+			query.setString(1, sifre);
+			ArrayList<Kul> result = new ArrayList<Kul>();
+			result = (ArrayList<Kul>)query.list();
 			
-			
-			
-			if (sorguSonuc.next()){
-				loginyapankullanici = new Kul(sorguSonuc.getInt("id"), sorguSonuc.getString("kuladi"), sorguSonuc.getString("adsoyad"),sorguSonuc.getString("adres"),sorguSonuc.getInt("tel"),sorguSonuc.getInt("yetki"),sorguSonuc.getString("sifre"));
-				return loginyapankullanici;
-			}
+			if(result!=null)
+				for(Kul loginYapanKul: result)
+				{
+					return loginYapanKul;
+				}
 		}
-		catch(SQLException e){
+		catch(HibernateException e){
 			
 			e.printStackTrace();
 			return null;
 		}
-		catch(Exception d){
-			
-			d.printStackTrace();
-		}
-		
 		return null;
 	}
-	
-	public Kul KulDetayiniGetir(int Kulid){
-		Kul f = new Kul();
-		Connection conn = ConnectionManager.getConnection();
-		String query = "SELECT * FROM user WHERE id=?";
-		try {
-			PreparedStatement psmt = conn.prepareStatement(query);
-			psmt.setInt(1, Kulid);
-			ResultSet rs = psmt.executeQuery();
-			while (rs.next()){
-				
-				 f = new Kul(rs.getInt("id"), rs.getString("kuladi"), rs.getString("adsoyad"),rs.getString("adres"),rs.getInt("tel"),rs.getInt("yetki"),rs.getString("sifre"));
-				
-			}
-			
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
-		return f;
-	}
-	
-	public ArrayList<Kul> butunKullariGetir(){
-		
-		ArrayList<Kul> Kullar = new ArrayList<Kul>();
-		
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/Kul", "root", "");
-			
-			String sorgu = "SELECT * FROM user";
 
-			PreparedStatement psmt = conn.prepareStatement(sorgu);
-			
-			ResultSet rs= psmt.executeQuery(sorgu);
-			
-			while (rs.next()){
-				
-				Kul f = new Kul(rs.getInt("id"), rs.getString("kuladi"), rs.getString("adsoyad"),rs.getString("adres"),rs.getInt("tel"),rs.getInt("yetki"),rs.getString("sifre"));
-				Kullar.add(f);
-				
-				
-			}
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-			
-			
-	return Kullar;	
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
 	}
-	
-	public ArrayList<Kul> YetkiyeAitKullariGetir(int yetki){
-		ArrayList<Kul> Kullar = new ArrayList<Kul>();
-		Connection conn = ConnectionManager.getConnection();
-		String query = "SELECT * FROM user WHERE yetki=?";
-		try {
-			PreparedStatement psmt = conn.prepareStatement(query);
-			psmt.setInt(1, yetki);
-			ResultSet rs = psmt.executeQuery();
-			while (rs.next()){
-				
-				Kul f = new Kul(rs.getInt("id"), rs.getString("kuladi"), rs.getString("adsoyad"),rs.getString("adres"),rs.getInt("tel"),rs.getInt("yetki"),rs.getString("sifre"));
-				Kullar.add(f);
-				
-			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return Kullar;
+
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
 }

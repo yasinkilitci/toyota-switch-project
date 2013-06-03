@@ -1,17 +1,22 @@
 package com.entity;
 
-//tostring metodunu ekrana ya da texte yazarken kolaylï¿½k saï¿½lamasï¿½ iï¿½in override ettik.
-public class Tur {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+//tostring metodunu ekrana ya da texte yazarken kolaylï¿½k saï¿½lamasï¿½ iï¿½in override ettik.
+@Entity(name="tur")
+public class Tur {
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
+	@Column
 	private String ad;
 
-	public Tur() {
-
-	}
-
 	public Tur(int id, String ad) {
-		super();
 		this.id = id;
 		this.ad = ad;
 	}
@@ -20,11 +25,6 @@ public class Tur {
 		return id;
 	}
 	
-	public String getIDString() {
-		
-		return Integer.toString(id);
-	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -36,9 +36,15 @@ public class Tur {
 	public void setAd(String ad) {
 		this.ad = ad;
 	}
+	
 	@Override
 	public String toString() {
 		
 		return ad;
+	}
+	
+	public Tur()
+	{
+		// TODO Yapýlacak iþler
 	}
 }
