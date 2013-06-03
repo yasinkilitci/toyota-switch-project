@@ -1,47 +1,49 @@
+/****** HIBERNATE'LENDÝ!! ******/
 package com.da;
 
-//Turler.add ile Turler ArrayList ine ekleme yapabiliyoruz.
-//tï¿½m baï¿½lantï¿½lar yazï¿½m esnasï¿½nda try-catch hatasï¿½ veriyor ve onlarï¿½ try catch iï¿½ine
-//almamï¿½z gerekiyor.
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.entity.Tur;
 
-
-
-
+@Repository
 public class TurDAO {
+	
+	@Autowired(required=true)
+	private SessionFactory sessionFactory;
+	
+	@SuppressWarnings("unchecked")
 	public ArrayList<Tur> butunTurleriGetir(){
 		
-		ArrayList<Tur> Turler = new ArrayList<Tur>();
-		
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/networkdb", "root", "");
-	
-		String query = "select * from Tur";
-	
-	
-		PreparedStatement psmt = conn.prepareStatement(query);
-		
-		ResultSet rs = psmt.executeQuery();
-		while (rs.next()){
-			Tur kat = new Tur(rs.getInt("id"),rs.getString("ad"));
-			Turler.add(kat);
-			
+		String hql = "from tur";
+		ArrayList<Tur> turler = new ArrayList<Tur>();
+		try
+		{
+			Session session = getSessionFactory().openSession();
+			Query query = session.createQuery(hql);
+			turler = (ArrayList<Tur>)query.list();
+			session.close();
+			return turler;
 		}
-	} catch (SQLException | ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+		catch(HibernateException h)
+		{
+			h.printStackTrace();
+			return null;
+		}
 	}
-	
-	
-	return Turler;
+
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
 
 }

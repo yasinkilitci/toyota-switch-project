@@ -12,7 +12,7 @@ import org.spring.util.SpringFactoryProvider;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Controller;
 
-import com.da.KulDAO_h;
+import com.da.KulDAO;
 import com.hashing.PasswordCodec;
 
 
@@ -30,7 +30,7 @@ public class KulEkleServlet extends HttpServlet {
 			/* Spring altyapýsý hazýrlanýyor */
 			AbstractApplicationContext context= SpringFactoryProvider.getApplicationContext();
 			/* Spring kullanarak oluþturulan DAO ile veri ekleniyor */
-			KulDAO_h kuldao = (KulDAO_h)context.getBean("KulDAO_h");
+			KulDAO kuldao = (KulDAO)context.getBean("KulDAO");
 			/* ************** SPRING ****************** */
 			
 			/* Öncelikle Kullanýcý adýný objeye taþýyalým. 

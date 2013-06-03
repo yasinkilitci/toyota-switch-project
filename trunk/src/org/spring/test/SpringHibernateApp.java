@@ -3,7 +3,7 @@ package org.spring.test;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.da.KulDAO_h;
+import com.da.KulDAO;
 
 public class SpringHibernateApp {
 
@@ -12,7 +12,7 @@ public class SpringHibernateApp {
 	 */
 	public static void main(String[] args) {
 		AbstractApplicationContext context= new ClassPathXmlApplicationContext("/main/resources/spring.cfg.xml");
-		KulDAO_h kuldao = (KulDAO_h)context.getBean("KulDAO_h"); 
+		KulDAO kuldao = (KulDAO)context.getBean("KulDAO_h"); 
 		kuldao.KulEkle("mankafa", "ilker", "...", 344, "mankafa@hotmail.com", "12345");
 		((AbstractApplicationContext) context).close();
 	}

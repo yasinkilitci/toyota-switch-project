@@ -3,7 +3,7 @@ package org.spring.test;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.da.KulDAO_h;
+import com.da.KulDAO;
 
 public class DrawingApp {
 
@@ -12,7 +12,7 @@ public class DrawingApp {
 	 */
 	public static void main(String[] args) {
 		
-		AbstractApplicationContext context= new ClassPathXmlApplicationContext("/main/resources/spring.cfg.xml");
+		AbstractApplicationContext context= new ClassPathXmlApplicationContext("/main/resources/spring.test.cfg.xml");
 		Shape shape = (Shape)context.getBean("circle");
 		context.registerShutdownHook();
 		shape.draw();
