@@ -26,13 +26,13 @@ public class Cihaz {
 	
 	/* Veritabanýnda Olmayanlar */
 	@Transient
-	private uretici uretici;
+	private Uretici uretici;
 	@Transient
 	private Tur tur;
 	
 	
 
-	public Cihaz(int id, String ad, int fiyat, uretici uretici,
+	public Cihaz(int id, String ad, int fiyat, Uretici uretici,
 			Tur tur) {
 		super();
 		this.id = id;
@@ -64,8 +64,6 @@ public String getIDString() {
 		return ad;
 	}
 
-
-
 	public void setAd(String ad) {
 		this.ad = ad;
 	}
@@ -84,13 +82,13 @@ public String getIDString() {
 
 
 
-	public uretici getUretici() {
+	public Uretici getUretici() {
 		return uretici;
 	}
 
 
 
-	public void setUretici(uretici uretici) {
+	public void setUretici(Uretici uretici) {
 		this.uretici = uretici;
 	}
 
@@ -151,8 +149,4 @@ public Cihaz() {
 		return this.id + " - " + this.ad + " - " + this.fiyat;
 		
 	}
-
-	
-	
-	
 }

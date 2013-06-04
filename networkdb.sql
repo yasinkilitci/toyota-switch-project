@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Anamakine: localhost
--- Üretim Zamanı: 02 Haz 2013, 11:15:20
+-- Üretim Zamanı: 04 Haz 2013, 11:21:46
 -- Sunucu sürümü: 5.5.24-log
 -- PHP Sürümü: 5.4.3
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `cihaz` (
   UNIQUE KEY `ad` (`ad`),
   KEY `tur_id` (`tur_id`),
   KEY `uretici_id` (`uretici_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci AUTO_INCREMENT=82 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci AUTO_INCREMENT=89 ;
 
 --
 -- Tablo döküm verisi `cihaz`
@@ -48,7 +48,12 @@ INSERT INTO `cihaz` (`id`, `ad`, `fiyat`, `tur_id`, `uretici_id`, `resim_yolu`) 
 (77, 'SW-7855', 456, 1, 1, NULL),
 (79, 'SW-7856', 3425, 1, 1, NULL),
 (80, 'Cisco Router 3485', 4500, 2, 1, NULL),
-(81, 'Cisco Edge Router 125E', 980, 2, 1, NULL);
+(81, 'Cisco Edge Router 125E', 980, 2, 1, NULL),
+(82, 'SW-5546', 4500, 1, 1, NULL),
+(84, 'SW-5547', 234, 1, 1, NULL),
+(85, 'SW-5850', 344, 1, 1, NULL),
+(86, 'Super Switch', 2300, 1, 1, NULL),
+(87, 'Juniper Switch S4855', 480, 1, 5, NULL);
 
 -- --------------------------------------------------------
 
@@ -65,7 +70,15 @@ CREATE TABLE IF NOT EXISTS `order` (
   `onay` int(11) NOT NULL,
   `tarih` date NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci AUTO_INCREMENT=101 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci AUTO_INCREMENT=107 ;
+
+--
+-- Tablo döküm verisi `order`
+--
+
+INSERT INTO `order` (`id`, `k_id`, `sipno`, `urun_id`, `adet`, `onay`, `tarih`) VALUES
+(101, 35, 2001, 79, 7, 1, '2013-06-03'),
+(102, 35, 2001, 85, 5, 1, '2013-06-03');
 
 -- --------------------------------------------------------
 
@@ -78,7 +91,7 @@ CREATE TABLE IF NOT EXISTS `tur` (
   `ad` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci AUTO_INCREMENT=5 ;
 
 --
 -- Tablo döküm verisi `tur`
@@ -86,7 +99,8 @@ CREATE TABLE IF NOT EXISTS `tur` (
 
 INSERT INTO `tur` (`id`, `ad`) VALUES
 (1, 'Switch'),
-(2, 'Router');
+(2, 'Router'),
+(4, 'Gateway');
 
 -- --------------------------------------------------------
 
@@ -99,15 +113,28 @@ CREATE TABLE IF NOT EXISTS `uretici` (
   `ad` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_turkish_ci NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id` (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci AUTO_INCREMENT=16 ;
 
 --
 -- Tablo döküm verisi `uretici`
 --
 
 INSERT INTO `uretici` (`id`, `ad`) VALUES
-(1, 'Cisco'),
-(2, '3COM');
+(1, 'Cisco Systems'),
+(2, 'Telco Systems'),
+(3, 'Dell'),
+(4, 'OneAccess'),
+(5, 'Juniper Networks'),
+(6, 'Huawei'),
+(7, 'Rad Data Communications'),
+(8, 'Avaya'),
+(9, 'Alcatel-Lucent'),
+(10, 'ECI Telecom'),
+(11, 'Netgear'),
+(12, 'Mellanox Technologies'),
+(13, 'Level One'),
+(14, 'Enterasys Networks'),
+(15, 'Brocade Communications Systems');
 
 -- --------------------------------------------------------
 
@@ -127,7 +154,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `eposta` (`eposta`),
   UNIQUE KEY `kuladi` (`kuladi`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci AUTO_INCREMENT=37 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci AUTO_INCREMENT=53 ;
 
 --
 -- Tablo döküm verisi `user`

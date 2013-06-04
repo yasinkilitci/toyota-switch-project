@@ -1,136 +1,147 @@
 
 package com.da;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+
 import java.util.ArrayList;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
+import org.spring.util.SpringFactoryProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.stereotype.Repository;
 
 import com.entity.Cihaz;
 import com.entity.Tur;
-import com.entity.uretici;
+import com.entity.Uretici;
 
+@Repository
 public class CihazDAO {
+	
+	@Autowired(required=true)
+	private SessionFactory sessionFactory;
 
-	public Cihaz CihazEkle(String ad, int fiyat, int Turid, int ureticiid){
+	public Cihaz CihazEkle(String ad, int fiyat, int tur_id, int uretici_id) throws ConstraintViolationException{
 		
-		Cihaz f = new Cihaz();
-		Connection conn = ConnectionManager.getConnection();
-		String query = "INSERT INTO Cihaz values(?,?,?,?,?,'')";
+		Cihaz chz = new Cihaz();
+		Tur tur = new Tur();
+		Uretici uretici = new Uretici();
+		AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
+		
 		try {
-			PreparedStatement psmt = conn.prepareStatement(query);
-			psmt.setInt(1, java.sql.Types.NULL);
-			psmt.setString(2, ad);
-			psmt.setInt(3, fiyat);
-			psmt.setInt(4, Turid);
-			psmt.setInt(5, ureticiid);
-			psmt.executeUpdate(); // execute insert statement
-		
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
+				chz.setAd(ad);
+				chz.setFiyat(fiyat);
+				chz.setTur_id(tur_id);
+				chz.setUretici_id(uretici_id);
+				
+				/* Tür ve Üretici Ayarlamalarý */
+				tur = ((TurDAO)context.getBean("TurDAO",TurDAO.class)).turDetayiniGetir(tur_id);
+				uretici = ((UreticiDAO)context.getBean("UreticiDAO",UreticiDAO.class)).ureticiDetayiniGetir(uretici_id);
+				chz.setTur(tur);
+				chz.setUretici(uretici);
+				/* Tür ve Üretici Ayarlamalarý */
+				
+				Session session = getSessionFactory().openSession();
+				session.beginTransaction();
+				session.save(chz);
+				session.getTransaction().commit();
+				session.close();
+				return chz;
 		}
-		return f;
-		
+		/* Constraint Violation Exception'ý burada HibernateException yakalamadan evvel yakaladýk
+		 * ve dýþ kapsama fýrlattýk. Dýþ kapsamda ConstraintViolationException olduðu için oradaki
+		 * Catch bloðuna yönlendi ve orada ele alýndý. "Ayný isimde baþka aygýt var" Yazdýrýldý.
+		 */
+		catch(ConstraintViolationException cve)
+		{
+			cve.printStackTrace();
+			throw cve;
+		}
+		catch (HibernateException h) {
+			h.printStackTrace();
+			return null;
+		}
 	}
 	
-	public Cihaz CihazDetayiniGetir(int Cihazid){
-		Cihaz f = new Cihaz();
-		Connection conn = ConnectionManager.getConnection();
-		String query = "SELECT c.id, c.ad, c.fiyat, t.id AS turid, t.ad AS turad, u.id AS urid, u.ad AS urad "+
-"FROM cihaz c INNER JOIN tur t ON c.tur_id = t.id INNER JOIN uretici u ON c.uretici_id = u.id WHERE c.id =?";
-		try {
-			PreparedStatement psmt = conn.prepareStatement(query);
-			psmt.setInt(1, Cihazid);
-			ResultSet rs = psmt.executeQuery();
-			while (rs.next()){
-				
+	public Cihaz CihazDetayiniGetir(int cihazid){
+		
+		String hql = "FROM cihaz WHERE id=:id";
+		try
+		{
+			Session session = getSessionFactory().openSession();
+			Query query = session.createQuery(hql);
+			query.setInteger("id", cihazid);
+			Cihaz cihaz = (Cihaz)query.uniqueResult();
+			session.close();
 			
-				uretici uretici = new uretici(rs.getInt("urid"), rs.getString("urad"));
-				Tur Tur = new Tur(rs.getInt("turid"), rs.getString("turad"));
-				
-				 f = new Cihaz(rs.getInt("id"), rs.getString("ad"), rs.getInt("fiyat"),uretici,Tur);
-				
-				
-				
-			}
+			/* Tür ve Üretici Bilgileri Dolduruluyor */
+			AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
+			Tur tur = ((TurDAO)context.getBean("TurDAO",TurDAO.class)).turDetayiniGetir(cihaz.getTur_id());
+			Uretici uretici = ((UreticiDAO)context.getBean("UreticiDAO",UreticiDAO.class)).ureticiDetayiniGetir(cihaz.getUretici_id());
+			cihaz.setTur(tur);
+			cihaz.setUretici(uretici);
+			/* Tür ve Üretici Bilgileri Dolduruluyor */
 			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return cihaz;
 		}
-		return f;
-		
-		
-		
-		
+		catch(HibernateException h)
+		{
+			h.printStackTrace();
+			return null;
+		}
 	}
 	
+	/* Tüm cihazlarý koþulsuz olarak listeler */
+	@SuppressWarnings("unchecked")
 	public ArrayList<Cihaz> butunCihazlariGetir(){
 		
-		ArrayList<Cihaz> cihazlar = new ArrayList<Cihaz>();
-		
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/Cihaz", "root", "");
-			
-			String sorgu = "SELECT c.id, c.ad, c.sene, t.id AS turid, t.ad AS turad, u.id AS urid, u.ad AS urad "+
-"FROM cihaz c INNER JOIN tur t ON c.tur_id = u.id INNER JOIN uretici u ON c.uretici_id = u.id";
-
-			
-			PreparedStatement psmt = conn.prepareStatement(sorgu);
-			
-			ResultSet rs= psmt.executeQuery(sorgu);
-			
-			while (rs.next()){
-				
-				uretici uretici = new uretici(rs.getInt("urid"), rs.getString("urad"));
-				Tur Tur = new Tur(rs.getInt("turid"), rs.getString("turad"));
-				
-				Cihaz f = new Cihaz(rs.getInt("id"), rs.getString("ad"), rs.getInt("fiyat"),uretici,Tur);
-				cihazlar.add(f);
-				
-				
-				
-			}
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		ArrayList<Cihaz> cihazlar;
+		String hql = "FROM cihaz";
+		try
+		{
+			Session session = getSessionFactory().openSession();
+			Query query = session.createQuery(hql);
+			cihazlar = (ArrayList<Cihaz>)query.list();
+			session.close();
+			return cihazlar;
 		}
-			
-			
-	return cihazlar;	
+		catch(HibernateException h)
+		{
+			h.printStackTrace();
+			return null;
+		}
 	}
 	
-	public ArrayList<Cihaz> TureAitcihazlariGetir(int Turid){
-		ArrayList<Cihaz> cihazlar = new ArrayList<Cihaz>();
-		Connection conn = ConnectionManager.getConnection();
-		String query = "SELECT c.id, c.ad, c.fiyat, t.id AS turid, t.ad AS turad, u.id AS urid, u.ad AS urad FROM cihaz c " +
-				"INNER JOIN tur t ON c.tur_id = t.id INNER JOIN uretici u ON c.uretici_id = u.id WHERE c.tur_id =?";
-		try {
-			PreparedStatement psmt = conn.prepareStatement(query);
-			psmt.setInt(1, Turid);
-			ResultSet rs = psmt.executeQuery();
-			while (rs.next()){
-				
-				uretici uretici = new uretici(rs.getInt("urid"), rs.getString("urad"));
-				Tur Tur = new Tur(rs.getInt("urid"), rs.getString("urad"));
-				
-				Cihaz f = new Cihaz(rs.getInt("id"), rs.getString("ad"), rs.getInt("fiyat"),uretici,Tur);
-				cihazlar.add(f);
-				
-				
-				
-			}
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	/* Türe ait cihazlarýn listesini döndürür */
+	@SuppressWarnings("unchecked")
+	public ArrayList<Cihaz> TureAitcihazlariGetir(int tur_id){
+		ArrayList<Cihaz> cihazlar;
+		String hql = "FROM cihaz WHERE tur_id=:tur_id";
+		try
+		{
+			Session session = getSessionFactory().openSession();
+			Query query = session.createQuery(hql);
+			query.setInteger("tur_id", tur_id);
+			cihazlar = (ArrayList<Cihaz>)query.list();
+			session.close();
+			return cihazlar;
 		}
-		return cihazlar;
+		catch(HibernateException h)
+		{
+			h.printStackTrace();
+			return null;
+		}
 	}
+
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+	
+	
 }

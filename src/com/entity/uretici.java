@@ -1,15 +1,25 @@
 package com.entity;
 
-public class uretici {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity(name="uretici")
+public class Uretici {
+
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
+	@Column
 	private String ad;
 
-	public uretici() {
+	public Uretici() {
 
 	}
 
-	public uretici(int id, String ad) {
+	public Uretici(int id, String ad) {
 		super();
 		this.id = id;
 		this.ad = ad;
@@ -17,11 +27,6 @@ public class uretici {
 
 	public int getId() {
 		return id;
-	}
-	
-	public String getIDString() {
-		
-		return Integer.toString(id);
 	}
 
 	public void setId(int id) {

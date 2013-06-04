@@ -107,31 +107,24 @@ public class KulDAO {
 		return users;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public Kul LoginYap(String kuladi, String sifre)
 	{
-		
-		String hql = "FROM user WHERE kuladi=? and sifre=?";
+		/* unique result seçeneði tek sonuç döneceði kesin olduðu zaman yapýlýr. */
+		String hql = "FROM user WHERE kuladi=:kuladi and sifre=:sifre";
 		try {
 			Session session = getSessionFactory().openSession();
 			Query query = session.createQuery(hql);
-			query.setString(0, kuladi);
-			query.setString(1, sifre);
-			ArrayList<Kul> result = new ArrayList<Kul>();
-			result = (ArrayList<Kul>)query.list();
-			
-			if(result!=null)
-				for(Kul loginYapanKul: result)
-				{
-					return loginYapanKul;
-				}
+			query.setString("kuladi", kuladi);
+			query.setString("sifre", sifre);
+			Kul kul = (Kul)query.uniqueResult();
+			session.close();
+			return kul;
 		}
 		catch(HibernateException e){
 			
 			e.printStackTrace();
 			return null;
 		}
-		return null;
 	}
 
 	public SessionFactory getSessionFactory() {

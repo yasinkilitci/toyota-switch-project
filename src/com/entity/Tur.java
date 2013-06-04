@@ -6,7 +6,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-//tostring metodunu ekrana ya da texte yazarken kolayl�k sa�lamas� i�in override ettik.
 @Entity(name="tur")
 public class Tur {
 	

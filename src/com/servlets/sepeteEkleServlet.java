@@ -28,6 +28,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.spring.util.SpringFactoryProvider;
+import org.springframework.context.support.AbstractApplicationContext;
+
 import com.da.CihazDAO;
 import com.entity.Cihaz;
 
@@ -46,7 +49,11 @@ public class sepeteEkleServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int cihazid = Integer.valueOf(request.getParameter("cihazid"));
-		Cihaz cihaz = new CihazDAO().CihazDetayiniGetir(cihazid);
+		/* Spring */ 
+		AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
+		Cihaz cihaz = ((CihazDAO)context.getBean("CihazDAO",CihazDAO.class)).CihazDetayiniGetir(cihazid);
+		/* Spring */ 
+		
 		ArrayList<Cihaz> sepet = new ArrayList<Cihaz>();
 		if (request.getSession().getAttribute("sepet")!=null)
 		{
