@@ -111,7 +111,7 @@ public class KulEkleServlet extends HttpServlet {
 		{
 			cve.printStackTrace();
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.getWriter().write("Ayný Kuladi veya Eposta zaten var!");
+			response.getWriter().write("Ayni Kuladi veya Eposta zaten var!");
 			return;
 		}
 		

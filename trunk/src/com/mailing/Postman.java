@@ -35,7 +35,7 @@ public class Postman {
 		
 	}
 	
-	public void epostaGonder(String alici, String mesajMetni, String subject)
+	public void epostaGonder(String alici, String mesajMetni, String konu)
 	{
 		final String username = "ilkercruiser@gmail.com";
 		final String password = "Xbox%720Rulez";
@@ -60,7 +60,7 @@ public class Postman {
 			message.setFrom(new InternetAddress(from));
 			message.setRecipients(Message.RecipientType.TO,
 				InternetAddress.parse(to));
-			message.setSubject(subject);
+			message.setSubject(konu);
 			message.setText(mesajMetni);
  
 			Transport.send(message);
@@ -84,6 +84,6 @@ public class Postman {
 	public static void main(String[] args) {
  
 		Postman pm = new Postman();
-		pm.epostaGonder("ilkeryasinyildiz@gmail.com");
+		pm.epostaGonder("yasinkilitci@gmail.com");
 	}
 }
