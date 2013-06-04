@@ -13,7 +13,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Controller;
 
 import com.da.KulDAO;
-import com.hashing.PasswordCodec;
+import com.encryption.PasswordCodec;
 
 
 @WebServlet("/kulekle")

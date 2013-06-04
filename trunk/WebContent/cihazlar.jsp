@@ -4,9 +4,12 @@
       <%@page import="com.da.CihazDAO"%>
 		<%@page import="com.entity.Cihaz"%>
 		<%@page import="java.util.ArrayList"%>
+		<%@page import="org.spring.util.SpringFactoryProvider"%>
+	<%@page import="org.springframework.context.support.AbstractApplicationContext"%>
        
        <%   int turid = Integer.valueOf(request.getParameter("turid"));
-    		ArrayList<Cihaz> cihazlar = new CihazDAO().TureAitcihazlariGetir(turid);
+       		AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
+       		ArrayList<Cihaz> cihazlar = ((CihazDAO)context.getBean("CihazDAO",CihazDAO.class)).TureAitcihazlariGetir(turid);
     	%>
 <span>Cihazlar Aşağıda</span>
 		<ul id="cihazliste-css">

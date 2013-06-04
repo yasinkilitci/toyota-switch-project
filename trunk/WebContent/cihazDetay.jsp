@@ -5,12 +5,13 @@
 <%@page import="com.da.CihazDAO"%>
 <%@page import="com.entity.Cihaz"%>
 <%@page import="java.util.ArrayList"%>
+<%@page import="org.spring.util.SpringFactoryProvider"%>
+<%@page import="org.springframework.context.support.AbstractApplicationContext"%>
 
- <%   int cihazid = Integer.valueOf(request.getParameter("cihazid"));
- 		
- 			Cihaz cihaz = new CihazDAO().CihazDetayiniGetir(cihazid);
-
-    	%>
+ <%   		int cihazid = Integer.valueOf(request.getParameter("cihazid"));
+ 			AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
+ 			Cihaz cihaz = ((CihazDAO)context.getBean("CihazDAO",CihazDAO.class)).CihazDetayiniGetir(cihazid);
+ %>
 
 
 <h3><%= cihaz.getAd() %></h3>

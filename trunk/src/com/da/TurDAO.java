@@ -18,6 +18,7 @@ public class TurDAO {
 	@Autowired(required=true)
 	private SessionFactory sessionFactory;
 	
+	/* Koþulsuz tüm türleri liste þeklinde döndüren metot */
 	@SuppressWarnings("unchecked")
 	public ArrayList<Tur> butunTurleriGetir(){
 		
@@ -30,6 +31,26 @@ public class TurDAO {
 			turler = (ArrayList<Tur>)query.list();
 			session.close();
 			return turler;
+		}
+		catch(HibernateException h)
+		{
+			h.printStackTrace();
+			return null;
+		}
+	}
+	
+	/* id'ye ait Tur objesi geri döndürür */
+	public Tur turDetayiniGetir(int tur_id)
+	{
+		String hql = "FROM tur WHERE id=:id";
+		try
+		{
+			Session session = getSessionFactory().openSession();
+			Query query = session.createQuery(hql);
+			query.setInteger("id", tur_id);
+			Tur tur = (Tur)query.uniqueResult();
+			session.close();
+			return tur;
 		}
 		catch(HibernateException h)
 		{

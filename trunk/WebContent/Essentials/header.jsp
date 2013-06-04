@@ -1,26 +1,5 @@
-<!-- üst kısımda ve menü kısmında ne olması gerektiğini burada düzenledik ve
-sayfalara include ile ekledik. 
-taglib ile başlayan tag jstl komutlarını kullanmak için gereklidir.
-c: ile jstl komutlarını kullanabiliriz.
-bunlar if foreach gibi komutlar olabilmektedir.
-jstl komutlarını kullanabilmek için tag ile birlikte dosyalarını da kütüphaneye eklememiz
-gerekir.
--->
-<%@page import="com.da.TurDAO"%>
-<%@page import="com.entity.Tur"%>
-<%@page import="java.util.ArrayList"%>
-	<%@page import="org.spring.util.SpringFactoryProvider"%>
-	<%@page import="org.springframework.context.support.AbstractApplicationContext"%>
-
-
-<%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-    <%
-    		AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
-			ArrayList<Tur> turler = ((TurDAO)context.getBean("TurDAO")).butunTurleriGetir();
-            request.setAttribute("turler", turler);
-    %>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+   
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html> 
 

@@ -9,10 +9,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.HibernateException;
 import org.hibernate.exception.ConstraintViolationException;
+import org.spring.util.SpringFactoryProvider;
+import org.springframework.context.support.AbstractApplicationContext;
 
 import com.da.CihazDAO;
-import com.da.CihazDAO_h;
-import com.entity.Cihaz;
 import com.exceptions.MyException;
 
 /**
@@ -38,7 +38,11 @@ public class CihazEkleServlet extends HttpServlet {
 			/* Fiyat istediðimiz aralýkta deðilse hata fýrlat */
 			if((fiyat<50)||(fiyat>10000))
 			throw new MyException("Fiyat Istenilen Aralikta Degil!");
-			new CihazDAO_h().CihazEkle(ad, fiyat, tur_id, uretici_id);
+			/*new CihazDAO().CihazEkle(ad, fiyat, tur_id, uretici_id);*/
+			/* *************** SPRING *************** */
+			AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
+			((CihazDAO)context.getBean("CihazDAO",CihazDAO.class)).CihazEkle(ad, fiyat, tur_id, uretici_id);
+			/* *************** SPRING *************** */
 		}
 		catch(NumberFormatException n){
 			n.printStackTrace();

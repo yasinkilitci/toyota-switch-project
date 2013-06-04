@@ -14,8 +14,8 @@ import org.spring.util.SpringFactoryProvider;
 import org.springframework.context.support.AbstractApplicationContext;
 
 import com.da.KulDAO;
+import com.encryption.PasswordCodec;
 import com.entity.Kul;
-import com.hashing.PasswordCodec;
 
 
 @WebServlet("/giris")

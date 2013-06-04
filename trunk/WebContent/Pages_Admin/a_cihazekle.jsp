@@ -3,7 +3,7 @@
  		
  		<%@page import="com.da.UreticiDAO"%>
  		<%@page import="com.da.TurDAO"%>
- 		<%@page import="com.entity.uretici"%>
+ 		<%@page import="com.entity.Uretici"%>
  		<%@page import="com.entity.Tur"%>
 		<%@page import="java.util.ArrayList"%>
 		
@@ -12,10 +12,11 @@
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/cihazekle.js"></script>
 
-<% 		ArrayList<uretici> listeUretici = new UreticiDAO().butunureticileriGetir();
+<%
 		 /***** SPRING ******/
 		AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
 		ArrayList<Tur> listeTur = ((TurDAO)context.getBean("TurDAO")).butunTurleriGetir();
+		ArrayList<Uretici> listeUretici = ((UreticiDAO)context.getBean("UreticiDAO")).butunureticileriGetir();
 		/***** SPRING ******/
 %>
 	<table>
@@ -26,14 +27,17 @@
 				<td>
 		
 					<select id="cbTur" name="cbTur">	
-						<% for (Tur temptur : listeTur) 
-						
-					{
-					String turid = String.valueOf(temptur.getId());
-					String turad = temptur.getAd();
+						<%
+								for (Tur temptur : listeTur) 
+											
+										{
+										String turid = String.valueOf(temptur.getId());
+										String turad = temptur.getAd();
+							%>
+						<option value="<%=turid%>"><%=turad%></option>
+					<%
+						}
 					%>
-						<option value="<%= turid%>"><%= turad%></option>
-					<%}%>
 					</select>
 				</td>
 			</tr>
@@ -44,12 +48,13 @@
 				<td>
 		
 					<select id="cbUretici" name="cbUretici">	
-						<% for (uretici tempuretici : listeUretici) 
-						
-					{
-					String ureticiid = String.valueOf(tempuretici.getId());
-					String ureticiad = tempuretici.getAd();
-					%>
+						<%
+								for (Uretici tempuretici : listeUretici) 
+											
+										{
+										String ureticiid = String.valueOf(tempuretici.getId());
+										String ureticiad = tempuretici.getAd();
+							%>
 						<option value="<%= ureticiid%>"><%= ureticiad%></option>
 					<%}%>
 					</select>

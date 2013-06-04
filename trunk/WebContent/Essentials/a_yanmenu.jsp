@@ -10,7 +10,7 @@
 	
 	<%
 			AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
-    		ArrayList<Tur> turler = ((TurDAO)context.getBean("TurDAO")).butunTurleriGetir();
+    		ArrayList<Tur> turler = ((TurDAO)context.getBean("TurDAO",TurDAO.class)).butunTurleriGetir();
             request.setAttribute("turler", turler);
     %>
     
@@ -18,8 +18,6 @@
 					<span>Merhaba ${session_ad}!</span>
 				</c:if>
 		<h4>Türler</h4>
-		
-		<!--  21.05.2013 İLKER BAŞ -->
 		
 			<ul id="yanmenu-css">
 			<% 
@@ -47,8 +45,6 @@
 			}
 			%>
 			</ul>
-			
-			<!--  21.05.2013 İLKER SON -->
 			
 			<hr/>
 			<c:if test="${not empty sepet}">

@@ -1,45 +1,71 @@
 package com.da;
 
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.entity.uretici;
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+import com.entity.Tur;
+import com.entity.Uretici;
 
-
-
+@Repository
 public class UreticiDAO {
-	public ArrayList<uretici> butunureticileriGetir(){
-		
-		ArrayList<uretici> ureticiler = new ArrayList<uretici>();
-		
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/networkdb", "root", "");
 	
-		String query = "select * from uretici";
+	@Autowired(required=true)
+	private SessionFactory sessionFactory;
 	
-	
-		PreparedStatement psmt = conn.prepareStatement(query);
+	@SuppressWarnings("unchecked")
+	public ArrayList<Uretici> butunureticileriGetir(){
 		
-		ResultSet rs = psmt.executeQuery();
-		while (rs.next()){
-			uretici temp = new uretici(rs.getInt("id"),rs.getString("ad"));
-			ureticiler.add(temp);
-			
+		String hql = "from uretici";
+		ArrayList<Uretici> ureticiler = new ArrayList<Uretici>();
+		try
+		{
+			/* Spring harici nesne oluþturulmasýn */
+			if(sessionFactory==null)
+				return null;
+			Session session = getSessionFactory().openSession();
+			Query query = session.createQuery(hql);
+			ureticiler = (ArrayList<Uretici>)query.list();
+			session.close();
+			return ureticiler;
 		}
-	} catch (SQLException | ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+		catch(HibernateException h)
+		{
+			h.printStackTrace();
+			return null;
+		}
 	}
 	
-	
-	return ureticiler;
+	public Uretici ureticiDetayiniGetir(int uretici_id)
+	{
+		String hql = "FROM uretici WHERE id=:id";
+		try
+		{
+			Session session = getSessionFactory().openSession();
+			Query query = session.createQuery(hql);
+			query.setInteger("id", uretici_id);
+			Uretici uretici = (Uretici)query.uniqueResult();
+			session.close();
+			return uretici;
+		}
+		catch(HibernateException h)
+		{
+			h.printStackTrace();
+			return null;
+		}
+	}
+
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
 	}
 
 }

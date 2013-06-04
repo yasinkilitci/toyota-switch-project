@@ -1,4 +1,4 @@
-package com.hashing;
+package com.encryption;
 import java.security.MessageDigest;
 
 public class PasswordCodec 
