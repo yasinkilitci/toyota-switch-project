@@ -3,6 +3,8 @@ package com.da;
 
 
 import java.util.ArrayList;
+import java.util.Date;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -14,6 +16,7 @@ import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Repository;
 
 import com.entity.Cihaz;
+import com.entity.Port;
 import com.entity.Tur;
 import com.entity.Uretici;
 
@@ -23,7 +26,7 @@ public class CihazDAO {
 	@Autowired(required=true)
 	private SessionFactory sessionFactory;
 
-	public Cihaz CihazEkle(String ad, int fiyat, int tur_id, int uretici_id) throws ConstraintViolationException{
+	public Cihaz CihazEkle(String ad, String ip, int tur_id, int uretici_id) throws ConstraintViolationException{
 		
 		Cihaz chz = new Cihaz();
 		Tur tur = new Tur();
@@ -32,7 +35,7 @@ public class CihazDAO {
 		
 		try {
 				chz.setAd(ad);
-				chz.setFiyat(fiyat);
+				chz.setIp(ip);
 				chz.setTur_id(tur_id);
 				chz.setUretici_id(uretici_id);
 				
@@ -45,7 +48,26 @@ public class CihazDAO {
 				
 				Session session = getSessionFactory().openSession();
 				session.beginTransaction();
+				
+				/* Port Ayarlamalarý */ 
+				Port port;
+				for(int i=0;i<24;i++)
+				{
+					port = new Port();
+					port.setName("Fa0/"+ i);
+					port.setStatus(0);
+					port.setDuplex(0);
+					port.setSpeedtype(0);
+					port.setVlan(0);
+					port.setSonerisim(new Date());
+					chz.getPortlar().add(port);
+					port.setCihaz(chz);
+					session.save(port);
+				}
 				session.save(chz);
+				
+				/* Port Ayarlamalarý */
+				
 				session.getTransaction().commit();
 				session.close();
 				return chz;

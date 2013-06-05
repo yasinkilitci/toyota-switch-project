@@ -12,6 +12,7 @@
 		<bean id="TurDAO" class="com.da.TurDAO"/>
 		<bean id="CihazDAO" class="com.da.CihazDAO"/>
 		<bean id="UreticiDAO" class="com.da.UreticiDAO"/>
+		<bean id="SorumlulukDAO" class="com.da.SorumlulukDAO"/>
 		
 		<!-- Hibernate Konfigürasyonu -->
 		

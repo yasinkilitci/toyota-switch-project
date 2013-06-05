@@ -31,17 +31,23 @@ public class CihazEkleServlet extends HttpServlet {
 		 */
 		try{
 			/* Post ile gelen parametreler */
-			int fiyat = Integer.valueOf(request.getParameter("cihazfiyat"));
+			String ip = request.getParameter("cihazip");
 			int tur_id = Integer.valueOf(request.getParameter("cihaztur"));
 			int uretici_id = Integer.valueOf(request.getParameter("cihazuretici"));
 			String ad = request.getParameter("cihazad");
+			
+			/* IP ÝLE ÝLGÝLÝ KONTROLLER BURADA */
 			/* Fiyat istediðimiz aralýkta deðilse hata fýrlat */
+			/*
 			if((fiyat<50)||(fiyat>10000))
 			throw new MyException("Fiyat Istenilen Aralikta Degil!");
+			/* IP ÝLE ÝLGÝLÝ KONTROLLER BURADA */
+			
+			
 			/*new CihazDAO().CihazEkle(ad, fiyat, tur_id, uretici_id);*/
 			/* *************** SPRING *************** */
 			AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
-			((CihazDAO)context.getBean("CihazDAO",CihazDAO.class)).CihazEkle(ad, fiyat, tur_id, uretici_id);
+			((CihazDAO)context.getBean("CihazDAO",CihazDAO.class)).CihazEkle(ad, ip, tur_id, uretici_id);
 			/* *************** SPRING *************** */
 		}
 		catch(NumberFormatException n){
@@ -63,14 +69,14 @@ public class CihazEkleServlet extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.getWriter().write("Cihaz Eklenirken Hata Olustu!");
 			return;
-		}
+		}/*
 		catch(MyException e)
 		{
 			e.printStackTrace();
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.getWriter().write("Fiyat Istenilen Aralikta Degil!");
 			return;
-		}
+		}*/
 		
 	}
 }
