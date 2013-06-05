@@ -96,7 +96,7 @@ public class SorumlulukDAO {
 	}
 	
 	@Transactional(readOnly=false)
-	public void tekSorumlulukKaldýr(int kul_id, int cihaz_id) throws MyException
+	public void tekSorumlulukKaldir(int kul_id, int cihaz_id) throws MyException
 	{
 		AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
 		Session session = getSessionFactory().openSession();
@@ -139,7 +139,6 @@ public class SorumlulukDAO {
 		}
 	}
 	
-	
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
 	public ArrayList<Cihaz> sorumluCihazlariGetir(int kul_id)
@@ -172,6 +171,7 @@ public class SorumlulukDAO {
 		}
 	}
 	
+	@Transactional(readOnly=true)
 	public ArrayList<Kul> sorumluKullariGetir(int cihaz_id)
 	{
 		String hql = "Select s.kul_id,s.cihaz_id FROM user u, sorumluluk s WHERE s.kul_id=u.id AND s.cihaz_id=:cihaz_id";
@@ -187,10 +187,8 @@ public class SorumlulukDAO {
 			while(iterator.hasNext())
 			{
 				Object []obj = (Object[])iterator.next();
-				System.out.print(obj[0]);
-				kullar.add(((KulDAO)context.getBean("KulDAO",KulDAO.class)).kullaniciDetayiniGetir(Integer.valueOf(obj[0].toString())));
-				System.out.print("\t"+obj[1]);
-				System.out.println();
+				int kul_id = Integer.valueOf(obj[0].toString());
+				kullar.add(((KulDAO)context.getBean("KulDAO",KulDAO.class)).kullaniciDetayiniGetir(kul_id));
 			}
 			session.close();
 			return kullar;

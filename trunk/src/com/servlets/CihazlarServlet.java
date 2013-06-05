@@ -20,7 +20,7 @@ public class CihazlarServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int turid = Integer.valueOf(request.getParameter("turid"));
 		
-		ArrayList<Cihaz> cihazlar = new CihazDAO().TureAitcihazlariGetir(turid);
+		ArrayList<Cihaz> cihazlar = new CihazDAO().tureAitcihazlariGetir(turid);
 		request.setAttribute("cihazlar", cihazlar);
 		request.getRequestDispatcher("cihazlar.jsp").forward(request,response);
 	}

@@ -14,11 +14,14 @@ import org.spring.util.SpringFactoryProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.entity.Cihaz;
+import com.entity.Kul;
 import com.entity.Port;
 import com.entity.Tur;
 import com.entity.Uretici;
+import com.mailing.PostOffice;
 
 @Repository
 public class CihazDAO {
@@ -139,7 +142,8 @@ public class CihazDAO {
 	
 	/* Türe ait cihazlarýn listesini döndürür */
 	@SuppressWarnings("unchecked")
-	public ArrayList<Cihaz> TureAitcihazlariGetir(int tur_id){
+	@Transactional(readOnly=true)
+	public ArrayList<Cihaz> tureAitcihazlariGetir(int tur_id){
 		ArrayList<Cihaz> cihazlar;
 		String hql = "FROM cihaz WHERE tur_id=:tur_id";
 		try
@@ -158,6 +162,8 @@ public class CihazDAO {
 		}
 	}
 	
+	/* Girilen String'i içeren addaki cihazlarý listeler */
+	@Transactional(readOnly=true)
 	public ArrayList<Cihaz> benzeyenCihazlariListele(String keyword){
 		String hql = "From cihaz WHERE ad like :keyword";
 		Session session = getSessionFactory().openSession();
@@ -176,6 +182,75 @@ public class CihazDAO {
 			e.printStackTrace();
 			session.close();
 			return null;
+		}
+	}
+	
+	/* Tek bir cihaza ait tüm portlarý liste olarak döndürür */
+	@Transactional(readOnly=true)
+	public ArrayList<Port> portlariGetir(int cihaz_id)
+	{
+		ArrayList<Port> portlar;
+		String hql = "FROM port WHERE cihaz_id=:cihaz_id";
+		try
+		{
+			Session session = getSessionFactory().openSession();
+			Query query = session.createQuery(hql);
+			query.setInteger("cihaz_id", cihaz_id);
+			portlar = (ArrayList<Port>)query.list();
+			session.close();
+			return portlar;
+		}
+		catch(HibernateException h)
+		{
+			h.printStackTrace();
+			return null;
+		}
+	}
+	
+	/* Tek bir cihaza ait kullanýlmayan portlarý liste olarak döndürür */
+	@Transactional(readOnly=true)
+	public ArrayList<Port> kullanilmayanPortlariGetir(int cihaz_id)
+	{
+		Date bugun = new Date();
+		ArrayList<Port> portlar = portlariGetir(cihaz_id);
+		/* Kullanýlmayan Portlar Listesi */
+		ArrayList<Port> kportlar = new ArrayList<Port>();
+		for (Port port : portlar)
+		{
+			Date sonerisim = port.getSonerisim();
+			/* milisaniye cinsinden */
+			long milifark = bugun.getTime() - sonerisim.getTime();
+			long gunfark = milifark / (24*60*60*1000);
+			if(gunfark>30)
+			{
+				kportlar.add(port);
+			}
+		}
+		return kportlar;
+	}
+	
+	/* Tüm Cihazlarý Tarayan ve Sorumlu Kiþilere E-Mail Gönderen Zincirleme Reaksiyon!! */
+	public void tumCihazlariTara()
+	{
+		ArrayList<Cihaz> cihazlar = new ArrayList<Cihaz>();
+		ArrayList<Port> kportlar = new ArrayList<Port>();
+		PostOffice postOffice = new PostOffice();
+		
+		try
+		{
+		cihazlar = butunCihazlariGetir();
+		
+			 for(Cihaz cihaz : cihazlar)
+			 {
+				 kportlar = kullanilmayanPortlariGetir(cihaz.getId());
+				 if(kportlar.size()>0)
+				 postOffice.sorumlularaMailGonder(kportlar);
+			 }
+			 
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
 		}
 	}
 

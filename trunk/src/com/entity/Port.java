@@ -7,11 +7,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-@Entity
+@Entity(name="port")
+@Table(name="port")
 public class Port {
 	
 	@Id @GeneratedValue(strategy=GenerationType.AUTO)
@@ -29,6 +32,7 @@ public class Port {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date sonerisim;
 	@ManyToOne
+	@JoinColumn(name="cihaz_id")
 	private Cihaz cihaz;
 	
 	public Port()

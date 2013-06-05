@@ -22,72 +22,24 @@ public class HibernateTest {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		/* Kul kul = new Kul();
-		 kul.setKuladi("mangaka41");
-		 kul.setAdres("Camlitepe");
-		 kul.setSifre("1234");
-		 kul.setTel(1234);
-		 kul.setAdsoyad("Yunus Yildiz");
-		 kul.setYetki(0);
-		 
 		
-		Cihaz c = new Cihaz();
-		c.setAd("Switch1");
-		c.setIp("192.168.1.1");
-		c.setTur_id(1);
-		c.setUretici_id(1);
-		c.setResim_yolu("falanca.jpeg");
-		
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		
-		Port port;
-		for(int i=0;i<24;i++)
-		{
-			port = new Port();
-			port.setName("Fa0/"+ i);
-			port.setStatus(0);
-			port.setDuplex(0);
-			port.setSpeedtype(0);
-			port.setVlan(0);
-			c.getPortlar().add(port);
-			port.setCihaz(c);
-			session.save(port);
-		}
-		
-		c.getKullar().add(kul);
-		kul.getCihazlar().add(c);
-		session.save(kul);
-		session.save(c);
-		session.getTransaction().commit();
-		session.close();*/
-		
-		/*
-		try {
-			AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
-			ArrayList<Kul> kullar = new ArrayList<Kul>();
-			kullar = ((SorumlulukDAO)context.getBean("SorumlulukDAO",SorumlulukDAO.class)).sorumluKullariGetir(1);
-			for ( Kul kul : kullar)
-			{
-				System.out.println(kul.getId());
-			}
-			
-		} catch (BeansException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		*/
 		
 		AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
-		ArrayList<Cihaz> liste = ((CihazDAO)context.getBean("CihazDAO",CihazDAO.class)).benzeyenCihazlariListele("Cis");
-		
-		for(Cihaz cihaz : liste)
+		/*
+		((SorumlulukDAO)context.getBean("SorumlulukDAO",SorumlulukDAO.class)).tekSorumlulukVer(35, 1);
+		((SorumlulukDAO)context.getBean("SorumlulukDAO",SorumlulukDAO.class)).tekSorumlulukVer(36, 1);
+		((SorumlulukDAO)context.getBean("SorumlulukDAO",SorumlulukDAO.class)).tekSorumlulukVer(35, 2);
+		((SorumlulukDAO)context.getBean("SorumlulukDAO",SorumlulukDAO.class)).tekSorumlulukVer(36, 2);
+		*/
+		/*
+		ArrayList<Kul> kullar = ((SorumlulukDAO)context.getBean("SorumlulukDAO",SorumlulukDAO.class)).sorumluKullariGetir(1);
+		System.out.println(kullar.size());
+		for (Kul kul : kullar)
 		{
-			System.out.println(cihaz.getAd());
-		}
+			System.out.println(kul.getKuladi());
+		}*/
 		
-		
-		
+		((CihazDAO)context.getBean("CihazDAO",CihazDAO.class)).tumCihazlariTara();
 		
 	}
 }
