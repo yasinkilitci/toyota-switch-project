@@ -17,7 +17,7 @@
 <h3><%= cihaz.getAd() %></h3>
 <table style="border:1px solid;border-color:gray">
 
-<tr><td>Fiyatı : </td><td><%= cihaz.getFiyat() %> TL</td></tr>
+<tr><td>IP : </td><td><%= cihaz.getIp() %></td></tr>
 <tr><td>Üretici : </td><td><%= cihaz.getUretici().getAd() %></td></tr>
 <tr><td>Türü : </td><td><%= cihaz.getTur().getAd() %></td></tr>
 <tr><td>Port Sayısı : </td><td>24</td></tr>

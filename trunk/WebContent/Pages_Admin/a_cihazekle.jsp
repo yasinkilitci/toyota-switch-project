@@ -20,8 +20,8 @@
 		/***** SPRING ******/
 %>
 	<table>
-		<tr><td>Cihaz ADI</td><td><input type="text" id="cihazad"  name="cihazad"></td>   </tr>
-		<tr><td>Fiyat</td><td><input type="text" id="cihazfiyat"  name="cihazfiyat"></td>   </tr>
+		<tr><td>Cihaz Adý</td><td><input type="text" id="cihazad"  name="cihazad"></td>   </tr>
+		<tr><td>IP</td><td><input type="text" id="cihazip"  name="cihazip"></td>   </tr>
 			<tr><td>Türü</td>
 		
 				<td>

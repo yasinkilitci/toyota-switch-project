@@ -1,10 +1,17 @@
 package com.entity;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 @Entity(name="cihaz")
@@ -16,13 +23,18 @@ public class Cihaz {
 	@Column
 	private String ad;
 	@Column
-	private int fiyat;
+	private String ip;
 	@Column
 	private int tur_id;
 	@Column
 	private int uretici_id;
 	@Column
 	private String resim_yolu;
+	@OneToMany(mappedBy="cihaz",fetch=FetchType.EAGER)
+	private Collection<Port> portlar = new ArrayList<Port>();
+	
+	@ManyToMany(mappedBy="cihazlar",fetch=FetchType.EAGER)
+	private Collection<Kul> kullar = new ArrayList<Kul>();
 	
 	/* Veritabanýnda Olmayanlar */
 	@Transient
@@ -32,17 +44,25 @@ public class Cihaz {
 	
 	
 
-	public Cihaz(int id, String ad, int fiyat, Uretici uretici,
+	public Cihaz(int id, String ad, String ip, Uretici uretici,
 			Tur tur) {
 		super();
 		this.id = id;
 		this.ad = ad;
-		this.fiyat = fiyat;
+		this.ip = ip;
 		this.uretici = uretici;
 		this.tur = tur;
 	}
-
 	
+	public Cihaz(int id, String ad, String ip, int uretici_id,
+			int tur_id) {
+		super();
+		this.id = id;
+		this.ad = ad;
+		this.ip = ip;
+		this.uretici_id = uretici_id;
+		this.tur_id = tur_id;
+	}
 
 public int getId() {
 		return id;
@@ -60,6 +80,14 @@ public String getIDString() {
 
 
 
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
 	public String getAd() {
 		return ad;
 	}
@@ -67,20 +95,6 @@ public String getIDString() {
 	public void setAd(String ad) {
 		this.ad = ad;
 	}
-
-
-
-	public int getFiyat() {
-		return fiyat;
-	}
-
-
-
-	public void setFiyat(int fiyat) {
-		this.fiyat = fiyat;
-	}
-
-
 
 	public Uretici getUretici() {
 		return uretici;
@@ -138,15 +152,35 @@ public String getIDString() {
 		this.resim_yolu = resim_yolu;
 	}
 
+	
 
-public Cihaz() {
-		// TODO Auto-generated constructor stub
+	public Collection<Port> getPortlar() {
+		return portlar;
 	}
+
+
+
+	public void setPortlar(Collection<Port> portlar) {
+		this.portlar = portlar;
+	}
+	
+
+	public Collection<Kul> getKullar() {
+			return kullar;
+		}
+	
+	public void setKullar(Collection<Kul> kullar) {
+		this.kullar = kullar;
+	}
+	
+	public Cihaz() {
+			// TODO Auto-generated constructor stub
+		}
 
 @Override
 	public String toString(){
 		
-		return this.id + " - " + this.ad + " - " + this.fiyat;
+		return this.id + " - " + this.ad + " - " + this.ip;
 		
 	}
 }

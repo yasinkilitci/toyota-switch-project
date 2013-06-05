@@ -126,6 +126,25 @@ public class KulDAO {
 			return null;
 		}
 	}
+	
+	public Kul kullaniciDetayiniGetir(int kul_id)
+	{
+		String hql = "FROM user WHERE id=:id";
+		try
+		{
+			Session session = getSessionFactory().openSession();
+			Query query = session.createQuery(hql);
+			query.setInteger("id", kul_id);
+			Kul kul = (Kul)query.uniqueResult();
+			session.close();
+			return kul;
+		}
+		catch(HibernateException h)
+		{
+			h.printStackTrace();
+			return null;
+		}
+	}
 
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;

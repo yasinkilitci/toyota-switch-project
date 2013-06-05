@@ -1,10 +1,18 @@
 package com.entity;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 @Entity(name="user")
 public class Kul {
@@ -26,6 +34,11 @@ public class Kul {
 	private String sifre;
 	@Column
 	private String eposta;
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(name="sorumluluk", joinColumns=@JoinColumn(name="kul_id"),
+	inverseJoinColumns=@JoinColumn(name="cihaz_id")
+	)
+	private Collection<Cihaz> cihazlar = new ArrayList<Cihaz>();
 
 	public Kul(int id, String kuladi, String adsoyad, String adres, int tel, int yetki, String sifre)
 	{
@@ -115,6 +128,17 @@ public int getId() {
 
 	public void setEposta(String eposta) {
 		this.eposta = eposta;
+	}
+
+	
+
+public Collection<Cihaz> getCihazlar() {
+		return cihazlar;
+	}
+
+
+	public void setCihazlar(Collection<Cihaz> cihazlar) {
+		this.cihazlar = cihazlar;
 	}
 
 

@@ -1,13 +1,6 @@
 var $j = jQuery.noConflict();
 
 
-/* EN BAÞTA ÇALIÞAN FONKSÝYON */
-$j( function(){
-
-		/*alert("Cihaz Ekle Geldi!");*/
-
-});
-
 /* CÝHAZ EKLEME KISIMLARI */
 
 $j("#btnCihazEkle").click(
@@ -17,7 +10,7 @@ $j("#btnCihazEkle").click(
 			$j("#hatayeriCihazEkle").html("").slideUp(1);
 			
 			var b = $j("#cihazad").val();
-			var c = $j("#cihazfiyat").val();
+			var c = $j("#cihazip").val();
 			var d = $j("#cbTur").val();
 			var e = $j("#cbUretici").val();
 			
@@ -28,7 +21,7 @@ $j("#btnCihazEkle").click(
 			
 			var formdata = {
 					cihazad: b,
-					cihazfiyat: c,
+					cihazip: c,
 					cihaztur: d,
 					cihazuretici: e
 				};
@@ -41,7 +34,7 @@ $j("#btnCihazEkle").click(
 			success: function(data){
 				alert("Cihaz Basariyla Eklendi!");
 				$j("#cihazad").val("");
-				$j("#cihazfiyat").val("");
+				$j("#cihazip").val("");
 				$j("#cihaztur").val("");
 				$j("#cihazuretici").val("");
 			},
