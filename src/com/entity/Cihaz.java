@@ -4,13 +4,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -30,12 +27,12 @@ public class Cihaz {
 	private int uretici_id;
 	@Column
 	private String resim_yolu;
-	@OneToMany(mappedBy="cihaz",fetch=FetchType.EAGER)
+	@OneToMany(mappedBy="cihaz")
 	private Collection<Port> portlar = new ArrayList<Port>();
-	
+	/*
 	@ManyToMany(mappedBy="cihazlar",fetch=FetchType.EAGER)
 	private Collection<Kul> kullar = new ArrayList<Kul>();
-	
+	*/
 	/* Veritabanýnda Olmayanlar */
 	@Transient
 	private Uretici uretici;
@@ -163,16 +160,7 @@ public String getIDString() {
 	public void setPortlar(Collection<Port> portlar) {
 		this.portlar = portlar;
 	}
-	
 
-	public Collection<Kul> getKullar() {
-			return kullar;
-		}
-	
-	public void setKullar(Collection<Kul> kullar) {
-		this.kullar = kullar;
-	}
-	
 	public Cihaz() {
 			// TODO Auto-generated constructor stub
 		}

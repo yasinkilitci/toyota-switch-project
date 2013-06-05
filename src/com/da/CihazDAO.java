@@ -50,6 +50,7 @@ public class CihazDAO {
 				session.beginTransaction();
 				
 				/* Port Ayarlamalarý */ 
+				
 				Port port;
 				for(int i=0;i<24;i++)
 				{
@@ -153,6 +154,27 @@ public class CihazDAO {
 		catch(HibernateException h)
 		{
 			h.printStackTrace();
+			return null;
+		}
+	}
+	
+	public ArrayList<Cihaz> benzeyenCihazlariListele(String keyword){
+		String hql = "From cihaz WHERE ad like :keyword";
+		Session session = getSessionFactory().openSession();
+		try
+		{
+			Query query = session.createQuery(hql);
+			keyword = "%" + keyword + "%";
+			query.setString("keyword", keyword);
+			ArrayList<Cihaz> cihazlar = new ArrayList<Cihaz>();
+			cihazlar = (ArrayList<Cihaz>)query.list();
+			session.close();
+			return cihazlar;
+		}
+		catch(HibernateException e)
+		{
+			e.printStackTrace();
+			session.close();
 			return null;
 		}
 	}

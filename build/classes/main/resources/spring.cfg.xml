@@ -25,8 +25,18 @@
 		
 		<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 				<property name="dataSource" ref="dataSource"/>
+				<!-- Hibernate annotation'ları için taranacak sınıflar -->
 				<property name="packagesToScan" value="com.entity"/>
-				<property name="configLocation" value="classpath:/main/resources/hibernate.cfg.xml" />
+				<property name="hibernateProperties">
+					<props>
+						<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+						<prop key="hibernate.show_sql">true</prop>
+						<prop key="hibernate.cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</prop>
+						<prop key="hibernate.hbm2ddl.auto">update</prop>
+						<prop key="hibernate.current_session_context_class">thread</prop>
+						<prop key="hibernate.connection.pool_size">1</prop>
+					</props>
+				</property>
 		</bean>
     	
     	<!-- Spring Annotation'ları için Taranacak Paketler -->
