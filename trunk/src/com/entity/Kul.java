@@ -1,10 +1,10 @@
 package com.entity;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -34,11 +34,11 @@ public class Kul {
 	private String sifre;
 	@Column
 	private String eposta;
-	@ManyToMany(fetch=FetchType.EAGER)
-	@JoinTable(name="sorumluluk", joinColumns=@JoinColumn(name="kul_id"),
-	inverseJoinColumns=@JoinColumn(name="cihaz_id")
-	)
-	private Collection<Cihaz> cihazlar = new ArrayList<Cihaz>();
+	
+	@ManyToMany(fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+	@JoinTable(name="sorumluluk", joinColumns=@JoinColumn(name="kul_id",referencedColumnName="id"),
+	inverseJoinColumns=@JoinColumn(name="cihaz_id",referencedColumnName="id"))
+	private Set<Cihaz> cihazlar = new HashSet<Cihaz>(0);
 
 	public Kul(int id, String kuladi, String adsoyad, String adres, int tel, int yetki, String sifre)
 	{
@@ -131,18 +131,18 @@ public int getId() {
 	}
 
 	
-
-public Collection<Cihaz> getCihazlar() {
+	
+	public Set<Cihaz> getCihazlar() {
 		return cihazlar;
 	}
 
 
-	public void setCihazlar(Collection<Cihaz> cihazlar) {
+	public void setCihazlar(Set<Cihaz> cihazlar) {
 		this.cihazlar = cihazlar;
 	}
 
 
-public Kul() {
+	public Kul() {
 		// TODO Auto-generated constructor stub
 	}
 
