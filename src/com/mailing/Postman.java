@@ -65,7 +65,7 @@ public class Postman {
  
 			Transport.send(message);
  
-			System.out.println("Done");
+			System.out.println("An e-mail was sent to " + alici + "!");
  
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);

@@ -9,9 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity(name="cihaz")
+@Table(name="cihaz")
 public class Cihaz {
 
 	@Id
@@ -27,7 +29,7 @@ public class Cihaz {
 	private int uretici_id;
 	@Column
 	private String resim_yolu;
-	@OneToMany(mappedBy="cihaz")
+	@OneToMany(mappedBy="cihaz",targetEntity=Port.class)
 	private Collection<Port> portlar = new ArrayList<Port>();
 	/*
 	@ManyToMany(mappedBy="cihazlar",fetch=FetchType.EAGER)

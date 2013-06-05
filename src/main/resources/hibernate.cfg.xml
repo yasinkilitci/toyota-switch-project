@@ -26,6 +26,7 @@
 	  	<mapping class="com.entity.Kul"/>
 	   	<mapping class="com.entity.Cihaz"/>
 	   	<mapping class="com.entity.Port"/>
+	   	<mapping class="com.entity.Sorumluluk"/>
  
  </session-factory>
 </hibernate-configuration>
