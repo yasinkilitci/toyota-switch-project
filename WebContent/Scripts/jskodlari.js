@@ -63,7 +63,7 @@ $j(document).ready( function(){
 	
 	$j("#menu_siparisgor").click(function(){
 		
-		$j("#contentplaceholder").load("./Pages_User/a_sipgor.jsp");
+		$j("#contentplaceholder").load("./Pages_User/a_srmgor.jsp");
 	});	
 	
 	$j("#menu_bilgun").click(function(){

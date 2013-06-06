@@ -9,7 +9,7 @@
        
        <%   int turid = Integer.valueOf(request.getParameter("turid"));
        		AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
-       		ArrayList<Cihaz> cihazlar = ((CihazDAO)context.getBean("CihazDAO",CihazDAO.class)).TureAitcihazlariGetir(turid);
+       		ArrayList<Cihaz> cihazlar = ((CihazDAO)context.getBean("CihazDAO",CihazDAO.class)).tureAitcihazlariGetir(turid);
     	%>
 <span>Cihazlar Aşağıda</span>
 		<ul id="cihazliste-css">

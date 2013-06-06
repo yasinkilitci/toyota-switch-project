@@ -7,6 +7,8 @@
  		<%@page import="java.util.ArrayList"%>
  		<%@page import="java.sql.Date"%>
  		<%@page import="java.text.SimpleDateFormat"%>
+ 		<%@page import="org.spring.util.SpringFactoryProvider"%>
+		<%@page import="org.springframework.context.support.AbstractApplicationContext"%>
  		
  		<% 		
  				int kulid = Integer.valueOf(request.getSession().getAttribute("session_id").toString()) - 1453; 
@@ -15,7 +17,7 @@
  		
  			<table class="tabloGenel">
  					<tr>
- 						<td colspan="5">SİPARİŞ GÖRÜNTÜLEME</td></tr>
+ 						<td colspan="5">SORUMLU OLDUĞUM SWITCHLER</td></tr>
  					<tr>
  					<tr>
  						<td class="tabloBaslik">Sipariş No</td>
