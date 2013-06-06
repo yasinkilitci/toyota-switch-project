@@ -11,7 +11,9 @@
 	
 	<% 	Object o_keyword = request.getParameter("keyword");
 		Object o_keyword_ip = request.getParameter("keyword_ip");
-		if((o_keyword!=null)&&(o_keyword_ip!=null)){
+		Object o_yetki = request.getSession().getAttribute("session_yetki");
+		if((o_keyword!=null)&&(o_keyword_ip!=null)&&(o_yetki!=null)){
+			int yetki = Integer.valueOf(o_yetki.toString());
 			String keyword = o_keyword.toString();
 			String keyword_ip = o_keyword_ip.toString();
 			AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
@@ -25,6 +27,9 @@
  					<tr>
  						<td class="tabloBaslik">Cihaz Adı</td>
  						<td class="tabloBaslik">Cihaz IP</td>
+ 						<% if (yetki==1){ %>
+ 						<td class="tabloBaslik">Portlar</td>
+ 						<% } %>
  					</tr>
 	  		<%
 	  		
@@ -35,6 +40,7 @@
 						String cihazip = cihaz.getIp();
 						
 						String jcihazid = "'#alink" + Integer.valueOf(cihaz_id) + "'";
+						String jport = "'#btnPort" + Integer.valueOf(cihaz_id) + "'";
 						
 												%>
 						<tr>
@@ -47,6 +53,7 @@
 					$j(<%=jcihazid %>).click(
 
 						function(){
+							
 							$j("#contentplaceholder").load("cihazDetay.jsp?cihazid="+<%=cihaz_id%>);
 								
 							});
@@ -56,6 +63,25 @@
 		 
  						</td>
  						<td class="tabloHucre"><%= cihazip %></td>
+ 						<% if (yetki==1){ %>
+ 						<td class="tabloBaslik">
+ 						<input type="button" id="btnPort<%= cihaz_id %>" value="Portları Görüntüle"/>
+ 						<script type="text/javascript">
+						var $j = jQuery.noConflict();
+					$j(<%=jport %>).click(
+
+						function(){
+							
+							$j("#contentplaceholder").load("./Pages_Admin/a_portlar.jsp?cihazid="+<%=cihaz_id%>);
+								
+							});
+
+						</script>
+ 						
+ 						
+ 						
+ 						</td>
+ 						<% } %>
 						</tr>
 				<% }
 	  		
