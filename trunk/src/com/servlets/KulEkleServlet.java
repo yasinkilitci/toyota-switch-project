@@ -1,6 +1,9 @@
 package com.servlets;
 
 import java.io.IOException;
+
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -27,36 +30,36 @@ public class KulEkleServlet extends HttpServlet {
 		try
 		{
 			/* ************** SPRING ****************** */
-			/* Spring altyapýsý hazýrlanýyor */
+			/* Spring altyapï¿½sï¿½ hazï¿½rlanï¿½yor */
 			AbstractApplicationContext context= SpringFactoryProvider.getApplicationContext();
-			/* Spring kullanarak oluþturulan DAO ile veri ekleniyor */
+			/* Spring kullanarak oluï¿½turulan DAO ile veri ekleniyor */
 			KulDAO kuldao = (KulDAO)context.getBean("KulDAO");
 			/* ************** SPRING ****************** */
 			
-			/* Öncelikle Kullanýcý adýný objeye taþýyalým. 
-		 * Null deðilse bir 'kaydolma', null ise bir 'güncelleme' isteðidir.*/
+			/* ï¿½ncelikle Kullanï¿½cï¿½ adï¿½nï¿½ objeye taï¿½ï¿½yalï¿½m. 
+		 * Null deï¿½ilse bir 'kaydolma', null ise bir 'gï¿½ncelleme' isteï¿½idir.*/
 		Object o_kuladi = request.getParameter("kuladi");
-		/* KulID geldiyse bu bir güncelleme isteðidir.*/
+		/* KulID geldiyse bu bir gï¿½ncelleme isteï¿½idir.*/
 		Object o_kulid = request.getParameter("kulid");
 		
-		/* Kaydolma ve Güncelleme iþlemlerindeki ortak alanlar sorunsuzca atanabilir.*/
+		/* Kaydolma ve Gï¿½ncelleme iï¿½lemlerindeki ortak alanlar sorunsuzca atanabilir.*/
 		String adsoyad = request.getParameter("adsoyad");
 		String adres = request.getParameter("adres");
 		int tel = Integer.valueOf(request.getParameter("tel"));
 		String sifre = request.getParameter("sifre");
 		String eposta = request.getParameter("eposta");
 		
-				/* Kullanýcý kaydolma isteði yerine getiriliyor */
+				/* Kullanï¿½cï¿½ kaydolma isteï¿½i yerine getiriliyor */
 				if(o_kuladi!=null)
 				{
 				
-					/* Kullanýcý adý yalnýzca bu bir kayýt isteði ise atansýn */
+					/* Kullanï¿½cï¿½ adï¿½ yalnï¿½zca bu bir kayï¿½t isteï¿½i ise atansï¿½n */
 					String kuladi = o_kuladi.toString();
 					
 						try
 						{
 							/* ************** SHA-256 ENCRYPTION ****************** */
-							/* SHA-256 þifreleyici sýnýfý oluþturuldu ve encrypt ile þifrelendi */
+							/* SHA-256 ï¿½ifreleyici sï¿½nï¿½fï¿½ oluï¿½turuldu ve encrypt ile ï¿½ifrelendi */
 							PasswordCodec s256 = new PasswordCodec();
 							sifre = s256.encrypt(sifre);
 							/* ************** SHA-256 ENCRYPTION ****************** */
@@ -69,18 +72,36 @@ public class KulEkleServlet extends HttpServlet {
 							return;
 						}
 					
+						 boolean eresult = true;
+						try
+						{
+							   InternetAddress emailAddr = new InternetAddress(eposta);
+							      emailAddr.validate();
+						}
+						catch (AddressException ex) {
+						      eresult = false;
+						   
+							response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+							response.getWriter().write("E-Posta Hatali!");
+							return;
+						}
+					
+						
+						
+						
+						
 						/* ************** HIBERNATE - SPRING ****************** */
-						/* Spring kullanarak dao oluþturuluyor ve veri ekleniyor */
+						/* Spring kullanarak dao oluï¿½turuluyor ve veri ekleniyor */
 						kuldao.KulEkle(kuladi, adsoyad, adres, tel, eposta, sifre);
 						/* ************** HIBERNATE - SPRING ****************** */
 						
 					}
-				else if(o_kulid!=null)/* Güncelleme isteði yerine getiriliyor */
+				else if(o_kulid!=null)/* Gï¿½ncelleme isteï¿½i yerine getiriliyor */
 				{
 					try
 					{
 						/* ************** SHA-256 ENCRYPTION ****************** */
-						/* SHA-256 þifreleyici sýnýfý oluþturuldu ve encrypt ile þifrelendi */
+						/* SHA-256 ï¿½ifreleyici sï¿½nï¿½fï¿½ oluï¿½turuldu ve encrypt ile ï¿½ifrelendi */
 						PasswordCodec s256 = new PasswordCodec();
 						sifre = s256.encrypt(sifre);
 						/* ************** SHA-256 ENCRYPTION ****************** */
@@ -94,7 +115,7 @@ public class KulEkleServlet extends HttpServlet {
 					}
 					int kulid = Integer.valueOf(o_kulid.toString());
 					/* ************** HIBERNATE - SPRING ****************** */
-					/* Spring kullanarak oluþturulan DAO ile kullanýcý güncelleniyor */
+					/* Spring kullanarak oluï¿½turulan DAO ile kullanï¿½cï¿½ gï¿½ncelleniyor */
 					kuldao.KulGuncelle(kulid, adsoyad, adres, tel, sifre);
 					/* ************** HIBERNATE - SPRING ****************** */
 				}
