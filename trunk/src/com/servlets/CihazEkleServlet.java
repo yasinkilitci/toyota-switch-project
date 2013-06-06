@@ -12,14 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.validator.routines.InetAddressValidator;
-import org.apache.tomcat.util.codec.binary.StringUtils;
+
 import org.hibernate.HibernateException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.spring.util.SpringFactoryProvider;
 import org.springframework.context.support.AbstractApplicationContext;
 
 import com.da.CihazDAO;
-import com.exceptions.MyException;
+
 
 /**
  * Servlet implementation class cihazEkleServlet
