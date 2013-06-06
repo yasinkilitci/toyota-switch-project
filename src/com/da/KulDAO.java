@@ -8,7 +8,9 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.exception.ConstraintViolationException;
+import org.spring.util.SpringFactoryProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Repository;
 
 import com.entity.Kul;
@@ -61,6 +63,9 @@ public class KulDAO {
 	
 	
 	public void KulSil(int kulid){
+		
+		AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
+		context.getBean("SorumlulukDAO",SorumlulukDAO.class).tumSorumluluklariSil(kulid);
 		
 		String hql = "delete from user where id = :id";
 		try 

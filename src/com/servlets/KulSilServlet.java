@@ -52,6 +52,8 @@ public class KulSilServlet extends HttpServlet {
 					/* Spring kullanarak olu�turulan DAO ile kullan�c� g�ncelleniyor */
 					kuldao.KulSil(kulid);
 					/* ************** HIBERNATE - SPRING ****************** */
+					response.setStatus(HttpServletResponse.SC_OK);
+					return;
 				}
 				
 		
