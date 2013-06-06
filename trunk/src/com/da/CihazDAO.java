@@ -194,14 +194,16 @@ public void CihazSil(int cihazid){
 	
 	/* Girilen String'i i�eren addaki cihazlar� listeler */
 	@Transactional(readOnly=true)
-	public ArrayList<Cihaz> benzeyenCihazlariListele(String keyword){
-		String hql = "From cihaz WHERE ad like :keyword";
+	public ArrayList<Cihaz> benzeyenCihazlariListele(String keyword, String keyword_ip){
+		String hql = "From cihaz WHERE ad like :keyword and ip like :keyword_ip";
 		Session session = getSessionFactory().openSession();
 		try
 		{
 			Query query = session.createQuery(hql);
 			keyword = "%" + keyword + "%";
+			keyword_ip = "%" + keyword_ip + "%";
 			query.setString("keyword", keyword);
+			query.setString("keyword_ip", keyword_ip);
 			ArrayList<Cihaz> cihazlar = new ArrayList<Cihaz>();
 			cihazlar = (ArrayList<Cihaz>)query.list();
 			session.close();
