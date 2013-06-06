@@ -153,10 +153,7 @@ public class SorumlulukDAO {
 			while(iterator.hasNext())
 			{
 				Object []obj = (Object[])iterator.next();
-				System.out.print(obj[0]);
 				cihazlar.add(((CihazDAO)context.getBean("CihazDAO",CihazDAO.class)).CihazDetayiniGetir(Integer.valueOf(obj[0].toString())));
-				System.out.print("\t"+obj[1]);
-				System.out.println();
 			}
 			session.close();
 			return cihazlar;

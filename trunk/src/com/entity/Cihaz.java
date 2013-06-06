@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,7 +30,7 @@ public class Cihaz {
 	private int uretici_id;
 	@Column
 	private String resim_yolu;
-	@OneToMany(mappedBy="cihaz",targetEntity=Port.class)
+	@OneToMany(mappedBy="cihaz",targetEntity=Port.class,fetch=FetchType.EAGER)
 	private Collection<Port> portlar = new ArrayList<Port>();
 	/*
 	@ManyToMany(mappedBy="cihazlar",fetch=FetchType.EAGER)

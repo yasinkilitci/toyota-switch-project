@@ -26,17 +26,18 @@
 								<% if( i_yetki == 1 ){ %>
 						
 								<li><a href="#" id="menu_cihazekle">Cihaz Ekle</a></li>
-								<li><a href="#" id="menu_siparisonay">Sipariş Onayla</a></li>
+								<li><a href="#" id="menu_siparisonay">Sorumluları Görüntüle</a></li>
 								
 								<!-- Düz Kullanıcı için gösterilecekler -->
 								<% }else{ %>
 								
 								<li><a href="#" id="menu_bilgun">Bilgi Güncelle</a></li>
-								<li><a href="#" id="menu_siparisgor">Siparişleri Görüntüle</a></li>
+								<li><a href="#" id="menu_siparisgor">Sorumluluk Görüntüle</a></li>
 						
 								<% } 
 								%>
-					<!-- Giriş Yapan Herkeste Gösterilecek Butonlar -->		
+					<!-- Giriş Yapan Herkeste Gösterilecek Butonlar -->	
+					<li><a href="#" id="menu_cihazara">Cihaz Ara</a></li>	
 					<li><a href="uyecikis" id="menu_cikis">Çıkış</a></li>
 					
 								
