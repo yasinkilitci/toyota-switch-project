@@ -3,8 +3,10 @@
 
  		
  		<%@page import="com.da.CihazDAO"%>
+ 		<%@page import="com.da.KulDAO"%>
  		<%@page import="com.da.SorumlulukDAO"%>
 		<%@page import="com.entity.Cihaz"%>
+		<%@page import="com.entity.Kul"%>
  		<%@page import="java.util.ArrayList"%>
  		<%@page import="java.sql.Date"%>
  		<%@page import="java.text.SimpleDateFormat"%>
@@ -15,14 +17,14 @@
  		<% 		
  				int kulid = Integer.valueOf(request.getSession().getAttribute("session_id").toString()) - 1453;
  				AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
- 				ArrayList<Cihaz> cihazlar = ((SorumlulukDAO)context.getBean("SorumlulukDAO",SorumlulukDAO.class)).sorumluCihazlariGetir(kulid);
  		%>
  		
  			<table class="tabloGenel">
  					<tr>
- 						<td colspan="5">SORUMLULUK GÖRÜNTÜLEME</td></tr>
+ 						<td colspan="7">SORUMLULUK GÖRÜNTÜLEME</td></tr>
  					<tr>
  					<tr>
+ 						<td class="tabloBaslik">Sorumlu</td>
  						<td class="tabloBaslik">Cihaz No</td>
  						<td class="tabloBaslik">Cihaz Adı</td>
  						<td class="tabloBaslik">Cihaz IP</td>
@@ -31,8 +33,13 @@
  					
  		
  		<%
+ 				ArrayList<Kul> kullar = context.getBean("KulDAO",KulDAO.class).tumKullanicilariGetir();
+ 				for(Kul kul : kullar){
+ 				int mevcutkul_id = kul.getId();
+ 				ArrayList<Cihaz> cihazlar = context.getBean("SorumlulukDAO",SorumlulukDAO.class).sorumluCihazlariGetir(mevcutkul_id);
  				for(Cihaz cihaz : cihazlar)
  				{
+ 						String sorumlu = kul.getKuladi();
  						int cihaz_id = cihaz.getId();
  						String cihazad = cihaz.getAd();
  						String cihazip = cihaz.getIp();
@@ -45,18 +52,19 @@
  						
  												%>
  						<tr>
+	 						<td class="tabloHucre"><%= sorumlu %> </td>
 	 						<td class="tabloHucre"><%= cihaz_id %> </td>
 	 						<td class="tabloHucre"><%= cihazad %></td>
 	 						<td class="tabloHucre"><%= cihazip %></td>
 	 						<td class="tabloHucre">
 	 						
-	 						<input type="button" id="obutton<%=cihaz_id %>" value="İptal Et">
+	 						<input type="button" id="obutton<%=cihaz_id %>" value="Kaldır">
 							<script type="text/javascript">
 							$j(<%=jsiponay %>).click(
 
 							function(){
 									var cihaz_id = <%= cihaz_id %>;
-									var kulid = <%= kulid %>;
+									var kulid = <%= mevcutkul_id %>;
 								
 								$j.ajax({
 									url: "./sorumluluk?iptalno="+cihaz_id+"&kulid="+kulid,
@@ -65,7 +73,7 @@
 									success: function(data){
 
 										alert(cihaz_id + "  No'lu Cihaz için Sorumluluk Başarıyla Kaldırıldı!");
-										$j("#contentplaceholder").load("./Pages_User/a_srmgor.jsp");
+										$j("#contentplaceholder").load("./Pages_Admin/a_srmgor.jsp");
 									},
 									error: function(data){
 										alert(cihaz_id + "  No'lu Cihaz için Sorumluluk Kaldırılamadı!");
@@ -79,6 +87,6 @@
 			 
 	 						</td>
  						</tr>
- 				<% } %>	
+ 				<% }} %>	
 		
 				</table>

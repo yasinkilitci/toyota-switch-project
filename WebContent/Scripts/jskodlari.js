@@ -58,7 +58,7 @@ $j(document).ready( function(){
 		});	
 	
 	$j("#menu_siparisonay").click(function(){
-		$j("#contentplaceholder").load("./Pages_Admin/a_siponay.jsp");
+		$j("#contentplaceholder").load("./Pages_Admin/a_srmgor.jsp");
 	});	
 	
 	$j("#menu_siparisgor").click(function(){
@@ -69,6 +69,11 @@ $j(document).ready( function(){
 	$j("#menu_bilgun").click(function(){
 		
 		$j("#contentplaceholder").load("a_kulekle.jsp");
+	});
+	
+	$j("#menu_cihazara").click(function(){
+		
+		$j("#contentplaceholder").load("./Essentials/a_cihazara.jsp");
 	});
 	
 });

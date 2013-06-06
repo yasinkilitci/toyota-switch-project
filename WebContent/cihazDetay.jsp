@@ -20,8 +20,9 @@
 <tr><td>IP : </td><td><%= cihaz.getIp() %></td></tr>
 <tr><td>Üretici : </td><td><%= cihaz.getUretici().getAd() %></td></tr>
 <tr><td>Türü : </td><td><%= cihaz.getTur().getAd() %></td></tr>
-<tr><td>Port Sayısı : </td><td>24</td></tr>
-<tr><td>PPPoE :</td><td>Var</td></tr>
+<tr><td>Port Sayısı : </td><td><%= cihaz.getPortlar().size() %></td></tr>
+<tr><td>PoE : </td><td>Var</td></tr>
+
  </table>
 
 <br>

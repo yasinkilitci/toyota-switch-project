@@ -10,7 +10,7 @@
 	
 	<%
 			AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
-    		ArrayList<Tur> turler = ((TurDAO)context.getBean("TurDAO",TurDAO.class)).butunTurleriGetir();
+    		ArrayList<Tur> turler = context.getBean("TurDAO",TurDAO.class).butunTurleriGetir();
             request.setAttribute("turler", turler);
     %>
     
@@ -31,6 +31,8 @@
 			%>
 		 	<li><a href="#" id="tur<%=turid%>"><%=turad%></a></li>
 			<script type="text/javascript">
+
+			
 					$j(<%=jturid %>).click(
 
 						function(){
@@ -66,18 +68,7 @@
 				
 					<tr>
 						<td>
-						<select id="cbadet<%=cihazid %>" name="cbadet<%=cihazid %>">
-						<% 	
-							int counter = 1;
-							while(counter<10){
-								%>
-								<option value="<%= counter%>"><%= counter%></option>
-								<%		
-							counter++;
-							}
-						%>
-						</select>
-		
+						
 						<a href="#" id="scihaz<%=cihazid%>"><%=cihazad %></a>
 						
 						<script type="text/javascript">
@@ -102,7 +93,7 @@
 			
 		<table>
 		<c:if test="${not empty sepet}">
-		<tr><td colspan="2"><input type="button" value="Siparis Ver" id="btnSiparisVer"></input></td></tr>
+		<tr><td colspan="2"><input type="button" value="Takip Et" id="btnTakipEt"></input></td></tr>
 		</c:if>
 		</table>
 		
@@ -110,46 +101,22 @@
 		<script type="text/javascript">
 		var $j = jQuery.noConflict();
 			
-		$j("#btnSiparisVer").click(
+		$j("#btnTakipEt").click(
 				function(){
 
-					var adetListesiJS = Array();
-
-					<% 
-						ArrayList<Cihaz> bcihaz = null; 
-						bcihaz = (ArrayList<Cihaz>)request.getSession().getAttribute("sepet");
-						int sayac = 0;
-						if (bcihaz!=null)	
-						for (Cihaz tempcihaz : bcihaz) {
-						
-						String cihazid = String.valueOf(tempcihaz.getId());
-						String comboismi = "cbadet" + cihazid;
-						String jqcombo = "'#cbadet" + cihazid + "'";
-							%>
-								adetListesiJS[<%= sayac %>]= $j(<%=jqcombo %>).val();
-							<%
-						sayac++;
-							}
-						%>	
-
-						var formData = 
-								{
-									istek: true,
-									adetlistem: JSON.stringify(adetListesiJS)
-								};
-					
 					$j.ajax({
-						url: "./siparisekle",
+						url: "./sorumluluk",
 						type: "POST",
 						datatype: "JSON",
-						data: formData,
+						data: {istek: true},
 						success: function(data){
-							alert("Siparis Verildi!");
+							alert("Takip Edilmeye Başlandı!");
 							$j("#sidemenu").load("Essentials/a_yanmenu.jsp");
 						},
 						error: function(data){
-						alert("Siparis Verilemedi!");
-						}
+						alert("Takip Etme Başarısız!");
+						},
+						timeout: 3000
 						
 						});
 					
