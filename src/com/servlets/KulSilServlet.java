@@ -2,21 +2,20 @@ package com.servlets;
 
 import java.io.IOException;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.exception.ConstraintViolationException;
+
 import org.spring.util.SpringFactoryProvider;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.stereotype.Controller;
 
 import com.da.KulDAO;
-import com.encryption.PasswordCodec;
+
 
 
 @WebServlet("/kulsil")

@@ -17,7 +17,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.entity.Cihaz;
-import com.entity.Kul;
+
 import com.entity.Port;
 import com.entity.Tur;
 import com.entity.Uretici;
@@ -29,6 +29,36 @@ public class CihazDAO {
 	@Autowired(required=true)
 	private SessionFactory sessionFactory;
 
+	
+
+	
+public void CihazSil(int cihazid){
+		
+		String hql = "delete from cihaz where id = :id";
+		try 
+		{
+			/* Spring harici sï¿½nï¿½f oluï¿½turulduï¿½unda program ï¿½ï¿½kmesin */
+			if(sessionFactory==null)
+				 return;
+			 Session session = getSessionFactory().openSession();
+			 Query query = session.createQuery(hql);
+		
+			 query.setInteger("id", cihazid);
+			 int rowcount = query.executeUpdate();
+			 System.out.println(rowcount + " Satir Etkilendi!");
+			 session.beginTransaction();
+			 session.getTransaction().commit();
+			 session.close();
+			
+		} catch (HibernateException h) {
+			// TODO Hata olduï¿½unda Yapï¿½lacaklar
+			h.printStackTrace();
+		}
+	}
+	
+	
+	
+	
 	public Cihaz CihazEkle(String ad, String ip, int tur_id, int uretici_id) throws ConstraintViolationException{
 		
 		Cihaz chz = new Cihaz();
@@ -42,17 +72,17 @@ public class CihazDAO {
 				chz.setTur_id(tur_id);
 				chz.setUretici_id(uretici_id);
 				
-				/* Tür ve Üretici Ayarlamalarý */
+				/* Tï¿½r ve ï¿½retici Ayarlamalarï¿½ */
 				tur = ((TurDAO)context.getBean("TurDAO",TurDAO.class)).turDetayiniGetir(tur_id);
 				uretici = ((UreticiDAO)context.getBean("UreticiDAO",UreticiDAO.class)).ureticiDetayiniGetir(uretici_id);
 				chz.setTur(tur);
 				chz.setUretici(uretici);
-				/* Tür ve Üretici Ayarlamalarý */
+				/* Tï¿½r ve ï¿½retici Ayarlamalarï¿½ */
 				
 				Session session = getSessionFactory().openSession();
 				session.beginTransaction();
 				
-				/* Port Ayarlamalarý */ 
+				/* Port Ayarlamalarï¿½ */ 
 				
 				Port port;
 				for(int i=0;i<24;i++)
@@ -70,15 +100,15 @@ public class CihazDAO {
 				}
 				session.save(chz);
 				
-				/* Port Ayarlamalarý */
+				/* Port Ayarlamalarï¿½ */
 				
 				session.getTransaction().commit();
 				session.close();
 				return chz;
 		}
-		/* Constraint Violation Exception'ý burada HibernateException yakalamadan evvel yakaladýk
-		 * ve dýþ kapsama fýrlattýk. Dýþ kapsamda ConstraintViolationException olduðu için oradaki
-		 * Catch bloðuna yönlendi ve orada ele alýndý. "Ayný isimde baþka aygýt var" Yazdýrýldý.
+		/* Constraint Violation Exception'ï¿½ burada HibernateException yakalamadan evvel yakaladï¿½k
+		 * ve dï¿½ï¿½ kapsama fï¿½rlattï¿½k. Dï¿½ï¿½ kapsamda ConstraintViolationException olduï¿½u iï¿½in oradaki
+		 * Catch bloï¿½una yï¿½nlendi ve orada ele alï¿½ndï¿½. "Aynï¿½ isimde baï¿½ka aygï¿½t var" Yazdï¿½rï¿½ldï¿½.
 		 */
 		catch(ConstraintViolationException cve)
 		{
@@ -102,13 +132,13 @@ public class CihazDAO {
 			Cihaz cihaz = (Cihaz)query.uniqueResult();
 			session.close();
 			
-			/* Tür ve Üretici Bilgileri Dolduruluyor */
+			/* Tï¿½r ve ï¿½retici Bilgileri Dolduruluyor */
 			AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
 			Tur tur = ((TurDAO)context.getBean("TurDAO",TurDAO.class)).turDetayiniGetir(cihaz.getTur_id());
 			Uretici uretici = ((UreticiDAO)context.getBean("UreticiDAO",UreticiDAO.class)).ureticiDetayiniGetir(cihaz.getUretici_id());
 			cihaz.setTur(tur);
 			cihaz.setUretici(uretici);
-			/* Tür ve Üretici Bilgileri Dolduruluyor */
+			/* Tï¿½r ve ï¿½retici Bilgileri Dolduruluyor */
 			
 			return cihaz;
 		}
@@ -119,7 +149,7 @@ public class CihazDAO {
 		}
 	}
 	
-	/* Tüm cihazlarý koþulsuz olarak listeler */
+	/* Tï¿½m cihazlarï¿½ koï¿½ulsuz olarak listeler */
 	@SuppressWarnings("unchecked")
 	public ArrayList<Cihaz> butunCihazlariGetir(){
 		
@@ -140,7 +170,7 @@ public class CihazDAO {
 		}
 	}
 	
-	/* Türe ait cihazlarýn listesini döndürür */
+	/* Tï¿½re ait cihazlarï¿½n listesini dï¿½ndï¿½rï¿½r */
 	@SuppressWarnings("unchecked")
 	@Transactional(readOnly=true)
 	public ArrayList<Cihaz> tureAitcihazlariGetir(int tur_id){
@@ -162,7 +192,7 @@ public class CihazDAO {
 		}
 	}
 	
-	/* Girilen String'i içeren addaki cihazlarý listeler */
+	/* Girilen String'i iï¿½eren addaki cihazlarï¿½ listeler */
 	@Transactional(readOnly=true)
 	public ArrayList<Cihaz> benzeyenCihazlariListele(String keyword){
 		String hql = "From cihaz WHERE ad like :keyword";
@@ -185,7 +215,7 @@ public class CihazDAO {
 		}
 	}
 	
-	/* Tek bir cihaza ait tüm portlarý liste olarak döndürür */
+	/* Tek bir cihaza ait tï¿½m portlarï¿½ liste olarak dï¿½ndï¿½rï¿½r */
 	@Transactional(readOnly=true)
 	public ArrayList<Port> portlariGetir(int cihaz_id)
 	{
@@ -207,13 +237,13 @@ public class CihazDAO {
 		}
 	}
 	
-	/* Tek bir cihaza ait kullanýlmayan portlarý liste olarak döndürür */
+	/* Tek bir cihaza ait kullanï¿½lmayan portlarï¿½ liste olarak dï¿½ndï¿½rï¿½r */
 	@Transactional(readOnly=true)
 	public ArrayList<Port> kullanilmayanPortlariGetir(int cihaz_id)
 	{
 		Date bugun = new Date();
 		ArrayList<Port> portlar = portlariGetir(cihaz_id);
-		/* Kullanýlmayan Portlar Listesi */
+		/* Kullanï¿½lmayan Portlar Listesi */
 		ArrayList<Port> kportlar = new ArrayList<Port>();
 		for (Port port : portlar)
 		{
@@ -229,7 +259,7 @@ public class CihazDAO {
 		return kportlar;
 	}
 	
-	/* Tüm Cihazlarý Tarayan ve Sorumlu Kiþilere E-Mail Gönderen Zincirleme Reaksiyon!! */
+	/* Tï¿½m Cihazlarï¿½ Tarayan ve Sorumlu Kiï¿½ilere E-Mail Gï¿½nderen Zincirleme Reaksiyon!! */
 	public void tumCihazlariTara()
 	{
 		ArrayList<Cihaz> cihazlar = new ArrayList<Cihaz>();
