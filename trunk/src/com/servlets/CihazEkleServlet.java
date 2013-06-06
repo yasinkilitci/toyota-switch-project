@@ -1,12 +1,18 @@
 package com.servlets;
 
 import java.io.IOException;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.validator.routines.InetAddressValidator;
+import org.apache.tomcat.util.codec.binary.StringUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.spring.util.SpringFactoryProvider;
@@ -24,10 +30,10 @@ public class CihazEkleServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, ConstraintViolationException {
 		
-		/* Try bloðunda oluþabilecek hatalar ayrý ayrý catch bloklarýnda ele alýndý 
-		 * MyException - Fiyat istediðimiz aralýkta deðilse
-		 * NumberFormatException - Fiyat alanýna sayý dýþýnda bir þey girildiyse
-		 * HibernateException - Veri eklerken bir hata oluþtuysa
+		/* Try bloï¿½unda oluï¿½abilecek hatalar ayrï¿½ ayrï¿½ catch bloklarï¿½nda ele alï¿½ndï¿½ 
+		 * MyException - Fiyat istediï¿½imiz aralï¿½kta deï¿½ilse
+		 * NumberFormatException - Fiyat alanï¿½na sayï¿½ dï¿½ï¿½ï¿½nda bir ï¿½ey girildiyse
+		 * HibernateException - Veri eklerken bir hata oluï¿½tuysa
 		 */
 		try{
 			/* Post ile gelen parametreler */
@@ -36,12 +42,37 @@ public class CihazEkleServlet extends HttpServlet {
 			int uretici_id = Integer.valueOf(request.getParameter("cihazuretici"));
 			String ad = request.getParameter("cihazad");
 			
-			/* IP ÝLE ÝLGÝLÝ KONTROLLER BURADA */
-			/* Fiyat istediðimiz aralýkta deðilse hata fýrlat */
+			/* IP ï¿½LE ï¿½LGï¿½Lï¿½ KONTROLLER BURADA */
+			
+			boolean ipValid;
+			
+			 if(ip== null || ip.trim().isEmpty()) {
+			// if (StringUtils.isEmpty(ip)) {
+				 ipValid=false;
+			    }
+			    if (InetAddressValidator.getInstance().isValid(ip)) {
+			    	ipValid= true;
+			    }
+
+			    //not an IPV4 address, could be IPV6?
+			    try {
+			    	ipValid= InetAddress.getByName(ip) instanceof Inet6Address;
+			    } catch (final UnknownHostException ex) {
+			    	ipValid= false;
+			    	
+			    	response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+					response.getWriter().write("IP Adresi Hatali!");
+					return;
+			    	
+			    	
+			    }
+			
+			
+			/* Fiyat istediï¿½imiz aralï¿½kta deï¿½ilse hata fï¿½rlat */
 			/*
 			if((fiyat<50)||(fiyat>10000))
 			throw new MyException("Fiyat Istenilen Aralikta Degil!");
-			/* IP ÝLE ÝLGÝLÝ KONTROLLER BURADA */
+			/* IP ï¿½LE ï¿½LGï¿½Lï¿½ KONTROLLER BURADA */
 			
 			
 			/*new CihazDAO().CihazEkle(ad, fiyat, tur_id, uretici_id);*/
@@ -69,7 +100,19 @@ public class CihazEkleServlet extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.getWriter().write("Cihaz Eklenirken Hata Olustu!");
 			return;
-		}/*
+		}
+		
+		
+
+	
+		  
+		
+		
+		
+		
+		
+		
+		/*
 		catch(MyException e)
 		{
 			e.printStackTrace();
