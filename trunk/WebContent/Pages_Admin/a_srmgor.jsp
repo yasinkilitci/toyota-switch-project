@@ -46,7 +46,7 @@
  						String uretici = cihaz.getUretici().getAd();
  						String tur = cihaz.getTur().getAd();
  						
- 						String jsiponay = "'#obutton" + Integer.valueOf(cihaz_id) + "'";
+ 						String jsiponay = "'#obutton" + Integer.valueOf(mevcutkul_id) + Integer.valueOf(cihaz_id) + "'";
  						
  						
  						
@@ -58,7 +58,7 @@
 	 						<td class="tabloHucre"><%= cihazip %></td>
 	 						<td class="tabloHucre">
 	 						
-	 						<input type="button" id="obutton<%=cihaz_id %>" value="Kaldır">
+	 						<input type="button" id="obutton<%= mevcutkul_id %><%=cihaz_id %>" value="Kaldır">
 							<script type="text/javascript">
 							$j(<%=jsiponay %>).click(
 

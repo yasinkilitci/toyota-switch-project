@@ -27,6 +27,7 @@
 						
 								<li><a href="#" id="menu_cihazekle">Cihaz Ekle</a></li>
 								<li><a href="#" id="menu_siparisonay">Sorumluları Görüntüle</a></li>
+								<li><a href="#" id="menu_kullar">Kullanıcıları Görüntüle</a></li>
 								
 								<!-- Düz Kullanıcı için gösterilecekler -->
 								<% }else{ %>

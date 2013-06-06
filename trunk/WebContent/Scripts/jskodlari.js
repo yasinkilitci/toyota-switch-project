@@ -76,4 +76,9 @@ $j(document).ready( function(){
 		$j("#contentplaceholder").load("./Essentials/a_cihazara.jsp");
 	});
 	
+$j("#menu_kullar").click(function(){
+		
+		$j("#contentplaceholder").load("./Pages_Admin/a_kullar.jsp");
+	});
+	
 });

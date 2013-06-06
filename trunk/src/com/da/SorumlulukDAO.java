@@ -2,8 +2,10 @@ package com.da;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.HibernateException;
 import org.hibernate.NonUniqueObjectException;
@@ -191,6 +193,29 @@ public class SorumlulukDAO {
 		{
 			h.printStackTrace();
 			return null;
+		}
+	}
+	
+	public void tumSorumluluklariSil(int kul_id)
+	{
+		AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
+		Session session = getSessionFactory().openSession();
+		try
+		{
+			
+			Kul kul = ((KulDAO)context.getBean("KulDAO",KulDAO.class)).kullaniciDetayiniGetir(kul_id);
+			session.beginTransaction();
+			kul.setCihazlar(new HashSet<Cihaz>(0));
+			session.saveOrUpdate(kul);
+			session.getTransaction().commit();
+			session.close();
+			return;
+		}
+		catch(HibernateException e)
+		{
+			session.getTransaction().rollback();
+			e.printStackTrace();
+			session.close();
 		}
 	}
 	
