@@ -31,7 +31,8 @@
  					</tr>
  					
  		
- 		<%
+ 		<%	
+ 				try{
  				ArrayList<Kul> kullar = context.getBean("KulDAO",KulDAO.class).tumKullanicilariGetir();
  				for(Kul kul : kullar){
  				int mevcutkul_id = kul.getId();
@@ -43,10 +44,7 @@
 				int sorsay = kul.getCihazlar().size();
 				
 				String jkulsil = "'#obutton" + Integer.valueOf(kul_id) + "'";
-					
- 						
- 						
- 												%>
+				%>
  						<tr>
 	 						<td class="tabloHucre"><%= kuladi %> </td>
 	 						<td class="tabloHucre"><%= adsoyad %> </td>
@@ -56,26 +54,34 @@
 	 						
 	 						<input type="button" id="obutton<%=kul_id %>" value="Sil">
 							<script type="text/javascript">
-							$j(<%=jkulsil %>).click(
+							$j(<%=jkulsil %>).click(function(){
 
-							function(){
-									var kulid = <%= kul_id %>;
-									
+								
+								var kulid = <%= kul_id %>;
+								var cevap = confirm(kulid + " no'lu kullanıcıyı takip listesiyle\nbirlikte silmek istediğinizden emin misiniz?");
+								
+									if(cevap){
 								$j.ajax({
 									url: "./kulsil",
 									type: "POST",
 									data: {kulid: kulid},
 									datatype: "JSON",
 									success: function(data){
-										alert(kulid + " No'lu Kullanıcı Başarıyla Silindi!");
+										alert(kulid + " no'lu kullanıcı başarıyla silindi!");
 										$j("#contentplaceholder").load("./Pages_Admin/a_kullar.jsp");
 									},
 									error: function(data){
-										alert(kulid + "  No'lu Kullanıcı Silinemedi!");
+										alert(kulid + " no'lu kullanıcı silinemedi!");
 									},
 									timeout:3000
 									
 									});
+
+									}
+									else
+										{
+											alert("Herhangi bir işlem yapılmadı!");
+										}
 								
 							});
 
@@ -83,6 +89,11 @@
 			 
 	 						</td>
  						</tr>
- 				<% } %>	
-		
+ 				<% } }
+ 				catch(Exception e)
+ 				{
+ 					e.printStackTrace();
+ 				}
+ 					%>
+ 		
 				</table>
