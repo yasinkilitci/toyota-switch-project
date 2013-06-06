@@ -12,5 +12,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Spring"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Hibernate"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Mail"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/CommonValidator"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

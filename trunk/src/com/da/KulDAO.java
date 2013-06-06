@@ -1,4 +1,4 @@
-/****** HIBERNATE'LENDÝ!! ******/
+/****** HIBERNATE'LENDï¿½!! ******/
 package com.da;
 
 import java.util.ArrayList;
@@ -13,12 +13,12 @@ import org.springframework.stereotype.Repository;
 
 import com.entity.Kul;
 
-/* Sýnýfýn bir DAO olduðunu spring'e bildiriyoruz */
+/* Sï¿½nï¿½fï¿½n bir DAO olduï¿½unu spring'e bildiriyoruz */
 @Repository
 public class KulDAO {
 
-	/* Autowired annotation'ý ile spring'deki bean'e baðladýk. Setter ve Getter olmalý
-	 * Çünkü setter injection yapýyoruz
+	/* Autowired annotation'ï¿½ ile spring'deki bean'e baï¿½ladï¿½k. Setter ve Getter olmalï¿½
+	 * ï¿½ï¿½nkï¿½ setter injection yapï¿½yoruz
 	 */
 	@Autowired(required=true)
 	private SessionFactory sessionFactory;
@@ -36,7 +36,7 @@ public class KulDAO {
 		 kul.setSifre(sifre);
 			 try
 			 {
-				 /* Spring harici sýnýf oluþturulduðunda program çökmesin */
+				 /* Spring harici sï¿½nï¿½f oluï¿½turulduï¿½unda program ï¿½ï¿½kmesin */
 				if(sessionFactory==null)
 					 return;
 				 Session session = getSessionFactory().openSession();
@@ -59,12 +59,40 @@ public class KulDAO {
 			return;
 		}
 	
+	
+	public void KulSil(int kulid){
+		
+		String hql = "delete from user where id = :id";
+		try 
+		{
+			/* Spring harici sï¿½nï¿½f oluï¿½turulduï¿½unda program ï¿½ï¿½kmesin */
+			if(sessionFactory==null)
+				 return;
+			 Session session = getSessionFactory().openSession();
+			 Query query = session.createQuery(hql);
+		
+			 query.setInteger("id", kulid);
+			 int rowcount = query.executeUpdate();
+			 System.out.println(rowcount + " Satir Etkilendi!");
+			 session.beginTransaction();
+			 session.getTransaction().commit();
+			 session.close();
+			
+		} catch (HibernateException h) {
+			// TODO Hata olduï¿½unda Yapï¿½lacaklar
+			h.printStackTrace();
+		}
+	}
+	
+	
+	
+	
 	public void KulGuncelle(int kulid, String adsoyad, String adres, int tel, String sifre){
 		
 		String hql = "UPDATE user SET adsoyad=:adsoyad,adres=:adres,tel=:tel,sifre=:sifre WHERE id=:id";
 		try 
 		{
-			/* Spring harici sýnýf oluþturulduðunda program çökmesin */
+			/* Spring harici sï¿½nï¿½f oluï¿½turulduï¿½unda program ï¿½ï¿½kmesin */
 			if(sessionFactory==null)
 				 return;
 			 Session session = getSessionFactory().openSession();
@@ -81,7 +109,7 @@ public class KulDAO {
 			 session.close();
 			
 		} catch (HibernateException h) {
-			// TODO Hata olduðunda Yapýlacaklar
+			// TODO Hata olduï¿½unda Yapï¿½lacaklar
 			h.printStackTrace();
 		}
 	}
@@ -109,7 +137,7 @@ public class KulDAO {
 	
 	public Kul LoginYap(String kuladi, String sifre)
 	{
-		/* unique result seçeneði tek sonuç döneceði kesin olduðu zaman yapýlýr. */
+		/* unique result seï¿½eneï¿½i tek sonuï¿½ dï¿½neceï¿½i kesin olduï¿½u zaman yapï¿½lï¿½r. */
 		String hql = "FROM user WHERE kuladi=:kuladi and sifre=:sifre";
 		try {
 			Session session = getSessionFactory().openSession();
