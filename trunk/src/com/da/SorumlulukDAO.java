@@ -132,9 +132,6 @@ public class SorumlulukDAO {
 		{
 			session.getTransaction().rollback();
 			e.printStackTrace();
-		}
-		finally
-		{
 			session.close();
 		}
 	}

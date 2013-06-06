@@ -25,10 +25,12 @@ public class HibernateTest {
 		
 		
 		AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
-		/*
+		
 		((SorumlulukDAO)context.getBean("SorumlulukDAO",SorumlulukDAO.class)).tekSorumlulukVer(35, 1);
-		((SorumlulukDAO)context.getBean("SorumlulukDAO",SorumlulukDAO.class)).tekSorumlulukVer(36, 1);
 		((SorumlulukDAO)context.getBean("SorumlulukDAO",SorumlulukDAO.class)).tekSorumlulukVer(35, 2);
+		
+		/*
+		((SorumlulukDAO)context.getBean("SorumlulukDAO",SorumlulukDAO.class)).tekSorumlulukVer(36, 1);
 		((SorumlulukDAO)context.getBean("SorumlulukDAO",SorumlulukDAO.class)).tekSorumlulukVer(36, 2);
 		*/
 		/*
@@ -39,7 +41,8 @@ public class HibernateTest {
 			System.out.println(kul.getKuladi());
 		}*/
 		
+		/*
 		((CihazDAO)context.getBean("CihazDAO",CihazDAO.class)).tumCihazlariTara();
-		
+		*/
 	}
 }
