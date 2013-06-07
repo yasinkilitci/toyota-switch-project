@@ -3,6 +3,7 @@ package com.da;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.hibernate.HibernateException;
@@ -37,7 +38,7 @@ public void CihazSil(int cihazid){
 		String hql = "delete from cihaz where id = :id";
 		try 
 		{
-			/* Spring harici s�n�f olu�turuldu�unda program ��kmesin */
+			/* Spring harici sinif olusturulursa program cokmesin */
 			if(sessionFactory==null)
 				 return;
 			 Session session = getSessionFactory().openSession();
@@ -51,7 +52,7 @@ public void CihazSil(int cihazid){
 			 session.close();
 			
 		} catch (HibernateException h) {
-			// TODO Hata oldu�unda Yap�lacaklar
+			// TODO Hata oldugunda Yapilacaklar
 			h.printStackTrace();
 		}
 	}
@@ -93,7 +94,8 @@ public void CihazSil(int cihazid){
 					port.setDuplex(0);
 					port.setSpeedtype(0);
 					port.setVlan(0);
-					port.setSonerisim(new Date());
+					Date date = new Date(24*60*60*1000);
+					port.setSonerisim(date);
 					chz.getPortlar().add(port);
 					port.setCihaz(chz);
 					session.save(port);
@@ -256,12 +258,14 @@ public void CihazSil(int cihazid){
 			if(gunfark>30)
 			{
 				kportlar.add(port);
-			}
+				System.err.println(port.getCihaz().getAd() + "'da " + port.getName() + "Portu Kullanım Dışı!");
+			} 
 		}
 		return kportlar;
 	}
 	
-	/* T�m Cihazlar� Tarayan ve Sorumlu Ki�ilere E-Mail G�nderen Zincirleme Reaksiyon!! */
+	/* Tum cihazlari tarayan ve sorumlu kisilere 30 gun kullanilmayan portlari 
+	 * email ile bildiren ana metot */
 	public void tumCihazlariTara()
 	{
 		ArrayList<Cihaz> cihazlar = new ArrayList<Cihaz>();
@@ -274,6 +278,7 @@ public void CihazSil(int cihazid){
 		
 			 for(Cihaz cihaz : cihazlar)
 			 {
+				 System.out.println(cihaz.getAd() + "adlı cihaz için kullanılmayan portlar taranıyor");
 				 kportlar = kullanilmayanPortlariGetir(cihaz.getId());
 				 if(kportlar.size()>0)
 				 postOffice.sorumlularaMailGonder(kportlar);
@@ -283,6 +288,30 @@ public void CihazSil(int cihazid){
 		catch(Exception e)
 		{
 			e.printStackTrace();
+		}
+	}
+	
+	/* Ilgili porta ait son erisim zamanini gunceller */
+	public void portaEris(int port_id)
+	{
+		String hql = "FROM port WHERE id=:port_id";
+		Session session = getSessionFactory().openSession();
+		try
+		{
+			session.beginTransaction();
+			Query query = session.createQuery(hql);
+			query.setInteger("port_id", port_id);
+			Port port = (Port)query.uniqueResult();
+			port.setSonerisim(new Date());
+			session.saveOrUpdate(port);
+			session.getTransaction().commit();
+			session.close();
+		}
+		catch(HibernateException e)
+		{
+			e.printStackTrace();
+			session.close();
+			throw e;
 		}
 	}
 

@@ -51,7 +51,7 @@
 			<hr/>
 			<c:if test="${not empty sepet}">
 			<p><span id="sepetmesaji"></span></p>
-			<h4>Sepetim</h4>
+			<h4>Takip Listesi</h4>
 			<table>
 				
 				
@@ -93,7 +93,11 @@
 			
 		<table>
 		<c:if test="${not empty sepet}">
-		<tr><td colspan="2"><input type="button" value="Takip Et" id="btnTakipEt"></input></td></tr>
+		<tr><td colspan="2">
+		<input type="button" value="Takip Et" id="btnTakipEt"></input>
+		<input type="button" value="Sıfırla" id="btnSifirla"></input>
+		</td></tr>
+		
 		</c:if>
 		</table>
 		
@@ -115,6 +119,27 @@
 						},
 						error: function(data){
 						alert("Takip Etme Başarısız!");
+						},
+						timeout: 3000
+						
+						});
+					
+				});
+
+		$j("#btnSifirla").click(
+				function(){
+
+					$j.ajax({
+						url: "./sepetekle",
+						type: "POST",
+						datatype: "JSON",
+						data: {sifirla: true},
+						success: function(data){
+							alert("Liste Sıfırlandı!");
+							$j("#sidemenu").load("Essentials/a_yanmenu.jsp");
+						},
+						error: function(data){
+						alert("Liste Sıfırlama İşlemi Başarısız!");
 						},
 						timeout: 3000
 						

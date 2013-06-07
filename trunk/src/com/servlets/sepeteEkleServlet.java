@@ -48,7 +48,10 @@ public class sepeteEkleServlet extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int cihazid = Integer.valueOf(request.getParameter("cihazid"));
+		Object o_cihaz_id = request.getParameter("cihazid");
+		Object o_sifirla = request.getParameter("sifirla");
+		if(o_cihaz_id!=null){
+			int cihazid = Integer.valueOf(o_cihaz_id.toString());
 		/* Spring */ 
 		AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
 		Cihaz cihaz = ((CihazDAO)context.getBean("CihazDAO",CihazDAO.class)).CihazDetayiniGetir(cihazid);
@@ -61,6 +64,10 @@ public class sepeteEkleServlet extends HttpServlet {
 		}
 		sepet.add(cihaz);
 		request.getSession().setAttribute("sepet",sepet);
+		}else if(o_sifirla!=null)
+		{
+			request.getSession().setAttribute("sepet", new ArrayList<Cihaz>());
+		}
 	}
 
 }
