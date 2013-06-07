@@ -22,30 +22,30 @@ public class PostOffice {
 		 int i_kportlar = kportlar.size();
 		 for (int i=0;i<i_kportlar;i++)
 		 {
-			 /* son elemana gelmediðin sürece port adýný ve yanýna virgül koy */
+			 /* son elemana gelmediï¿½in sï¿½rece port adï¿½nï¿½ ve yanï¿½na virgï¿½l koy */
 			if(i!=i_kportlar-1)	{
 			s_portlar += kportlar.get(i).getName() + ", ";
 			}
 			else
 			{
-			/* Son elemanýn kontrolünde artýk virgül koyma ve cihaz_id'sine göre sorumlularý getir
-			 * cihaz adýný ileride kullanmak üzere string deðiþkene al */
+			/* Son elemanï¿½n kontrolï¿½nde artï¿½k virgï¿½l koyma ve cihaz_id'sine gï¿½re sorumlularï¿½ getir
+			 * cihaz adï¿½nï¿½ ileride kullanmak ï¿½zere string deï¿½iï¿½kene al */
 			s_portlar += kportlar.get(i).getName() + " ";
 			s_cihaz = kportlar.get(i).getCihaz().getAd();
 			sorumlular = ((SorumlulukDAO)context.getBean("SorumlulukDAO",SorumlulukDAO.class)).sorumluKullariGetir(kportlar.get(i).getCihaz().getId());
 			}
 		 }
 		
-		 /* E-Posta Ýçeriði Hazýrlanýyor */
+		 /* E-Posta hazirlaniyor */
 		 String mesaj = "";
-		 String konu = s_cihaz + " için 30 Gündür Kullanýlmayan Portlar";
+		 String konu = s_cihaz + " icin 30 Gundur Kullanilmayan Portlar";
 		 String karsilama = "Merhaba\n";
-		 String icerik = s_cihaz + " switch'inde " + s_portlar + " portlarý 30 gündür kullanýlmamaktadýr.\n";
+		 String icerik = s_cihaz + " switch'inde " + s_portlar + " portlar 30 gundur kullanilmamaktadir.\n";
 		 icerik += "Bilgilerinize.";
 		 
 		 Postman postaci = new Postman();
-		 /* karþýlamanýn peþine kullanýcýnýn adý soyadý ekleniyor ve içerik de ardýna
-		  * konularak mail gönderiliyor.
+		 /* karï¿½ï¿½lamanï¿½n peï¿½ine kullanï¿½cï¿½nï¿½n adï¿½ soyadï¿½ ekleniyor ve iï¿½erik de ardï¿½na
+		  * konularak mail gï¿½nderiliyor.
 		  */
 		 for(Kul kul : sorumlular)
 		 {

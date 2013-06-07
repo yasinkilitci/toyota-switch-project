@@ -37,6 +37,7 @@ public class Postman {
 	
 	public void epostaGonder(String alici, String mesajMetni, String konu)
 	{
+		System.err.println("Postacı Çalıştı!");
 		final String username = "ilkercruiser@gmail.com";
 		final String password = "Xbox%720Rulez";
 		final String to = alici;
@@ -65,7 +66,7 @@ public class Postman {
  
 			Transport.send(message);
  
-			System.out.println("An e-mail was sent to " + alici + "!");
+			System.err.println(alici + "'ya bir e-posta gönderildi!");
  
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
@@ -77,7 +78,7 @@ public class Postman {
 	public void epostaGonder(String alici)
 	{
 		epostaGonder(alici, 
-				"Bu bir test mesaj�d�r\nBu da ikinci sat�r",
+				"Bu bir test mesaj�d�r\nBu da ikinci sat�r",
 				"Deneme Konusu");
 	}
  

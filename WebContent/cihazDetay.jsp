@@ -52,13 +52,13 @@
 						$j("#sidemenu").load("./Essentials/a_yanmenu.jsp", function(){
 
 
-							$j("#sepetmesaji").html("Urun Sepete Eklendi!").slideDown(1500);
+							$j("#sepetmesaji").html("Cihaz Listeye Eklendi!").slideDown(1500);
 
 							});
 						
 					},
 					error: function(data){
-					alert("Urun Sepete Eklenemedi!");
+					alert("Cihaz Listeye Eklenemedi!");
 					}
 					
 					});
@@ -67,8 +67,8 @@
 
 	</script>
 	
-	<a href="#"><img id="basket" src="${pageContext.request.contextPath}/Images/basket.png"></img></a><br>
-	<a href="#" id="baskettext">Sepete Ekle</a>
+	<a href="#"><img id="basket" src="${pageContext.request.contextPath}/Images/addtolist.png"></img></a><br>
+	<a href="#" id="baskettext">Takip Listesine Ekle</a>
 			
 			<% 		} 
 		

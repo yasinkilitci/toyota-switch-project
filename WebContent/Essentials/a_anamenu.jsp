@@ -28,13 +28,20 @@
 								<li><a href="#" id="menu_cihazekle">Cihaz Ekle</a></li>
 								<li><a href="#" id="menu_siparisonay">Sorumluları Görüntüle</a></li>
 								<li><a href="#" id="menu_kullar">Kullanıcıları Görüntüle</a></li>
+								<script type="text/javascript">
+									$j("body").css("background-color","#444444");
+
+								</script>
 								
 								<!-- Düz Kullanıcı için gösterilecekler -->
 								<% }else{ %>
 								
 								<li><a href="#" id="menu_bilgun">Bilgi Güncelle</a></li>
 								<li><a href="#" id="menu_siparisgor">Sorumluluk Görüntüle</a></li>
-						
+								<script type="text/javascript">
+									$j("body").css("background-color","#2222FF");
+
+								</script>
 								<% } 
 								%>
 					<!-- Giriş Yapan Herkeste Gösterilecek Butonlar -->	
