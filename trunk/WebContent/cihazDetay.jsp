@@ -2,15 +2,16 @@
     pageEncoding="utf-8"%>
       <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<%@page import="com.da.CihazDAO"%>
-<%@page import="com.entity.Cihaz"%>
+<%@page import="com.dao.DeviceDAO"%>
+<%@page import="com.entity.Device"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="org.spring.util.SpringFactoryProvider"%>
 <%@page import="org.springframework.context.support.AbstractApplicationContext"%>
 
- <%   		int cihazid = Integer.valueOf(request.getParameter("cihazid"));
- 			AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
- 			Cihaz cihaz = ((CihazDAO)context.getBean("CihazDAO",CihazDAO.class)).CihazDetayiniGetir(cihazid);
+ <%
+ 	int cihazid = Integer.valueOf(request.getParameter("cihazid"));
+   			AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
+   			Device cihaz = ((DeviceDAO)context.getBean("CihazDAO",DeviceDAO.class)).CihazDetayiniGetir(cihazid);
  %>
 
 

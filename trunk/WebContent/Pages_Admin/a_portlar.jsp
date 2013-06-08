@@ -1,24 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-    <%@page import="com.da.TurDAO"%>
-    <%@page import="com.da.CihazDAO"%>
-	<%@page import="com.entity.Tur"%>
-	<%@page import="com.entity.Cihaz"%>
+    <%@page import="com.dao.DeviceTypeDAO"%>
+    <%@page import="com.dao.DeviceDAO"%>
+	<%@page import="com.entity.DeviceType"%>
+	<%@page import="com.entity.Device"%>
 	<%@page import="com.entity.Port"%>
 	<%@page import="java.util.ArrayList"%>
 	<%@page import="org.spring.util.SpringFactoryProvider"%>
 	<%@page import="org.springframework.context.support.AbstractApplicationContext"%>
 	
-	<% Object o_cihaz = request.getParameter("cihazid");
-	
-		if(o_cihaz!=null){
+	<%
+			Object o_cihaz = request.getParameter("cihazid");
+			
+				if(o_cihaz!=null){
 					
 					AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
 					int cihaz_id = Integer.valueOf(o_cihaz.toString());
-					ArrayList<Port> portlar = context.getBean("CihazDAO",CihazDAO.class).portlariGetir(cihaz_id);
+					ArrayList<Port> portlar = context.getBean("CihazDAO",DeviceDAO.class).portlariGetir(cihaz_id);
 					String cihazadi = portlar.get(0).getCihaz().getAd();
-					
-					%>
+		%>
 					
 					<table>
 						<tr>

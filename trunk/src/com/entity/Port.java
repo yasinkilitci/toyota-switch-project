@@ -33,7 +33,7 @@ public class Port {
 	private Date sonerisim;
 	@ManyToOne
 	@JoinColumn(name="cihaz_id")
-	private Cihaz cihaz;
+	private Device cihaz;
 	
 	public Port()
 	{
@@ -88,11 +88,11 @@ public class Port {
 		this.speedtype = speedtype;
 	}
 
-	public Cihaz getCihaz() {
+	public Device getCihaz() {
 		return cihaz;
 	}
 
-	public void setCihaz(Cihaz cihaz) {
+	public void setCihaz(Device cihaz) {
 		this.cihaz = cihaz;
 	}
 

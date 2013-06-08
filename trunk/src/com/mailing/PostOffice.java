@@ -5,17 +5,18 @@ import java.util.ArrayList;
 import org.spring.util.SpringFactoryProvider;
 import org.springframework.context.support.AbstractApplicationContext;
 
-import com.entity.Kul;
+import com.entity.User;
 import com.entity.Port;
-import com.da.SorumlulukDAO;
+import com.sun.mail.util.MailConnectException;
+import com.dao.ResponsibilityDAO;
 
 public class PostOffice {
 		
 	public PostOffice(){}
 	
-	public void sorumlularaMailGonder(ArrayList<Port> kportlar)
+	public void sorumlularaMailGonder(ArrayList<Port> kportlar) throws MailConnectException
 	{
-		 ArrayList<Kul> sorumlular = new ArrayList<Kul>();
+		 ArrayList<User> sorumlular = new ArrayList<User>();
 		 AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
 		 String s_portlar = "";
 		 String s_cihaz = "";
@@ -32,7 +33,7 @@ public class PostOffice {
 			 * cihaz ad�n� ileride kullanmak �zere string de�i�kene al */
 			s_portlar += kportlar.get(i).getName() + " ";
 			s_cihaz = kportlar.get(i).getCihaz().getAd();
-			sorumlular = ((SorumlulukDAO)context.getBean("SorumlulukDAO",SorumlulukDAO.class)).sorumluKullariGetir(kportlar.get(i).getCihaz().getId());
+			sorumlular = context.getBean("SorumlulukDAO",ResponsibilityDAO.class).sorumluKullariGetir(kportlar.get(i).getCihaz().getId());
 			}
 		 }
 		
@@ -47,7 +48,7 @@ public class PostOffice {
 		 /* kar��laman�n pe�ine kullan�c�n�n ad� soyad� ekleniyor ve i�erik de ard�na
 		  * konularak mail g�nderiliyor.
 		  */
-		 for(Kul kul : sorumlular)
+		 for(User kul : sorumlular)
 		 {
 			 mesaj = karsilama + kul.getAdsoyad() + "\n" + icerik;
 			 postaci.epostaGonder(kul.getEposta(), mesaj, konu);

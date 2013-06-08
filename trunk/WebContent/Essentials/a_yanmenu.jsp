@@ -1,6 +1,6 @@
-	<%@page import="com.da.TurDAO"%>
-	<%@page import="com.entity.Tur"%>
-	<%@page import="com.entity.Cihaz"%>
+	<%@page import="com.dao.DeviceTypeDAO"%>
+	<%@page import="com.entity.DeviceType"%>
+	<%@page import="com.entity.Device"%>
 	<%@page import="java.util.ArrayList"%>
 	<%@page import="org.spring.util.SpringFactoryProvider"%>
 	<%@page import="org.springframework.context.support.AbstractApplicationContext"%>
@@ -10,9 +10,9 @@
 	
 	<%
 			AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
-    		ArrayList<Tur> turler = context.getBean("TurDAO",TurDAO.class).butunTurleriGetir();
-            request.setAttribute("turler", turler);
-    %>
+				    		ArrayList<DeviceType> turler = context.getBean("TurDAO",DeviceTypeDAO.class).butunTurleriGetir();
+				            request.setAttribute("turler", turler);
+		%>
     
 				<c:if test="${not empty session_ad}">
 					<span>Merhaba ${session_ad}!</span>
@@ -20,20 +20,19 @@
 		<h4>Türler</h4>
 		
 			<ul id="yanmenu-css">
-			<% 
-			String turid, jturid, turad;
-			for (Tur temptur : turler) {
-				
-				turad = temptur.getAd();
-				turid = Integer.toString(temptur.getId());
-				jturid  = "'#tur" + turid + "'";
-			
+			<%
+				String turid, jturid, turad;
+					for (DeviceType temptur : turler) {
+						
+						turad = temptur.getAd();
+						turid = Integer.toString(temptur.getId());
+						jturid  = "'#tur" + turid + "'";
 			%>
 		 	<li><a href="#" id="tur<%=turid%>"><%=turad%></a></li>
 			<script type="text/javascript">
 
 			
-					$j(<%=jturid %>).click(
+					$j(<%=jturid%>).click(
 
 						function(){
 							
@@ -44,8 +43,8 @@
 			</script>
 			 
 			<%
-			}
-			%>
+			 				}
+			 			%>
 			</ul>
 			
 			<hr/>
@@ -55,16 +54,17 @@
 			<table>
 				
 				
-				<% ArrayList<Cihaz> acihaz = new ArrayList<Cihaz>();
-				
-					acihaz = (ArrayList<Cihaz>)request.getSession().getAttribute("sepet"); 
-					
-					for (Cihaz tempcihaz : acihaz) {
-					
-						String cihazid = String.valueOf(tempcihaz.getId());
-						String cihazad = tempcihaz.getAd();
-						String jcihazid = "'#scihaz" + cihazid + "'";
-				%>
+				<%
+													ArrayList<Device> acihaz = new ArrayList<Device>();
+														
+															acihaz = (ArrayList<Device>)request.getSession().getAttribute("sepet"); 
+															
+															for (Device tempcihaz : acihaz) {
+															
+																String cihazid = String.valueOf(tempcihaz.getId());
+																String cihazad = tempcihaz.getAd();
+																String jcihazid = "'#scihaz" + cihazid + "'";
+												%>
 				
 					<tr>
 						<td>

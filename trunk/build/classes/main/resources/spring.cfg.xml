@@ -7,20 +7,21 @@
 				http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd
 				http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 
+		<!-- Aspect Oriented Programming -->
 
 			<aop:aspectj-autoproxy/>
-			
-			
 		
-		<!-- DAO'lar için Bean Tanımlamaları -->
+		<!-- Bean Definitions for DAO's -->
 		
-		<bean id="KulDAO" class="com.da.KulDAO"/>
-		<bean id="TurDAO" class="com.da.TurDAO"/>
-		<bean id="CihazDAO" class="com.da.CihazDAO"/>
-		<bean id="UreticiDAO" class="com.da.UreticiDAO"/>
-		<bean id="SorumlulukDAO" class="com.da.SorumlulukDAO"/>
+		<bean id="KulDAO" class="com.dao.UserDAO"/>
+		<bean id="TurDAO" class="com.dao.DeviceTypeDAO"/>
+		<bean id="CihazDAO" class="com.dao.DeviceDAO">
+			<property name="expiration" value="${expiration}"/>
+		</bean>
+		<bean id="UreticiDAO" class="com.dao.VendorDAO"/>
+		<bean id="SorumlulukDAO" class="com.dao.ResponsibilityDAO"/>
 		
-		<!-- Hibernate Konfigürasyonu -->
+		<!-- Hibernate Configuration -->
 		
 		<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 				 <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
@@ -31,11 +32,8 @@
 		
 		<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 				<property name="dataSource" ref="dataSource"/>
-				<!-- Hibernate annotation'ları için taranacak sınıflar -->
+					<!-- Packages to Scan for Hibernate Annotations -->
 				<property name="packagesToScan" value="com.entity"/>
-				<!-- <property name="configLocation" value="classpath:/main/resources/hibernate.cfg.xml" /> -->
-				
-				
 				<property name="hibernateProperties">
 					<props>
 						<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
@@ -46,13 +44,16 @@
 						<prop key="hibernate.connection.pool_size">1</prop>
 					</props>
 				</property> 
-				
+		</bean>
+		
+		<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+			<property name="locations" value="/main/resources/spring.devicedao.properties"/>
 		</bean>
     	
     	<bean name="loggingAspect" class="com.aspect.LoggingAspect" />	
     	
     	<!-- Spring Annotation'ları için Taranacak Paketler -->
-    	<context:component-scan base-package="com.da"/>
+    	<context:component-scan base-package="com.dao"/>
 		
 		<context:annotation-config/>
 		

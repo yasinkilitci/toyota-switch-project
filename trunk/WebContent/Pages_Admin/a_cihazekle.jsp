@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-9" pageEncoding="ISO-8859-9"%>
   <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
  		
- 		<%@page import="com.da.UreticiDAO"%>
- 		<%@page import="com.da.TurDAO"%>
- 		<%@page import="com.entity.Uretici"%>
- 		<%@page import="com.entity.Tur"%>
+ 		<%@page import="com.dao.VendorDAO"%>
+ 		<%@page import="com.dao.DeviceTypeDAO"%>
+ 		<%@page import="com.entity.Vendor"%>
+ 		<%@page import="com.entity.DeviceType"%>
 		<%@page import="java.util.ArrayList"%>
 		
 		<%@page import="org.spring.util.SpringFactoryProvider"%>
@@ -13,10 +13,10 @@
 <script type="text/javascript" src="${pageContext.request.contextPath}/Scripts/cihazekle.js"></script>
 
 <%
-		 /***** SPRING ******/
+	/***** SPRING ******/
 		AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
-		ArrayList<Tur> listeTur = ((TurDAO)context.getBean("TurDAO")).butunTurleriGetir();
-		ArrayList<Uretici> listeUretici = ((UreticiDAO)context.getBean("UreticiDAO")).butunureticileriGetir();
+		ArrayList<DeviceType> listeTur = ((DeviceTypeDAO)context.getBean("TurDAO")).butunTurleriGetir();
+		ArrayList<Vendor> listeUretici = ((VendorDAO)context.getBean("UreticiDAO")).butunureticileriGetir();
 		/***** SPRING ******/
 %>
 	<table>
@@ -28,11 +28,11 @@
 		
 					<select id="cbTur" name="cbTur">	
 						<%
-								for (Tur temptur : listeTur) 
-											
-										{
-										String turid = String.valueOf(temptur.getId());
-										String turad = temptur.getAd();
+								for (DeviceType temptur : listeTur) 
+																															
+																														{
+																														String turid = String.valueOf(temptur.getId());
+																														String turad = temptur.getAd();
 							%>
 						<option value="<%=turid%>"><%=turad%></option>
 					<%
@@ -49,11 +49,11 @@
 		
 					<select id="cbUretici" name="cbUretici">	
 						<%
-								for (Uretici tempuretici : listeUretici) 
-											
-										{
-										String ureticiid = String.valueOf(tempuretici.getId());
-										String ureticiad = tempuretici.getAd();
+								for (Vendor tempuretici : listeUretici) 
+																										
+																									{
+																									String ureticiid = String.valueOf(tempuretici.getId());
+																									String ureticiad = tempuretici.getAd();
 							%>
 						<option value="<%= ureticiid%>"><%= ureticiad%></option>
 					<%}%>

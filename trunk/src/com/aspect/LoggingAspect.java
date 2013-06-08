@@ -3,12 +3,38 @@ package com.aspect;
 
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.After;
+import org.aspectj.lang.annotation.Pointcut;
 
 @Aspect
 public class LoggingAspect {
 	
-	@Before("execution(public String getName())")
-	public void loggingAdvice(){
-		System.err.println("Logging Ã‡alÄ±ÅŸtÄ±!");
+	/*
+	@Before("execution(public * *(..))")
+	public void logging_PublicAdvice(){
+		System.err.println("LOGGER: Bir Public Metot Çalýþacak!");
 	}
+	*/
+	
+	@After("execution(public * com.dao.UserDAO.LoginYap(..))")
+	public void logging_LoginAdvice(){
+		System.err.println("LOGGER: Kullanýcý Giriþ Yaptý!");
+	}
+	
+	@After("execution(protected void com.servlets.LogoutServlet.doPost(..))")
+	public void logging_LogoutAdvice(){
+		System.err.println("LOGGER: Kullanýcý Çýkýþ Yaptý!");
+	}
+	
+	/* Shortcut to Pointcut Method */
+	@After("encryptionMethod")
+	public void logging_EncrytionAdvice(){
+		System.err.println("LOGGER: SHA-256 Þifreleme Yapýldý!");
+	}
+	
+	/* Pointcuts are dummy methods of the same execution placeholders.
+	 * You can call @After("nameofdummymethod") on anything about the same execution */
+	@Pointcut("execution(public * com.encryption.PasswordCodec.encrypt(..))")
+	public void encryptionMethod(){}
+	
 }

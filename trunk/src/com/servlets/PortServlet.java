@@ -11,7 +11,7 @@ import org.hibernate.HibernateException;
 import org.spring.util.SpringFactoryProvider;
 import org.springframework.context.support.AbstractApplicationContext;
 
-import com.da.CihazDAO;
+import com.dao.DeviceDAO;
 
 /**
  * Servlet implementation class PortServlet
@@ -33,7 +33,7 @@ public class PortServlet extends HttpServlet {
 		{
 			AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
 			try{
-			context.getBean("CihazDAO",CihazDAO.class).portaEris(Integer.valueOf(o_portid.toString()));
+			context.getBean("CihazDAO",DeviceDAO.class).portaEris(Integer.valueOf(o_portid.toString()));
 			}
 			catch(HibernateException e)
 			{
@@ -48,7 +48,7 @@ public class PortServlet extends HttpServlet {
 		{
 			AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
 			try{
-			context.getBean("CihazDAO",CihazDAO.class).tumCihazlariTara();
+			context.getBean("CihazDAO",DeviceDAO.class).tumCihazlariTara();
 			}
 			catch(HibernateException e)
 			{

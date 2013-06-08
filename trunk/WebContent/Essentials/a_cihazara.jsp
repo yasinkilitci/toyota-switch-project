@@ -1,9 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-    	<%@page import="com.da.TurDAO"%>
-    	<%@page import="com.da.CihazDAO"%>
-	<%@page import="com.entity.Tur"%>
-	<%@page import="com.entity.Cihaz"%>
+    	<%@page import="com.dao.DeviceTypeDAO"%>
+    	<%@page import="com.dao.DeviceDAO"%>
+	<%@page import="com.entity.DeviceType"%>
+	<%@page import="com.entity.Device"%>
 	<%@page import="java.util.ArrayList"%>
 	<%@page import="org.spring.util.SpringFactoryProvider"%>
 	<%@page import="org.springframework.context.support.AbstractApplicationContext"%>
