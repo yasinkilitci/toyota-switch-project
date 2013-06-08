@@ -2,11 +2,11 @@
     pageEncoding="utf-8"%>
 
  		
- 		<%@page import="com.da.CihazDAO"%>
- 		<%@page import="com.da.KulDAO"%>
- 		<%@page import="com.da.SorumlulukDAO"%>
-		<%@page import="com.entity.Cihaz"%>
-		<%@page import="com.entity.Kul"%>
+ 		<%@page import="com.dao.DeviceDAO"%>
+ 		<%@page import="com.dao.UserDAO"%>
+ 		<%@page import="com.dao.ResponsibilityDAO"%>
+		<%@page import="com.entity.Device"%>
+		<%@page import="com.entity.User"%>
  		<%@page import="java.util.ArrayList"%>
  		<%@page import="java.sql.Date"%>
  		<%@page import="java.text.SimpleDateFormat"%>
@@ -14,10 +14,10 @@
 <%@page import="org.spring.util.SpringFactoryProvider"%>
 <%@page import="org.springframework.context.support.AbstractApplicationContext"%>
  		
- 		<% 		
- 				int kulid = Integer.valueOf(request.getSession().getAttribute("session_id").toString()) - 1453;
- 				AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
- 		%>
+ 		<%
+ 		 			int kulid = Integer.valueOf(request.getSession().getAttribute("session_id").toString()) - 1453;
+ 		 		 		 		 		 		 		 		 				AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
+ 		 		%>
  		
  			<table class="tabloGenel">
  					<tr>
@@ -33,24 +33,21 @@
  					
  		
  		<%
- 				ArrayList<Kul> kullar = context.getBean("KulDAO",KulDAO.class).tumKullanicilariGetir();
- 				for(Kul kul : kullar){
- 				int mevcutkul_id = kul.getId();
- 				ArrayList<Cihaz> cihazlar = context.getBean("SorumlulukDAO",SorumlulukDAO.class).sorumluCihazlariGetir(mevcutkul_id);
- 				for(Cihaz cihaz : cihazlar)
- 				{
- 						String sorumlu = kul.getKuladi();
- 						int cihaz_id = cihaz.getId();
- 						String cihazad = cihaz.getAd();
- 						String cihazip = cihaz.getIp();
- 						String uretici = cihaz.getUretici().getAd();
- 						String tur = cihaz.getTur().getAd();
- 						
- 						String jsiponay = "'#obutton" + Integer.valueOf(mevcutkul_id) + Integer.valueOf(cihaz_id) + "'";
- 						
- 						
- 						
- 												%>
+ 					 		 			ArrayList<User> kullar = context.getBean("KulDAO",UserDAO.class).tumKullanicilariGetir();
+ 					 		 		 					 		 		 					 		 		 					 		 		 				for(User kul : kullar){
+ 					 		 		 					 		 		 					 		 		 					 		 		 				int mevcutkul_id = kul.getId();
+ 					 		 		 					 		 		 					 		 		 					 		 		 				ArrayList<Device> cihazlar = context.getBean("SorumlulukDAO",ResponsibilityDAO.class).sorumluCihazlariGetir(mevcutkul_id);
+ 					 		 		 					 		 		 					 		 		 					 		 		 				for(Device cihaz : cihazlar)
+ 					 		 		 					 		 		 					 		 		 					 		 		 				{
+ 					 		 		 					 		 		 					 		 		 					 		 		 						String sorumlu = kul.getKuladi();
+ 					 		 		 					 		 		 					 		 		 					 		 		 						int cihaz_id = cihaz.getId();
+ 					 		 		 					 		 		 					 		 		 					 		 		 						String cihazad = cihaz.getAd();
+ 					 		 		 					 		 		 					 		 		 					 		 		 						String cihazip = cihaz.getIp();
+ 					 		 		 					 		 		 					 		 		 					 		 		 						String uretici = cihaz.getUretici().getAd();
+ 					 		 		 					 		 		 					 		 		 					 		 		 						String tur = cihaz.getTur().getAd();
+ 					 		 		 					 		 		 					 		 		 					 		 		 						
+ 					 		 		 					 		 		 					 		 		 					 		 		 						String jsiponay = "'#obutton" + Integer.valueOf(mevcutkul_id) + Integer.valueOf(cihaz_id) + "'";
+ 					 		 		%>
  						<tr>
 	 						<td class="tabloHucre"><%= sorumlu %> </td>
 	 						<td class="tabloHucre"><%= cihaz_id %> </td>

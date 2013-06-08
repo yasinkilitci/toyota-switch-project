@@ -2,7 +2,7 @@ package com.mailing;
 
 import java.util.ArrayList;
 import java.util.Properties;
-import com.entity.Kul;
+import com.entity.User;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -12,32 +12,36 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import com.entity.Kul;
+import com.entity.User;
+import com.sun.mail.util.MailConnectException;
  
 public class Postman {
 	
 	private String username;
 	private String password;
-	private String to;
 	private String from;
 	private String subject;
 	private String mesajMetni;
 	
-	
-	
-	public void epostaGonder(ArrayList<Kul> kulListesi, String mesajMetni, String subject)
+	public void epostaGonder(ArrayList<User> kulListesi, String mesajMetni, String subject) throws MailConnectException
 	{
-		for (Kul user : kulListesi)
+		for (User user : kulListesi)
 		{
+			try{
 			epostaGonder(user.getEposta(),mesajMetni,subject);
+			}
+			catch(MailConnectException m)
+			{
+				throw m;
+			}
 			System.out.println(user.getKuladi() + " bilgilendirildi!");
 		}
 		
 	}
 	
-	public void epostaGonder(String alici, String mesajMetni, String konu)
+	public void epostaGonder(String alici, String mesajMetni, String konu) throws MailConnectException
 	{
-		System.err.println("Postacı Çalıştı!");
+		System.err.println("Postman is started!");
 		final String username = "ilkercruiser@gmail.com";
 		final String password = "Xbox%720Rulez";
 		final String to = alici;
@@ -71,20 +75,5 @@ public class Postman {
 		} catch (MessagingException e) {
 			throw new RuntimeException(e);
 		}
-		
-		
-	}
-	
-	public void epostaGonder(String alici)
-	{
-		epostaGonder(alici, 
-				"Bu bir test mesaj�d�r\nBu da ikinci sat�r",
-				"Deneme Konusu");
-	}
- 
-	public static void main(String[] args) {
- 
-		Postman pm = new Postman();
-		pm.epostaGonder("yasinkilitci@gmail.com");
 	}
 }

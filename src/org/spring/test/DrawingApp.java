@@ -3,7 +3,7 @@ package org.spring.test;
 import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.da.KulDAO;
+import com.dao.UserDAO;
 
 public class DrawingApp {
 

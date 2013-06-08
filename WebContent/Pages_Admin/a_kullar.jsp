@@ -2,11 +2,11 @@
     pageEncoding="utf-8"%>
 
  		
- 		<%@page import="com.da.CihazDAO"%>
- 		<%@page import="com.da.KulDAO"%>
- 		<%@page import="com.da.SorumlulukDAO"%>
-		<%@page import="com.entity.Cihaz"%>
-		<%@page import="com.entity.Kul"%>
+ 		<%@page import="com.dao.DeviceDAO"%>
+ 		<%@page import="com.dao.UserDAO"%>
+ 		<%@page import="com.dao.ResponsibilityDAO"%>
+		<%@page import="com.entity.Device"%>
+		<%@page import="com.entity.User"%>
  		<%@page import="java.util.ArrayList"%>
  		<%@page import="java.sql.Date"%>
  		<%@page import="java.text.SimpleDateFormat"%>
@@ -14,9 +14,9 @@
 <%@page import="org.spring.util.SpringFactoryProvider"%>
 <%@page import="org.springframework.context.support.AbstractApplicationContext"%>
  		
- 		<% 		
- 				AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
- 		%>
+ 		<%
+ 		 			AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
+ 		 		%>
  		
  			<table class="tabloGenel">
  					<tr>
@@ -31,20 +31,20 @@
  					</tr>
  					
  		
- 		<%	
- 				try{
- 				ArrayList<Kul> kullar = context.getBean("KulDAO",KulDAO.class).tumKullanicilariGetir();
- 				for(Kul kul : kullar){
- 				int mevcutkul_id = kul.getId();
-		
- 				int kul_id = kul.getId();
-				String kuladi = kul.getKuladi();
-				String adsoyad = kul.getAdsoyad();
-				String eposta = kul.getEposta();
-				int sorsay = kul.getCihazlar().size();
-				
-				String jkulsil = "'#obutton" + Integer.valueOf(kul_id) + "'";
-				%>
+ 		<%
+ 					 		 			try{
+ 					 		 		 					 		 		 				ArrayList<User> kullar = context.getBean("KulDAO",UserDAO.class).tumKullanicilariGetir();
+ 					 		 		 					 		 		 				for(User kul : kullar){
+ 					 		 		 					 		 		 				int mevcutkul_id = kul.getId();
+ 					 		 		 					 		 				
+ 					 		 		 					 		 		 				int kul_id = kul.getId();
+ 					 		 		 					 		 				String kuladi = kul.getKuladi();
+ 					 		 		 					 		 				String adsoyad = kul.getAdsoyad();
+ 					 		 		 					 		 				String eposta = kul.getEposta();
+ 					 		 		 					 		 				int sorsay = kul.getCihazlar().size();
+ 					 		 		 					 		 				
+ 					 		 		 					 		 				String jkulsil = "'#obutton" + Integer.valueOf(kul_id) + "'";
+ 					 		 		%>
  						<tr>
 	 						<td class="tabloHucre"><%= kuladi %> </td>
 	 						<td class="tabloHucre"><%= adsoyad %> </td>

@@ -2,9 +2,9 @@
     pageEncoding="utf-8"%>
 
  		
- 		<%@page import="com.da.CihazDAO"%>
- 		<%@page import="com.da.SorumlulukDAO"%>
-		<%@page import="com.entity.Cihaz"%>
+ 		<%@page import="com.dao.DeviceDAO"%>
+ 		<%@page import="com.dao.ResponsibilityDAO"%>
+		<%@page import="com.entity.Device"%>
  		<%@page import="java.util.ArrayList"%>
  		<%@page import="java.sql.Date"%>
  		<%@page import="java.text.SimpleDateFormat"%>
@@ -12,11 +12,11 @@
 <%@page import="org.spring.util.SpringFactoryProvider"%>
 <%@page import="org.springframework.context.support.AbstractApplicationContext"%>
  		
- 		<% 		
- 				int kulid = Integer.valueOf(request.getSession().getAttribute("session_id").toString()) - 1453;
- 				AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
- 				ArrayList<Cihaz> cihazlar = ((SorumlulukDAO)context.getBean("SorumlulukDAO",SorumlulukDAO.class)).sorumluCihazlariGetir(kulid);
- 		%>
+ 		<%
+ 		 			int kulid = Integer.valueOf(request.getSession().getAttribute("session_id").toString()) - 1453;
+ 		 		 		 		 				AbstractApplicationContext context = SpringFactoryProvider.getApplicationContext();
+ 		 		 		 		 				ArrayList<Device> cihazlar = ((ResponsibilityDAO)context.getBean("SorumlulukDAO",ResponsibilityDAO.class)).sorumluCihazlariGetir(kulid);
+ 		 		%>
  		
  			<table class="tabloGenel">
  					<tr>
@@ -31,19 +31,16 @@
  					
  		
  		<%
- 				for(Cihaz cihaz : cihazlar)
- 				{
- 						int cihaz_id = cihaz.getId();
- 						String cihazad = cihaz.getAd();
- 						String cihazip = cihaz.getIp();
- 						String uretici = cihaz.getUretici().getAd();
- 						String tur = cihaz.getTur().getAd();
- 						
- 						String jsiponay = "'#obutton" + Integer.valueOf(cihaz_id) + "'";
- 						
- 						
- 						
- 												%>
+ 					 		 			for(Device cihaz : cihazlar)
+ 					 		 		 				{
+ 					 		 		 						int cihaz_id = cihaz.getId();
+ 					 		 		 						String cihazad = cihaz.getAd();
+ 					 		 		 						String cihazip = cihaz.getIp();
+ 					 		 		 						String uretici = cihaz.getUretici().getAd();
+ 					 		 		 						String tur = cihaz.getTur().getAd();
+ 					 		 		 						
+ 					 		 		 						String jsiponay = "'#obutton" + Integer.valueOf(cihaz_id) + "'";
+ 					 		 		%>
  						<tr>
 	 						<td class="tabloHucre"><%= cihaz_id %> </td>
 	 						<td class="tabloHucre"><%= cihazad %></td>
