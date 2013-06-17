@@ -9,8 +9,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.spring.util.SpringFactoryProvider;
 import org.springframework.context.ApplicationContext;
 
-import com.dao.UserDAO;
-
 @Aspect
 public class LoggingAspect {
 	
