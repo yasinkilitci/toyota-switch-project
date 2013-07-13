@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Anamakine: localhost
--- Üretim Zamanı: 11 Haz 2013, 16:51:35
+-- Üretim Zamanı: 13 Tem 2013, 12:57:03
 -- Sunucu sürümü: 5.5.24-log
 -- PHP Sürümü: 5.4.3
 
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `cihaz` (
   `tur_id` int(11) DEFAULT NULL,
   `uretici_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci AUTO_INCREMENT=10 ;
 
 --
 -- Tablo döküm verisi `cihaz`
@@ -48,7 +48,8 @@ INSERT INTO `cihaz` (`id`, `ad`, `ip`, `resim_yolu`, `tur_id`, `uretici_id`) VAL
 (5, '234', '345', NULL, 1, 1),
 (6, '3452', '345', NULL, 1, 1),
 (7, 'erte34534', '344555', NULL, 1, 1),
-(8, 'sdff', '45.3.22', NULL, 1, 1);
+(8, 'sdff', '45.3.22', NULL, 1, 1),
+(9, 'Murat', '1.2.4.5', NULL, 1, 11);
 
 -- --------------------------------------------------------
 
@@ -61,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `eventlog` (
   `date` datetime DEFAULT NULL,
   `message` longtext COLLATE utf8_turkish_ci,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci AUTO_INCREMENT=4 ;
 
 --
 -- Tablo döküm verisi `eventlog`
@@ -69,7 +70,8 @@ CREATE TABLE IF NOT EXISTS `eventlog` (
 
 INSERT INTO `eventlog` (`id`, `date`, `message`) VALUES
 (1, '2013-06-09 22:45:16', 'A client has attempted to login with the username: ilker007yasin and password: 5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5'),
-(2, '2013-06-09 22:46:34', 'A client has attempted to login with the username: ilker007yasin and password: 5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5');
+(2, '2013-06-09 22:46:34', 'A client has attempted to login with the username: ilker007yasin and password: 5994471abb01112afcc18159f6cc74b4f511b99806da59b3caf5a9c173cacfc5'),
+(3, '2013-06-13 23:15:22', 'A client has attempted to login with the username: admin and password: 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918');
 
 -- --------------------------------------------------------
 
@@ -113,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `port` (
   `cihaz_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_3u33mb00kld06c4174kx5jxiv` (`cihaz_id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci AUTO_INCREMENT=193 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_turkish_ci AUTO_INCREMENT=217 ;
 
 --
 -- Tablo döküm verisi `port`
@@ -122,7 +124,7 @@ CREATE TABLE IF NOT EXISTS `port` (
 INSERT INTO `port` (`id`, `duplex`, `name`, `sonerisim`, `speedtype`, `status`, `vlan`, `cihaz_id`) VALUES
 (1, 0, 'Fa0/0', '2013-06-08 13:05:51', 0, 0, 0, 1),
 (2, 0, 'Fa0/1', '2013-06-05 21:17:56', 0, 0, 0, 1),
-(3, 0, 'Fa0/2', '2013-06-05 21:17:56', 0, 0, 0, 1),
+(3, 0, 'Fa0/2', '2013-07-13 15:36:44', 0, 0, 0, 1),
 (4, 0, 'Fa0/3', '2013-06-05 21:17:56', 0, 0, 0, 1),
 (5, 0, 'Fa0/4', '2013-06-05 21:17:56', 0, 0, 0, 1),
 (6, 0, 'Fa0/5', '2013-06-05 21:17:56', 0, 0, 0, 1),
@@ -311,7 +313,31 @@ INSERT INTO `port` (`id`, `duplex`, `name`, `sonerisim`, `speedtype`, `status`, 
 (189, 0, 'Fa0/20', '2013-06-08 12:31:37', 0, 0, 0, 8),
 (190, 0, 'Fa0/21', '2013-06-08 12:31:39', 0, 0, 0, 8),
 (191, 0, 'Fa0/22', '2013-06-08 12:31:41', 0, 0, 0, 8),
-(192, 0, 'Fa0/23', '2013-06-08 12:31:43', 0, 0, 0, 8);
+(192, 0, 'Fa0/23', '2013-06-08 12:31:43', 0, 0, 0, 8),
+(193, 0, 'Fa0/0', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(194, 0, 'Fa0/1', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(195, 0, 'Fa0/2', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(196, 0, 'Fa0/3', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(197, 0, 'Fa0/4', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(198, 0, 'Fa0/5', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(199, 0, 'Fa0/6', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(200, 0, 'Fa0/7', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(201, 0, 'Fa0/8', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(202, 0, 'Fa0/9', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(203, 0, 'Fa0/10', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(204, 0, 'Fa0/11', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(205, 0, 'Fa0/12', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(206, 0, 'Fa0/13', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(207, 0, 'Fa0/14', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(208, 0, 'Fa0/15', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(209, 0, 'Fa0/16', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(210, 0, 'Fa0/17', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(211, 0, 'Fa0/18', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(212, 0, 'Fa0/19', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(213, 0, 'Fa0/20', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(214, 0, 'Fa0/21', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(215, 0, 'Fa0/22', '1970-01-02 02:00:00', 0, 0, 0, 9),
+(216, 0, 'Fa0/23', '1970-01-02 02:00:00', 0, 0, 0, 9);
 
 -- --------------------------------------------------------
 
