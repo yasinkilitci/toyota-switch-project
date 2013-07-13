@@ -19,6 +19,7 @@ public class LoggingAspect {
 	}
 	*/
 	
+	/*
 	@Before("execution(public * com.dao.UserDAO.LoginYap(..))")
 	public void logging_LoginAdvice(JoinPoint joinpoint){
 		System.err.println("LOGGER: Kullanýcý Giriþ Yaptý!");
@@ -30,6 +31,7 @@ public class LoggingAspect {
 		String mesaj = service.prepareLogMessageForLogin(kuladi, sifre);
 		service.insertLogMessage(mesaj);
 	}
+	*/
 	
 	@After("execution(protected void com.servlets.LogoutServlet.doPost(..))")
 	public void logging_LogoutAdvice(){
